@@ -2,6 +2,8 @@ package multilayer
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
 )
 
@@ -29,7 +31,7 @@ type neuralNetwork struct {
 
 func newNeuron(value float64) neuron {
 	return neuron{
-		value:				value,
+		value:				rand.Float64(),
 	}
 }
 
@@ -39,17 +41,18 @@ func newLayer(length uint8) layer {
 	for i = 0; i < length; i++ {
 		neurons = append(neurons, newNeuron(42))
 	}
-	l := layer{length, neurons}
-	return l
+	return layer{
+		length:				length,
+		neurons:			neurons,
+	}
 }
-
 
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
-	fmt.Println("Oh HI!!!!!!!!!!!!!!!!!!!!!!!!")
-
+	// fmt.Println("Oh HI!!!!!!!!!!!!!!!!!!!!!!!!")
 	nn := neuralNetwork{}
 	nn.learningRate = 0.01
+	rand.Seed(time.Now().UnixNano())
 
 	// list := neuron{}
 	// var hiddenNeurons []neuron

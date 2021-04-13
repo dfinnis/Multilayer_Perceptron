@@ -14,74 +14,69 @@ type neuron struct {
 }
 
 type layer struct {
-	length uint8
+	label string
+	length int
 	neurons []neuron
 	// activation function_pointer (sigmoid / softmax)
 }
 
 type neuralNetwork struct {
-	learningRate float64
+	architecture []int
 	layers []layer
+	learningRate float64
 }
 
-// func (nn neuralNetwork) config() (float64, int) {
-// 	return nn.learningRate, 1
-// }
-
-
-func newNeuron(value float64) neuron {
-	return neuron{
+func newNeuron(currentLayer int, nn neuralNetwork) neuron {
+	var weights []float64
+	if currentLayer > 0 {
+		for i := 0; i < nn.architecture[currentLayer - 1]; i++ {
+			weights = append(weights, rand.Float64())
+		}
+	}
+	return neuron {
 		value:				rand.Float64(),
+		weights:			weights,
 	}
 }
 
-func newLayer(length uint8) layer {
+func newLayer(currentLayer int, nn neuralNetwork) layer {
+	// var label string
+	// if layer == 0 {
+	// 	label = "input"
+	// }
 	var neurons []neuron
-	var i uint8
-	for i = 0; i < length; i++ {
-		neurons = append(neurons, newNeuron(42))
+	for i := 0; i < nn.architecture[currentLayer]; i++ {
+		neurons = append(neurons, newNeuron(currentLayer, nn))
 	}
-	return layer{
-		length:				length,
+	return layer {
+		length:				nn.architecture[currentLayer],
 		neurons:			neurons,
 	}
 }
 
-// MultilayerPerceptron is the main and only exposed function
-func MultilayerPerceptron() {
-	// fmt.Println("Oh HI!!!!!!!!!!!!!!!!!!!!!!!!")
+func buildNN(architecture []int) neuralNetwork {
 	nn := neuralNetwork{}
 	nn.learningRate = 0.01
+	nn.architecture = architecture
+
+	for layer := 0; layer < len(architecture); layer++ {
+		nn.layers = append(nn.layers, newLayer(layer, nn))
+	}
+	return nn
+}
+
+// MultilayerPerceptron is the main and only exposed function
+func MultilayerPerceptron() {
+
 	rand.Seed(time.Now().UnixNano())
+	architecture := []int {16, 16, 16, 2}
+	nn := buildNN(architecture)
 
-	// list := neuron{}
-	// var hiddenNeurons []neuron
-	// for i := 0; i < 16; i++ {
-	// 	// hiddenNeurons = append(hiddenNeurons, neuron{42})
-	// 	hiddenNeurons = append(hiddenNeurons, newNeuron(42))
-	// }
-
-	// var outputNeurons []neuron
-	// for i := 0; i < 2; i++ {
-	// 	outputNeurons = append(outputNeurons, newNeuron(1))
-	// }
-
-	// input := layer{16, hiddenNeurons}
-	// hidden := layer{16, hiddenNeurons}
-	// output := layer{2, outputNeurons}
-
-	// nn.layers = append(nn.layers, input)
-	// nn.layers = append(nn.layers, hidden)
-	// nn.layers = append(nn.layers, hidden)
-	// nn.layers = append(nn.layers, output)
-
-	nn.layers = append(nn.layers, newLayer(16))
-	nn.layers = append(nn.layers, newLayer(16))
-	nn.layers = append(nn.layers, newLayer(16))
-	nn.layers = append(nn.layers, newLayer(2))
-
-
-	// fmt.Println(nn.config())
+	// printNN
 	fmt.Println(nn.learningRate)
-	fmt.Println(nn.layers)
+	fmt.Println(nn.architecture)
+	for i := 0; i < len(nn.architecture); i++ {
+		fmt.Println()
+		fmt.Println(nn.layers[i])
+	}
 }

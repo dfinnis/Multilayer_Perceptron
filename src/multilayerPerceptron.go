@@ -38,7 +38,7 @@ func newNeuron(currentLayer int, nn neuralNetwork) neuron {
 	var weights []float64
 	if currentLayer > 0 {
 		for i := 0; i < nn.architecture[currentLayer - 1]; i++ {
-			weights = append(weights, rand.Float64())
+			weights = append(weights, rand.Float64() * math.Sqrt(2/float64(nn.architecture[currentLayer - 1])))
 		}
 	}
 	return neuron {
@@ -75,15 +75,16 @@ func buildNN(architecture []int) neuralNetwork {
 }
 
 func feedforwardNeuron(nn neuralNetwork, layer int, neuron int) {
-	fmt.Printf("layer: %v, ", layer) /////////////
-	fmt.Printf("neuron: %v\n", neuron) /////////////
+	// fmt.Printf("layer: %v, ", layer) /////////////
+	// fmt.Printf("neuron: %v\n", neuron) /////////////
+	perceptron := nn.layers[layer].neurons[neuron] // rm for speed? just for human reading
 	var weightedSum float64
-	for weight := 0; weight < len(nn.layers[layer].neurons[neuron].weights); weight++ {
+	for weight := 0; weight < len(perceptron.weights); weight++ {
 		// fmt.Printf("weight: %v\n", weight) /////////////
-		weightedSum += nn.layers[layer - 1].neurons[weight].output * nn.layers[layer].neurons[neuron].weights[weight]
+		weightedSum += nn.layers[layer - 1].neurons[weight].output * perceptron.weights[weight]
 		// fmt.Printf("weightedSum: %v\n", weightedSum) /////////////
 	}
-	nn.layers[layer].neurons[neuron].output = weightedSum + nn.layers[layer].neurons[neuron].bias
+	nn.layers[layer].neurons[neuron].output = nn.layers[layer].activation(weightedSum + perceptron.bias)
 }
 
 func feedforward(nn neuralNetwork) {
@@ -105,8 +106,8 @@ func MultilayerPerceptron() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	// architecture := []int {16, 16, 16, 2}
-	architecture := []int {2, 2, 2} // test architecture
+	architecture := []int {16, 16, 16, 2}
+	// architecture := []int {2, 2, 2, 2} // test architecture
 	nn := buildNN(architecture)
 
 	feedforward(nn)

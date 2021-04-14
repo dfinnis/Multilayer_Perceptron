@@ -74,13 +74,26 @@ func buildNN(architecture []int) neuralNetwork {
 	return nn
 }
 
-func feedforward(nn neuralNetwork) {
-	nn.layers[0].neurons[0].output = 0.42 // input layer
+func feedforwardNeuron(nn neuralNetwork, layer int, neuron int) {
+	fmt.Printf("layer: %v, ", layer) /////////////
+	fmt.Printf("neuron: %v\n", neuron) /////////////
+	var weightedSum float64
+	for weight := 0; weight < len(nn.layers[layer].neurons[neuron].weights); weight++ {
+		// fmt.Printf("weight: %v\n", weight) /////////////
+		weightedSum += nn.layers[layer - 1].neurons[weight].output * nn.layers[layer].neurons[neuron].weights[weight]
+		// fmt.Printf("weightedSum: %v\n", weightedSum) /////////////
+	}
+	nn.layers[layer].neurons[neuron].output = weightedSum + nn.layers[layer].neurons[neuron].bias
+}
 
-	for layer := 0; layer < len(nn.architecture); layer++ {
-		fmt.Printf("layer: %v\n", layer) /////////////
+func feedforward(nn neuralNetwork) {
+	nn.layers[0].neurons[0].output = 0.42 // input layer //////////////////////////////////////////////
+
+	for layer := 1; layer < len(nn.architecture); layer++ {
+		// fmt.Printf("layer: %v\n", layer) /////////////
 		for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
-			fmt.Printf("neuron: %v\n", neuron) /////////////
+			// fmt.Printf("neuron: %v\n", neuron) /////////////
+			feedforwardNeuron(nn, layer, neuron)
 		}
 		fmt.Println() ///////////////////
 	}
@@ -92,7 +105,8 @@ func MultilayerPerceptron() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	architecture := []int {16, 16, 16, 2}
+	// architecture := []int {16, 16, 16, 2}
+	architecture := []int {2, 2, 2} // test architecture
 	nn := buildNN(architecture)
 
 	feedforward(nn)

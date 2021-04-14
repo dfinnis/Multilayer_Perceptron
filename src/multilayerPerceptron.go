@@ -8,17 +8,37 @@ import (
 	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
 )
 
-type activationFunc func(float64) float64
+type activationFunc func(nn neuralNetwork, layer int)
 
 func sigmoid(z float64) float64 {
 	return 1/(1+math.Exp(-z))
 }
 
+func softmax(x []float64) []float64 {
+	var max float64 = x[0]
+	for _, n := range x {
+		max = math.Max(max, n)
+	}
+
+	a := make([]float64, len(x))
+
+	var sum float64 = 0
+	for i, n := range x {
+		a[i] -= math.Exp(n - max)
+		sum += a[i]
+	}
+
+	for i, n := range a {
+		a[i] = n / sum
+	}
+	return a
+}
+
 type neuron struct {
-	// value float64 // before activation func
 	bias float64
 	weights []float64
-	output float64
+	value float64 // before activation func
+	output float64 // after activation func
 }
 
 type layer struct {
@@ -59,7 +79,7 @@ func newLayer(currentLayer int, nn neuralNetwork) layer {
 	return layer {
 		// length:				nn.architecture[currentLayer],
 		neurons:			neurons,
-		activation:			sigmoid,
+		activation:			sigmoidLayer,
 	}
 }
 
@@ -74,28 +94,39 @@ func buildNN(architecture []int) neuralNetwork {
 	return nn
 }
 
-func feedforwardNeuron(nn neuralNetwork, layer int, neuron int) {
-	// fmt.Printf("layer: %v, ", layer) /////////////
-	// fmt.Printf("neuron: %v\n", neuron) /////////////
-	perceptron := nn.layers[layer].neurons[neuron] // rm for speed? just for human reading
-	var weightedSum float64
-	for weight := 0; weight < len(perceptron.weights); weight++ {
-		// fmt.Printf("weight: %v\n", weight) /////////////
-		weightedSum += nn.layers[layer - 1].neurons[weight].output * perceptron.weights[weight]
-		// fmt.Printf("weightedSum: %v\n", weightedSum) /////////////
+func sigmoidLayer(nn neuralNetwork, layer int) {
+	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
+		nn.layers[layer].neurons[neuron].output = sigmoid(nn.layers[layer].neurons[neuron].value)
 	}
-	nn.layers[layer].neurons[neuron].output = nn.layers[layer].activation(weightedSum + perceptron.bias)
 }
+
+func feedforwardLayer(nn neuralNetwork, layer int) {
+	// fmt.Printf("layer: %v, \n", layer) /////////////
+	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
+		// fmt.Printf("neuron: %v\n", neuron) /////////////
+		perceptron := nn.layers[layer].neurons[neuron] // rm for speed? just for human reading
+		var weightedSum float64
+		for weight := 0; weight < len(perceptron.weights); weight++ {
+			weightedSum += nn.layers[layer - 1].neurons[weight].output * perceptron.weights[weight]
+		}
+		nn.layers[layer].neurons[neuron].value = weightedSum + perceptron.bias
+	}
+	nn.layers[layer].activation(nn, layer)
+}
+
 
 func feedforward(nn neuralNetwork) {
 	nn.layers[0].neurons[0].output = 0.42 // input layer //////////////////////////////////////////////
 
 	for layer := 1; layer < len(nn.architecture); layer++ {
 		// fmt.Printf("layer: %v\n", layer) /////////////
-		for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
-			// fmt.Printf("neuron: %v\n", neuron) /////////////
-			feedforwardNeuron(nn, layer, neuron)
-		}
+		feedforwardLayer(nn, layer)
+
+		// for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
+		// 	// fmt.Printf("neuron: %v\n", neuron) /////////////
+		// 	feedforwardNeuron(nn, layer, neuron)
+		// }
+		// ≈
 		fmt.Println() ///////////////////
 	}
 	fmt.Println() /////////////////
@@ -106,8 +137,8 @@ func MultilayerPerceptron() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	architecture := []int {16, 16, 16, 2}
-	// architecture := []int {2, 2, 2, 2} // test architecture
+	// architecture := []int {16, 16, 16, 16, 2}
+	architecture := []int {2, 2, 2, 2} // test architecture
 	nn := buildNN(architecture)
 
 	feedforward(nn)

@@ -100,36 +100,24 @@ func sigmoidLayer(nn neuralNetwork, layer int) {
 	}
 }
 
-func feedforwardLayer(nn neuralNetwork, layer int) {
-	// fmt.Printf("layer: %v, \n", layer) /////////////
-	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
-		// fmt.Printf("neuron: %v\n", neuron) /////////////
-		perceptron := nn.layers[layer].neurons[neuron] // rm for speed? just for human reading
-		var weightedSum float64
-		for weight := 0; weight < len(perceptron.weights); weight++ {
-			weightedSum += nn.layers[layer - 1].neurons[weight].output * perceptron.weights[weight]
-		}
-		nn.layers[layer].neurons[neuron].value = weightedSum + perceptron.bias
-	}
-	nn.layers[layer].activation(nn, layer)
-}
-
-
 func feedforward(nn neuralNetwork) {
 	nn.layers[0].neurons[0].output = 0.42 // input layer //////////////////////////////////////////////
 
 	for layer := 1; layer < len(nn.architecture); layer++ {
 		// fmt.Printf("layer: %v\n", layer) /////////////
-		feedforwardLayer(nn, layer)
-
-		// for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
-		// 	// fmt.Printf("neuron: %v\n", neuron) /////////////
-		// 	feedforwardNeuron(nn, layer, neuron)
-		// }
-		// ≈
-		fmt.Println() ///////////////////
+		for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
+			// fmt.Printf("neuron: %v\n", neuron) /////////////
+			perceptron := nn.layers[layer].neurons[neuron] // rm for speed? just for human reading
+			var weightedSum float64
+			for weight := 0; weight < len(perceptron.weights); weight++ {
+				weightedSum += nn.layers[layer - 1].neurons[weight].output * perceptron.weights[weight]
+			}
+			nn.layers[layer].neurons[neuron].value = weightedSum + perceptron.bias
+		}
+		nn.layers[layer].activation(nn, layer)
+		// fmt.Println() ///////////////////
 	}
-	fmt.Println() /////////////////
+	// fmt.Println() /////////////////
 }
 
 // MultilayerPerceptron is the main and only exposed function
@@ -143,7 +131,7 @@ func MultilayerPerceptron() {
 
 	feedforward(nn)
 
-	// printNN
+	// ## printNN
 	fmt.Println(nn.learningRate)
 	fmt.Println(nn.architecture)
 	for i := 0; i < len(nn.architecture); i++ {

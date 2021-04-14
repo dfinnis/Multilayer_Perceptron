@@ -15,7 +15,7 @@ func sigmoid(z float64) float64 {
 }
 
 type neuron struct {
-	// value float64 // before activation fucå
+	// value float64 // before activation func
 	bias float64
 	weights []float64
 	output float64
@@ -74,13 +74,28 @@ func buildNN(architecture []int) neuralNetwork {
 	return nn
 }
 
+func feedforward(nn neuralNetwork) {
+	nn.layers[0].neurons[0].output = 0.42 // input layer
+
+	for layer := 0; layer < len(nn.architecture); layer++ {
+		fmt.Printf("layer: %v\n", layer) /////////////
+		for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
+			fmt.Printf("neuron: %v\n", neuron) /////////////
+		}
+		fmt.Println() ///////////////////
+	}
+	fmt.Println() /////////////////
+}
+
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 
 	rand.Seed(time.Now().UnixNano())
-	// architecture := []int {16, 16, 16, 2}
+
 	architecture := []int {16, 16, 16, 2}
 	nn := buildNN(architecture)
+
+	feedforward(nn)
 
 	// printNN
 	fmt.Println(nn.learningRate)

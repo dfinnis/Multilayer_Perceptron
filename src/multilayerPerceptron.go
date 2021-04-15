@@ -38,22 +38,17 @@ func newNeuron(currentLayer int, nn neuralNetwork) neuron {
 		}
 	}
 	return neuron {
-		// value:				rand.Float64(),
 		weights:			weights,
 	}
 }
 
 func newLayer(currentLayer int, nn neuralNetwork) layer {
-	// var label string
-	// if layer == 0 {
-	// 	label = "input"
-	// }
 	var neurons []neuron
 	for i := 0; i < nn.architecture[currentLayer]; i++ {
 		neurons = append(neurons, newNeuron(currentLayer, nn))
 	}
 	return layer {
-		// length:				nn.architecture[currentLayer],
+		// length:				nn.architecture[currentLayer], ////////////
 		neurons:			neurons,
 		activation:			sigmoidLayer,
 	}
@@ -70,50 +65,6 @@ func buildNN(architecture []int) neuralNetwork {
 	}
 	nn.layers[layer - 1].activation = softmaxLayer
 	return nn
-}
-
-
-func sigmoid(z float64) float64 {
-	return 1/(1+math.Exp(-z))
-}
-
-func sigmoidLayer(nn neuralNetwork, layer int) {
-	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
-		nn.layers[layer].neurons[neuron].output = sigmoid(nn.layers[layer].neurons[neuron].value)
-	}
-}
-
-func softmax(values []float64) []float64 {
-	max := values[0]
-	for _, value := range values {
-		max = math.Max(max, value)
-	}
-
-	outputs := make([]float64, len(values))
-	var sum float64
-	for i, value := range values {
-		outputs[i] -= math.Exp(value - max)
-		sum += outputs[i]
-	}
-	for i, output := range outputs {
-		outputs[i] = output / sum
-	}
-	return outputs
-}
-
-func softmaxLayer(nn neuralNetwork, layer int) {
-	// fmt.Printf("layer: %v\n", layer) ////////////////////////////
-	var values []float64
-	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
-		// fmt.Printf("neuron: %v\n", neuron) ///////////////////////////
-		values = append(values, nn.layers[layer].neurons[neuron].value)
-	}
-	// fmt.Printf("values: %v\n", values) ///////////////////////////
-	ouput := softmax(values)
-	// fmt.Printf("ouput: %v\n", ouput) ///////////////////////////
-	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
-		nn.layers[layer].neurons[neuron].output = ouput[neuron]
-	}
 }
 
 func feedforward(nn neuralNetwork) {

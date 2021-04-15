@@ -36,6 +36,7 @@ func MultilayerPerceptron() {
 
 	data := preprocess()
 	// fmt.Printf("data:\n %v\n\n", data) /////////////////////////////////////////
+	// fmt.Printf("data[0]:\n %v\n\n", data[0]) /////////////////////////////////////////
 	fmt.Printf("\n\nlen(data): %v\n\n", len(data)) /////////////////////////////////////////
 
 	rand.Seed(time.Now().UnixNano())

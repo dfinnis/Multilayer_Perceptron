@@ -6,6 +6,8 @@ import (
 	"io"
 	"encoding/csv"
 	"strconv"
+	"gonum.org/v1/gonum/stat"
+	"math"
 )
 
 func readCsv(filePath string) [][]float64 {
@@ -62,9 +64,25 @@ func readCsv(filePath string) [][]float64 {
     return data
 }
 
+func standardize(data [][]float64) {
+	for col := 1; col < len(data[0]); col++ {
+		var column []float64
+		for _, sample := range data {
+			column = append(column, sample[col])
+		}
+
+		mean := stat.Mean(column, nil)
+		variance := stat.Variance(column, nil)
+		stddev := math.Sqrt(variance)
+
+		for sample, _ := range data {
+			data[sample][col] = (data[sample][col] - mean) / stddev
+		}
+	}
+}
 
 func preprocess() [][]float64 {
 	data := readCsv("data.csv") ////
-
+	standardize(data)
 	return data
 }

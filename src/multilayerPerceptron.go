@@ -7,8 +7,11 @@ import (
 	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
 )
 
-func feedforward(nn neuralNetwork) {
-	nn.layers[0].neurons[0].output = 0.42 // input layer //////////////////////////////////////////////
+func feedforward(nn neuralNetwork, inputs []float64) {
+	// input layer
+	for i := 1; i < len(inputs); i++ {
+		nn.layers[0].neurons[i - 1].output = inputs[i]
+	}
 
 	for layer := 1; layer < len(nn.architecture); layer++ {
 		// fmt.Printf("layer: %v\n", layer) /////////////
@@ -47,14 +50,12 @@ func MultilayerPerceptron() {
 	fmt.Printf("len(train_set): %v\n", len(train_set)) /////////////////////////////////////////
 	fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
 
-
-
-
-	// architecture := []int {16, 16, 16, 16, 2}
-	architecture := []int {2, 2, 2, 2} // test architecture ////
+	// architecture := []int {len(data[0]) - 1, 16, 16, 16, 2}
+	architecture := []int {len(data[0]) - 1, 2, 2, 2} // test architecture ////
 	nn := buildNN(architecture)
 
-	feedforward(nn)
+	// feedforward(nn)
+	feedforward(nn, train_set[0])
 
 	// backprop(nn)
 
@@ -66,6 +67,4 @@ func MultilayerPerceptron() {
 		fmt.Println(nn.layers[i])
 	}
 	fmt.Println()
-	// fmt.Println(nn.layers[0].activation)
-	// fmt.Println(nn.layers[0].activation(2))
 }

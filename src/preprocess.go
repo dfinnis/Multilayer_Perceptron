@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"gonum.org/v1/gonum/stat"
 	"math"
+	"math/rand"
 )
 
 func readCsv(filePath string) [][]float64 {
@@ -82,7 +83,24 @@ func standardize(data [][]float64) {
 }
 
 func preprocess() [][]float64 {
-	data := readCsv("data.csv") ////
+	data := readCsv("data.csv")
 	standardize(data)
 	return data
+}
+
+func split(data [][]float64) (train_set [][]float64, test_set [][]float64) {
+	// Shuffle
+	rand.Shuffle(len(data), func(i, j int) {
+		data[i], data[j] = data[j], data[i]
+	})
+	// Split
+	split := 0.8
+	var sample int
+	for ; sample < int((float64(len(data)) * split)); sample++ {
+		train_set = append(train_set, data[sample])
+	}
+	for ; sample < len(data); sample++ {
+		test_set = append(test_set, data[sample])
+	}
+	return
 }

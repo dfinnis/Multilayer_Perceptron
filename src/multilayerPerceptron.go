@@ -31,23 +31,6 @@ func backprop(nn neuralNetwork) {
 	fmt.Println("oh hi backprop!") /////////////////
 }
 
-func split(data [][]float64) (train_set [][]float64, test_set [][]float64) {
-	// Shuffle
-	rand.Shuffle(len(data), func(i, j int) {
-		data[i], data[j] = data[j], data[i]
-	})
-	// Split
-	split := 0.8
-	var sample int
-	for ; sample < int((float64(len(data)) * split)); sample++ {
-		train_set = append(train_set, data[sample])
-	}
-	for ; sample < len(data); sample++ {
-		test_set = append(test_set, data[sample])
-	}
-	return
-}
-
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 

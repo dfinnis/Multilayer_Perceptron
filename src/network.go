@@ -5,14 +5,14 @@ import (
 	"math/rand"
 )
 
-type activationFunc func(nn neuralNetwork, layer int)
-
 type neuron struct {
 	bias float64
 	weights []float64
 	value float64 // before activation func
 	output float64 // after activation func
 }
+
+type activationFunc func(nn neuralNetwork, layer int)
 
 type layer struct {
 	// label string

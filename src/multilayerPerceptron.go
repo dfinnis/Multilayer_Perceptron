@@ -27,6 +27,10 @@ func feedforward(nn neuralNetwork) {
 	// fmt.Println() /////////////////
 }
 
+func backprop(nn neuralNetwork) {
+	fmt.Println("oh hi backprop!") /////////////////
+}
+
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 
@@ -37,6 +41,8 @@ func MultilayerPerceptron() {
 	nn := buildNN(architecture)
 
 	feedforward(nn)
+
+	// backprop(nn)
 
 	// ## printNN
 	fmt.Println(nn.learningRate)

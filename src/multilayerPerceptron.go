@@ -34,6 +34,9 @@ func backprop(nn neuralNetwork) {
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 
+	data := preprocess()
+	fmt.Printf("data:\n %v\n\n", data) /////////////////////////////////////////
+
 	rand.Seed(time.Now().UnixNano())
 
 	// architecture := []int {16, 16, 16, 16, 2}

@@ -31,15 +31,41 @@ func backprop(nn neuralNetwork) {
 	fmt.Println("oh hi backprop!") /////////////////
 }
 
+func split(data [][]float64) (train_set [][]float64, test_set [][]float64) {
+	// Shuffle
+	rand.Shuffle(len(data), func(i, j int) {
+		data[i], data[j] = data[j], data[i]
+	})
+	// Split
+	split := 0.8
+	var sample int
+	for ; sample < int((float64(len(data)) * split)); sample++ {
+		train_set = append(train_set, data[sample])
+	}
+	for ; sample < len(data); sample++ {
+		test_set = append(test_set, data[sample])
+	}
+	return
+}
+
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 
+	rand.Seed(time.Now().UnixNano())
+
 	data := preprocess()
+	train_set, test_set := split(data)
+
+	// fmt.Printf("train_set[0]: %v\n", train_set[0]) /////////////////////////////////////////
+	// fmt.Printf("test_set[0]: %v\n", test_set[0]) /////////////////////////////////////////
 	// fmt.Printf("data:\n %v\n\n", data) /////////////////////////////////////////
 	// fmt.Printf("data[0]:\n %v\n\n", data[0]) /////////////////////////////////////////
-	fmt.Printf("\n\nlen(data): %v\n\n", len(data)) /////////////////////////////////////////
+	fmt.Printf("\n\nlen(data): %v\n", len(data)) /////////////////////////////////////////
+	fmt.Printf("len(train_set): %v\n", len(train_set)) /////////////////////////////////////////
+	fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
 
-	rand.Seed(time.Now().UnixNano())
+
+
 
 	// architecture := []int {16, 16, 16, 16, 2}
 	architecture := []int {2, 2, 2, 2} // test architecture ////

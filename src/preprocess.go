@@ -88,12 +88,14 @@ func preprocess() [][]float64 {
 	return data
 }
 
-func split(data [][]float64) (train_set [][]float64, test_set [][]float64) {
-	// Shuffle
+func shuffle(data [][]float64) {
 	rand.Shuffle(len(data), func(i, j int) {
 		data[i], data[j] = data[j], data[i]
 	})
-	// Split
+}
+
+func split(data [][]float64) (train_set [][]float64, test_set [][]float64) {
+	shuffle(data)
 	split := 0.8
 	var sample int
 	for ; sample < int((float64(len(data)) * split)); sample++ {

@@ -60,6 +60,7 @@ func buildNN(architecture []int) neuralNetwork {
 	for layer = 0; layer < len(architecture); layer++ {
 		nn.layers = append(nn.layers, newLayer(nn, layer))
 	}
+	nn.layers[0].activation = nil
 	nn.layers[layer - 1].activation = softmaxLayer
 	return nn
 }

@@ -27,11 +27,11 @@ type neuralNetwork struct {
 	learningRate float64
 }
 
-func newNeuron(currentLayer int, nn neuralNetwork) neuron {
+func newNeuron(nn neuralNetwork, layer int) neuron {
 	var weights []float64
-	if currentLayer > 0 {
-		for i := 0; i < nn.architecture[currentLayer - 1]; i++ {
-			weights = append(weights, rand.Float64() * math.Sqrt(2/float64(nn.architecture[currentLayer - 1])))
+	if layer > 0 {
+		for i := 0; i < nn.architecture[layer - 1]; i++ {
+			weights = append(weights, rand.Float64() * math.Sqrt(2/float64(nn.architecture[layer - 1])))
 		}
 	}
 	return neuron {
@@ -39,10 +39,10 @@ func newNeuron(currentLayer int, nn neuralNetwork) neuron {
 	}
 }
 
-func newLayer(currentLayer int, nn neuralNetwork) layer {
+func newLayer(nn neuralNetwork, currentLayer int) layer {
 	var neurons []neuron
 	for i := 0; i < nn.architecture[currentLayer]; i++ {
-		neurons = append(neurons, newNeuron(currentLayer, nn))
+		neurons = append(neurons, newNeuron(nn, currentLayer))
 	}
 	return layer {
 		// length:				nn.architecture[currentLayer], ////////////
@@ -58,7 +58,7 @@ func buildNN(architecture []int) neuralNetwork {
 
 	var layer int
 	for layer = 0; layer < len(architecture); layer++ {
-		nn.layers = append(nn.layers, newLayer(layer, nn))
+		nn.layers = append(nn.layers, newLayer(nn, layer))
 	}
 	nn.layers[layer - 1].activation = softmaxLayer
 	return nn

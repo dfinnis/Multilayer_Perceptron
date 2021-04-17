@@ -35,8 +35,31 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 	return
 }
 
-func backprop(nn neuralNetwork) {
+func compute_loss_prime(outputs [][]float64, y [][]float64) (d_losses [][]float64) {
+	for output := 0; output < len(outputs); output++ {
+		var b []float64
+		b = append(b, y[output][0] / outputs[output][0])
+		b = append(b, y[output][1] / outputs[output][1])
+
+		var m []float64
+		m = append(m, (1 - y[output][0]) / (1 - outputs[output][0]))
+		m = append(m, (1 - y[output][1]) / (1 - outputs[output][1]))
+
+		var d_loss []float64
+		d_loss = append(d_loss, b[0] - m[0])
+		d_loss = append(d_loss, b[1] - m[1])
+		d_losses = append(d_losses, d_loss)
+	}
+	return
+}
+
+func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 	fmt.Println("oh hi backprop!") /////////////////
+
+	d_A4 := compute_loss_prime(output, y)
+	// fmt.Printf("d_A4: %v\n", d_A4) ////////////
+	fmt.Printf("len(d_A4): %v\n", len(d_A4)) ////////////
+	fmt.Printf("len(d_A4[0]): %v\n", len(d_A4[0])) ////////////
 }
 
 func train(nn neuralNetwork, train_set [][]float64) {
@@ -44,6 +67,7 @@ func train(nn neuralNetwork, train_set [][]float64) {
 	for epoch := 1; epoch <= nn.epochs; epoch++ {
 		// shuffle(train_set)
 		input, y := split_x_y(train_set)
+
 		// fmt.Printf("input: %v\n", input) ////////////
 		fmt.Printf("len(input): %v\n", len(input)) ////////////
 		fmt.Printf("len(input[0]): %v\n", len(input[0])) ////////////
@@ -56,7 +80,7 @@ func train(nn neuralNetwork, train_set [][]float64) {
 		fmt.Printf("len(output): %v\n", len(output)) /////////////
 		fmt.Printf("len(output[0]): %v\n", len(output[0])) /////////////
 
-		// backprop(nn)
+		backprop(nn, output, y)
 
 		// train_loss = compute_loss(output, y)
 		// train_losses.append(train_losses, train_loss)

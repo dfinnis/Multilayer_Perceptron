@@ -25,6 +25,7 @@ type neuralNetwork struct {
 	architecture []int
 	layers []layer
 	learningRate float64
+	epochs int
 }
 
 func newNeuron(nn neuralNetwork, layer int) neuron {
@@ -62,5 +63,6 @@ func buildNN(architecture []int) neuralNetwork {
 	}
 	nn.layers[0].activation = nil
 	nn.layers[layer - 1].activation = softmaxLayer
+	nn.epochs = 1 // how many best?
 	return nn
 }

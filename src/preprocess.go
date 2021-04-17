@@ -106,3 +106,23 @@ func split(data [][]float64) (train_set [][]float64, test_set [][]float64) {
 	}
 	return
 }
+
+func split_x_y(train_set [][]float64) (input [][]float64, y [][]float64) {
+	for i := 0; i < len(train_set); i++ {
+		// input
+		var sample []float64
+		for column := 1; column < len(train_set[0]); column++ {
+			sample = append(sample, train_set[i][column])
+		}
+		input = append(input, sample)
+		// y = one hot diagnosis (Malignant / Benign)
+		var oneHot []float64
+		if train_set[i][0] == 0.0 {
+			oneHot = []float64{0, 1}
+		} else {
+			oneHot = []float64{1, 0}
+		}
+		y = append(y, oneHot)
+	}
+	return
+}

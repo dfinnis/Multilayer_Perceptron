@@ -34,6 +34,33 @@ func backprop(nn neuralNetwork) {
 	fmt.Println("oh hi backprop!") /////////////////
 }
 
+func train(nn neuralNetwork, train_set [][]float64) {
+
+	for epoch := 1; epoch <= nn.epochs; epoch++ {
+		// shuffle(train_set)
+		input, y := split_x_y(train_set)
+		// fmt.Printf("input: %v\n", input) ////////////
+		fmt.Printf("len(input): %v\n", len(input)) ////////////
+		fmt.Printf("len(input[0]): %v\n", len(input[0])) ////////////
+		// fmt.Printf("y: %v\n", y) ////////////
+		fmt.Printf("len(y): %v\n", len(y)) ////////////
+		fmt.Printf("len(y[0]): %v\n", len(y[0])) ////////////
+
+
+		// feedforward(nn)
+		// backprop(nn)
+
+		// train_loss = compute_loss(output, y)
+		// train_losses.append(train_losses, train_loss)
+		// predict(test_set)
+		// test_loss = compute_loss(output, y)
+		// test_losses.append(test_losses, test_loss)
+
+		// print validation metrics
+		fmt.Printf("epoch %v/%v: train loss = %v, test loss = %v\n", epoch, nn.epochs, "??", "??")
+	}
+}
+
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 
@@ -50,17 +77,19 @@ func MultilayerPerceptron() {
 	fmt.Printf("len(train_set): %v\n", len(train_set)) /////////////////////////////////////////
 	fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
 
-	// architecture := []int {len(data[0]) - 1, 16, 16, 16, 2}
-	architecture := []int {len(data[0]) - 1, 2, 2, 2} // test architecture ////
+	// architecture := []int {len(data[0]) - 1, 16, 16, 2}
+	architecture := []int {len(train_set[0]), 2, 2, 2} // test architecture ////
 	nn := buildNN(architecture)
 
 	// feedforward(nn)
-	feedforward(nn, train_set[0])
+	// feedforward(nn, train_set[0])
 
+	train(nn, train_set)
 	// backprop(nn)
 
 	// ## printNN
-	fmt.Println(nn.learningRate)
+	// fmt.Println(nn.learningRate)
+	fmt.Println()
 	fmt.Println(nn.architecture)
 	for i := 0; i < len(nn.architecture); i++ {
 		fmt.Println()

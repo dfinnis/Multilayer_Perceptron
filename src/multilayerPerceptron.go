@@ -51,7 +51,7 @@ func train(nn neuralNetwork, train_set [][]float64) {
 		fmt.Printf("len(y): %v\n", len(y)) ////////////
 		fmt.Printf("len(y[0]): %v\n", len(y[0])) ////////////
 
-		output := feedforward(nn, train_set)
+		output := feedforward(nn, input)
 		// fmt.Printf("output: %v\n", output) /////////////
 		fmt.Printf("len(output): %v\n", len(output)) /////////////
 		fmt.Printf("len(output[0]): %v\n", len(output[0])) /////////////
@@ -82,7 +82,7 @@ func MultilayerPerceptron() {
 	fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
 
 	// architecture := []int {len(data[0]) - 1, 16, 16, 2}
-	architecture := []int {len(train_set[0]), 2, 2, 2} // test architecture ////
+	architecture := []int {len(data[0]) - 1, 2, 2, 2} // test architecture ////
 	nn := buildNN(architecture)
 
 	train(nn, train_set)

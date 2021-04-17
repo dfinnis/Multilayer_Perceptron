@@ -7,27 +7,39 @@ import (
 	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
 )
 
-func feedforward(nn neuralNetwork, inputs []float64) {
-	// input layer
-	for i := 1; i < len(inputs); i++ {
-		nn.layers[0].neurons[i - 1].output = inputs[i]
-	}
-
-	for layer := 1; layer < len(nn.architecture); layer++ {
-		// fmt.Printf("layer: %v\n", layer) /////////////
-		for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
-			// fmt.Printf("neuron: %v\n", neuron) /////////////
-			perceptron := nn.layers[layer].neurons[neuron] // rm for speed? just for human reading
-			var weightedSum float64
-			for weight := 0; weight < len(perceptron.weights); weight++ {
-				weightedSum += nn.layers[layer - 1].neurons[weight].output * perceptron.weights[weight]
-			}
-			nn.layers[layer].neurons[neuron].value = weightedSum + perceptron.bias
+func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
+	for sample := 0; sample < len(inputs); sample++ {
+		// fmt.Printf("sample: %v\n", sample) /////////////
+		for i := 0; i < len(inputs[0]); i++ {
+			nn.layers[0].neurons[i].output = inputs[sample][i]
 		}
-		nn.layers[layer].activation(nn, layer)
-		// fmt.Println() ///////////////////
+
+		for layer := 1; layer < len(nn.architecture); layer++ {
+			// fmt.Printf("layer: %v\n", layer) /////////////
+			for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
+				// fmt.Printf("neuron: %v\n", neuron) /////////////
+				perceptron := nn.layers[layer].neurons[neuron] // rm for speed? just for human reading
+				var weightedSum float64
+				for weight := 0; weight < len(perceptron.weights); weight++ {
+					weightedSum += nn.layers[layer - 1].neurons[weight].output * perceptron.weights[weight]
+				}
+				nn.layers[layer].neurons[neuron].value = weightedSum + perceptron.bias
+			}
+			nn.layers[layer].activation(nn, layer)
+			// fmt.Println() ///////////////////
+		}
+		// fmt.Println() /////////////////
+
+		var output []float64
+		for neuron := 0; neuron < nn.architecture[len(nn.architecture) - 1]; neuron++ {
+			// fmt.Printf("neuron: %v\n", neuron) /////////////
+			output = append(output, nn.layers[len(nn.architecture) - 1].neurons[neuron].output)
+		}
+		// fmt.Printf("output: %v\n", output) /////////////
+		outputs = append(outputs, output)
+		// break ///////////
 	}
-	// fmt.Println() /////////////////
+	return
 }
 
 func backprop(nn neuralNetwork) {
@@ -47,7 +59,11 @@ func train(nn neuralNetwork, train_set [][]float64) {
 		fmt.Printf("len(y[0]): %v\n", len(y[0])) ////////////
 
 
-		// feedforward(nn)
+		output := feedforward(nn, train_set)
+		// fmt.Printf("output: %v\n", output) /////////////
+		fmt.Printf("len(output): %v\n", len(output)) /////////////
+		fmt.Printf("len(output[0]): %v\n", len(output[0])) /////////////
+
 		// backprop(nn)
 
 		// train_loss = compute_loss(output, y)

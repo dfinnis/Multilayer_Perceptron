@@ -8,8 +8,9 @@ import (
 type neuron struct {
 	bias float64
 	weights []float64
-	value float64 // before activation func
-	output float64 // after activation func
+	value float64		// before activation func
+	output float64		// after activation func
+	z []float64			// value for each sample
 }
 
 type activationFunc func(nn neuralNetwork, layer int)

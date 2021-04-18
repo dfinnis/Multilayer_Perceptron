@@ -1,18 +1,22 @@
 package multilayer
 
 import (
-	// "fmt"
+	// "fmt" //
 	"math"
 )
 
 func sigmoid(z float64) float64 {
-	return 1/(1+math.Exp(-z))
+	return 1 / (1 + math.Exp(-z))
 }
 
 func sigmoidLayer(nn neuralNetwork, layer int) {
 	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
 		nn.layers[layer].neurons[neuron].output = sigmoid(nn.layers[layer].neurons[neuron].value)
 	}
+}
+
+func sigmoid_prime(z float64) float64 {
+	return sigmoid(z) * (1 - sigmoid(z))
 }
 
 func softmax(values []float64) []float64 {
@@ -42,4 +46,22 @@ func softmaxLayer(nn neuralNetwork, layer int) {
 	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
 		nn.layers[layer].neurons[neuron].output = ouput[neuron]
 	}
+}
+
+func softmax_prime(z [][]float64) (d_Z4 [][]float64) {
+	for _, sample := range z {
+		// fmt.Printf("%v: %v\n", i, sample) ///////////
+		soft := softmax(sample)
+		var minus []float64
+		minus = append(minus, 1 - soft[0])
+		minus = append(minus, 1 - soft[1])
+		// fmt.Printf("%v: %v\n", soft, minus) ////////////////
+		var d []float64
+		d = append(d, soft[0] * minus[0])
+		d = append(d, soft[1] * minus[1])
+		d_Z4 = append(d_Z4, d)
+		// fmt.Printf("%v: %v: %v\n", soft, minus, d) ////////////////
+	}
+	return
+	// return softmax(z) * (1 - softmax(z))
 }

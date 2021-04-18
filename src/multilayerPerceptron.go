@@ -22,6 +22,7 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 					weightedSum += nn.layers[layer - 1].neurons[weight].output * perceptron.weights[weight]
 				}
 				nn.layers[layer].neurons[neuron].value = weightedSum + perceptron.bias
+				nn.layers[layer].neurons[neuron].z = append(nn.layers[layer].neurons[neuron].z, nn.layers[layer].neurons[neuron].value)
 			}
 			nn.layers[layer].activation(nn, layer)
 		}
@@ -60,6 +61,63 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 	// fmt.Printf("d_A4: %v\n", d_A4) ////////////
 	fmt.Printf("len(d_A4): %v\n", len(d_A4)) ////////////
 	fmt.Printf("len(d_A4[0]): %v\n", len(d_A4[0])) ////////////
+	
+	// d_A4[0][0] = -1 ///////////////////
+	// d_A4[0][1] = 1 ///////////////////
+
+	// d_Z4 = d_A4 * d_activation(self.Z4) ////////////
+	// d_Z4 = d_A4 * softmax_prime(nn.Z4) ////////////
+	
+	var z4 [][]float64
+	for sample, _ := range output {
+		var layer_value []float64
+		// fmt.Printf("%v: ", sample) ////////////
+		for _, neuron := range nn.layers[3].neurons {
+			// fmt.Printf("%v: %v\n", sample, neuron.z[sample]) ////////////
+			layer_value = append(layer_value, neuron.z[sample])
+		}
+		z4 = append(z4, layer_value)
+	}
+	// fmt.Printf("z4[0]: %v\n", z4[0]) ////////////
+	// fmt.Printf("len(z4): %v\n", len(z4)) ////////////
+	prime := softmax_prime(z4)
+	// fmt.Printf("prime[0]: %v\n", prime[0]) ////////////
+	// fmt.Printf("len(prime): %v\n", len(prime)) ////////////
+
+	var d_z4 [][]float64
+	for i, sample := range prime {
+		var layer_d []float64
+		// fmt.Printf("sample: %v\n", sample) ////////////
+		// fmt.Printf("len(sample): %v\n", len(sample)) ////////////
+		for j, value := range sample {
+			// fmt.Printf("value: %v\n", value) ////////////
+			layer_d = append(layer_d, d_A4[i][j] * value)
+		}
+		d_z4 = append(d_z4, layer_d)
+		// break /////////
+	}
+	// fmt.Printf("d_z4[0]: %v\n", d_z4[0]) ////////////
+	fmt.Printf("len(d_z4): %v\n", len(d_z4)) ////////////
+
+
+	// softmax_prime(output) // Z4
+
+
+	// var d_Z4 [][]float64
+	// for i, sample := range d_A4 {
+		// fmt.Printf("sample: %v, sample[0]: %v, sample[1]: %v\n", sample, sample[0], sample[1]) ////////////
+		// var value []float64
+		// for i, sample := range d_A4 {
+		// value = append(value, sample[0] * softmax_prime(nn.layers[3].neurons[i].Z1[i])) //!!!!!!!!!!!!!!!!!!!!!!!
+		// value = append(value, sigmoid_prime(sample[1]))÷
+		// fmt.Printf("sample: %v, value: %v\n", sample, value) ////////////
+		// d_Z4 = append(d_Z4, value)
+		// break /////////////
+		// }
+	// }
+	// fmt.Printf("d_Z4: %v\n", d_Z4) ////////////
+	// fmt.Printf("len(d_Z4): %v\n", len(d_Z4)) ////////////
+	// fmt.Printf("len(d_Z4[0]): %v\n", len(d_Z4[0])) ////////////
 }
 
 func train(nn neuralNetwork, train_set [][]float64) {
@@ -113,11 +171,12 @@ func MultilayerPerceptron() {
 
 	// ## printNN
 	// fmt.Println(nn.learningRate)
-	fmt.Println()
-	fmt.Println(nn.architecture)
-	for i := 0; i < len(nn.architecture); i++ {
-		fmt.Println()
-		fmt.Println(nn.layers[i])
-	}
-	fmt.Println()
+	// fmt.Println()
+	// fmt.Println(nn.architecture)
+	// for i := 0; i < len(nn.architecture); i++ {
+	// 	fmt.Println()
+	// 	fmt.Println(nn.layers[i])
+	// }
+	// fmt.Println()
+	// fmt.Println("END!!") ////
 }

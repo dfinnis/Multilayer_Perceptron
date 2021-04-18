@@ -12,6 +12,7 @@ func sigmoid(z float64) float64 {
 func sigmoidLayer(nn neuralNetwork, layer int) {
 	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
 		nn.layers[layer].neurons[neuron].output = sigmoid(nn.layers[layer].neurons[neuron].value)
+		nn.layers[layer].neurons[neuron].outputs = append(nn.layers[layer].neurons[neuron].outputs, nn.layers[layer].neurons[neuron].output)
 	}
 }
 
@@ -45,6 +46,7 @@ func softmaxLayer(nn neuralNetwork, layer int) {
 	ouput := softmax(values)
 	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
 		nn.layers[layer].neurons[neuron].output = ouput[neuron]
+		// nn.layers[layer].neurons[neuron].outputs = append(nn.layers[layer].neurons[neuron].outputs, ouput[neuron])
 	}
 }
 

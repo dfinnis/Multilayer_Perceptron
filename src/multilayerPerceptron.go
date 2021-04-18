@@ -54,6 +54,30 @@ func compute_loss_prime(outputs [][]float64, y [][]float64) (d_losses [][]float6
 	return
 }
 
+func matrixMultiply(a [][]float64, b [][]float64) (result [][]float64) {
+	// fmt.Printf("\nlen(a): %v\n", len(a)) ////////////
+	// fmt.Printf("len(a[0]): %v\n", len(a[0])) ////////////
+	// fmt.Printf("len(b): %v\n", len(b)) ////////////
+	// fmt.Printf("len(b[0]): %v\n", len(b[0])) ////////////
+	for i := 0; i < len(a[0]); i++ {
+		// fmt.Printf("i: %v\n", i) ///////////
+		var row []float64
+		for j := 0; j < len(b[0]); j++ {
+			var sum float64
+			// fmt.Printf("j: %v\n", j) ///////////
+			for sample := 0; sample < len(a); sample++ {
+				// fmt.Printf("sample: %v\n", sample) ////////////
+				// fmt.Printf("a[%v][%v]: %v\n", sample, i, a[sample][i]) ////////////
+				// fmt.Printf("b[%v][%v]: %v\n", sample, j, b[sample][j]) ////////////
+				sum += a[sample][i] * b[sample][j]
+			}
+			row = append(row, sum)
+		}
+		result = append(result, row)
+	}
+	return
+}
+
 func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 	fmt.Println("oh hi backprop!") /////////////////
 
@@ -83,8 +107,26 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 		}
 		d_z4 = append(d_z4, layer_d)
 	}
-	// fmt.Printf("d_z4[0]: %v\n", d_z4[0]) ////////////
+	fmt.Printf("d_z4[0]: %v\n", d_z4[0]) ////////////
 	fmt.Printf("len(d_z4): %v\n", len(d_z4)) ////////////
+
+	var layerOutputs [][]float64
+	for sample, _ := range prime {
+		var layerOutput []float64
+		for neuron := 0; neuron < nn.architecture[2]; neuron++ {
+			// fmt.Printf("neuron: %v\n", neuron) ////////////
+			// fmt.Printf("nn.layers[2].neurons[neuron].outputs: %v\n", nn.layers[2].neurons[neuron].outputs) ///////////
+			layerOutput = append(layerOutput, nn.layers[2].neurons[neuron].outputs[sample])
+		}
+		layerOutputs = append(layerOutputs, layerOutput)
+		// break ///
+	}
+	fmt.Printf("len(layerOutput): %v\n", len(layerOutputs)) ////////////
+	fmt.Printf("len(layerOutput[0]): %v\n", len(layerOutputs[0])) ////////////
+	d_weights4 := matrixMultiply(d_z4, layerOutputs)
+	fmt.Printf("len(d_weights4): %v\n", len(d_weights4)) ////////////
+	fmt.Printf("len(d_weights4[0]): %v\n", len(d_weights4[0])) ////////////	
+	fmt.Printf("d_weights4): %v\n", d_weights4) ////////////
 }
 
 func train(nn neuralNetwork, train_set [][]float64) {
@@ -130,8 +172,8 @@ func MultilayerPerceptron() {
 	fmt.Printf("len(train_set): %v\n", len(train_set)) /////////////////////////////////////////
 	fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
 
-	// architecture := []int {len(data[0]) - 1, 16, 16, 2}
-	architecture := []int {len(data[0]) - 1, 2, 2, 2} // test architecture ////
+	architecture := []int {len(data[0]) - 1, 16, 16, 2}
+	// architecture := []int {len(data[0]) - 1, 2, 2, 2} // test architecture ////
 	nn := buildNN(architecture)
 
 	train(nn, train_set)

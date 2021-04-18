@@ -11,6 +11,7 @@ type neuron struct {
 	value float64		// before activation func
 	output float64		// after activation func
 	z []float64			// value for each sample
+	outputs []float64	// output for each sample
 }
 
 type activationFunc func(nn neuralNetwork, layer int)

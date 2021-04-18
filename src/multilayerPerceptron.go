@@ -124,12 +124,20 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 		layerOutputs = append(layerOutputs, layerOutput)
 		// break ///
 	}
-	fmt.Printf("len(layerOutput): %v\n", len(layerOutputs)) ////////////
-	fmt.Printf("len(layerOutput[0]): %v\n", len(layerOutputs[0])) ////////////
+	// fmt.Printf("len(layerOutput): %v\n", len(layerOutputs)) ////////////
+	// fmt.Printf("len(layerOutput[0]): %v\n", len(layerOutputs[0])) ////////////
 	d_weights4 := matrixMultiply(d_z4, layerOutputs)
 	fmt.Printf("len(d_weights4): %v\n", len(d_weights4)) ////////////
 	fmt.Printf("len(d_weights4[0]): %v\n", len(d_weights4[0])) ////////////	
-	fmt.Printf("d_weights4): %v\n", d_weights4) ////////////
+	// fmt.Printf("d_weights4): %v\n", d_weights4) ////////////
+	
+	var d_bias4 [2]float64
+	for _, sample := range d_z4 {
+		// fmt.Printf("sample: %v\n", sample) ////////////
+		d_bias4[0] += sample[0]
+		d_bias4[1] += sample[1]
+	}
+	fmt.Printf("d_bias4: %v\n", d_bias4) ////////////
 
 
 	// // matrixMultiply test

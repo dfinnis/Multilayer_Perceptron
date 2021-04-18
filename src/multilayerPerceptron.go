@@ -59,6 +59,9 @@ func matrixMultiply(a [][]float64, b [][]float64) (result [][]float64) {
 	// fmt.Printf("len(a[0]): %v\n", len(a[0])) ////////////
 	// fmt.Printf("len(b): %v\n", len(b)) ////////////
 	// fmt.Printf("len(b[0]): %v\n", len(b[0])) ////////////
+	if len(a) == 0 || len(b) == 0 { // protect against empty input
+		return
+	}
 	for i := 0; i < len(a[0]); i++ {
 		// fmt.Printf("i: %v\n", i) ///////////
 		var row []float64
@@ -127,6 +130,40 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 	fmt.Printf("len(d_weights4): %v\n", len(d_weights4)) ////////////
 	fmt.Printf("len(d_weights4[0]): %v\n", len(d_weights4[0])) ////////////	
 	fmt.Printf("d_weights4): %v\n", d_weights4) ////////////
+
+
+	// // matrixMultiply test
+	// var a [][]float64
+	// var b [][]float64
+	// var tmp []float64
+	// tmp = append(tmp, 2)
+	// tmp = append(tmp, 0)
+	// tmp = append(tmp, 1)
+	// a = append(a, tmp)
+	// tmp = nil
+	// tmp = append(tmp, 1)
+	// tmp = append(tmp, 1)
+	// tmp = append(tmp, 1)
+	// a = append(a, tmp)
+	// tmp = nil
+	// tmp = append(tmp, 1)
+	// tmp = append(tmp, 1)
+	// tmp = append(tmp, 1)
+	// a = append(a, tmp)
+
+	// tmp = nil
+	// tmp = append(tmp, 2)
+	// tmp = append(tmp, 1)
+	// b = append(b, tmp)
+	// tmp = nil
+	// tmp = append(tmp, 1)
+	// tmp = append(tmp, 1)
+	// b = append(b, tmp)
+	// b = append(b, tmp)
+	// fmt.Printf("a: %v\n", a)
+	// fmt.Printf("b: %v\n", b)
+	// // Truth: [[6 4] [2 2] [4 3]]
+	// fmt.Printf("matrixMultiply test: %v\n", matrixMultiply(a, b))
 }
 
 func train(nn neuralNetwork, train_set [][]float64) {

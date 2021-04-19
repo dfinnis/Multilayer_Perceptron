@@ -16,13 +16,15 @@ func sigmoidLayer(nn neuralNetwork, layer int) {
 	}
 }
 
-func sigmoid_prime(inputs [][]float64) (outputs [][]float64) {
+func sigmoid_prime(inputs [][]float64) [][]float64 {
+	outputs := make([][]float64, len(inputs))
 	for i, input := range inputs {
+		outputs[i] = make([]float64, len(inputs[0]))
 		for j, z := range input {
 			outputs[i][j] = sigmoid(z) * (1 - sigmoid(z))
 		}
 	}
-	return
+	return outputs
 }
 
 func softmax(values []float64) []float64 {

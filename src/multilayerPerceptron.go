@@ -12,6 +12,7 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 		// Input
 		for i := 0; i < len(inputs[0]); i++ {
 			nn.layers[0].neurons[i].output = inputs[sample][i]
+			nn.layers[0].neurons[i].outputs = append(nn.layers[0].neurons[i].outputs, inputs[sample][i])
 		}
 		// Feedforward
 		for layer := 1; layer < len(nn.architecture); layer++ {
@@ -54,7 +55,8 @@ func compute_loss_prime(outputs [][]float64, y [][]float64) (d_losses [][]float6
 	return
 }
 
-func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]float64) {
+func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]float64) [][]float64 {
+	fmt.Printf("layer: %v\n", layer) ////////////
 	var z [][]float64
 	for sample, _ := range output {
 		var layer_value []float64
@@ -104,91 +106,21 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 		}
 		weights = append(weights, weightLayer)
 	}
-	d_aPrevious := multiply2(d_z, weights)
+	d_aLast := multiply2(d_z, weights)
 
-	fmt.Printf("d_bias): %v\n", d_bias) ////////////
-	fmt.Printf("d_weights): %v\n", d_weights) ////////////
-	fmt.Printf("d_aPrevious[0][0]): %v\n", d_aPrevious[0][0]) ////////////
-	// return d_aPrevious
+	// fmt.Printf("d_bias): %v\n", d_bias) ////////////
+	// fmt.Printf("d_weights): %v\n", d_weights) ////////////
+	fmt.Printf("len(d_bias): %v\n", len(d_bias)) ////////////
+	fmt.Printf("shape(d_weights): %v %v\n", len(d_weights), len(d_weights[0])) ////////////
+	fmt.Printf("d_aPrevious[0][0]): %v\n", d_aLast[0][0]) ////////////
+	return d_aLast
 }
 
 func backprop(nn neuralNetwork, output, y [][]float64) {
-	d_A4 := compute_loss_prime(output, y)
-
-	var z4 [][]float64
-	for sample, _ := range output {
-		var layer_value []float64
-		for _, neuron := range nn.layers[3].neurons {
-			layer_value = append(layer_value, neuron.z[sample])
-		}
-		z4 = append(z4, layer_value)
-	}
-	prime := softmax_prime(z4)
-
-	var d_z4 [][]float64
-	for i, sample := range prime {
-		var layer_d []float64
-		for j, value := range sample {
-			layer_d = append(layer_d, d_A4[i][j] * value)
-		}
-		d_z4 = append(d_z4, layer_d)
-	}
-
-	var layerOutputs [][]float64
-	for sample, _ := range prime {
-		var layerOutput []float64
-		for neuron := 0; neuron < nn.architecture[2]; neuron++ {
-			layerOutput = append(layerOutput, nn.layers[2].neurons[neuron].outputs[sample])
-		}
-		layerOutputs = append(layerOutputs, layerOutput)
-		// break ///
-	}
-
-	d_weights4 := multiply(transpose(d_z4), layerOutputs)
-	fmt.Printf("\nlen(d_weights4): %v\n", len(d_weights4)) ////////////
-	fmt.Printf("len(d_weights4[0]): %v\n", len(d_weights4[0])) ////////////	
-
-	var d_bias4 [2]float64
-	for _, sample := range d_z4 {
-		// fmt.Printf("sample: %v\n", sample) ////////////
-		d_bias4[0] += sample[0]
-		d_bias4[1] += sample[1]
-	}
-	// fmt.Printf("d_bias4: %v\n", d_bias4) ////////////
-
-	var weights [][]float64
-	for _, neuron := range nn.layers[3].neurons {
-		// fmt.Printf("neuron: %v\n", neuron) ////////////
-		var weightLayer []float64
-		for _, weight := range neuron.weights {
-			// fmt.Printf("weight %v: %v\n", i, weight) ////////////
-			weightLayer = append(weightLayer, weight)
-		}
-		weights = append(weights, weightLayer)
-	}
-
-	// var weights [][]float64
-	// for weight := 0; weight < len(nn.layers[3].neurons[0].weights); weight++ {
-	// 	// fmt.Printf("weight: %v\n", weight) ////////////
-	// 	var weightLayer []float64
-	// 	for _, neuron := range nn.layers[3].neurons {
-	// 		// fmt.Printf("n %v: %v\n", n, neuron.weights[weight]) ////////////
-	// 		weightLayer = append(weightLayer, neuron.weights[weight])
-	// 	}
-	// 	weights = append(weights, weightLayer)
-	// }
-
-	d_A3 := multiply2(d_z4, weights)
-	fmt.Printf("\nd_A3[0][0]: %v\n", d_A3[0][0]) ////////////
-	fmt.Printf("\nlen(d_A3): %v\n", len(d_A3)) ////////////
-	fmt.Printf("len(d_A3[0]): %v\n\n", len(d_A3[0])) ////////////
-
-	fmt.Printf("d_bias4): %v\n", d_bias4) ////////////
-	fmt.Printf("d_weights4): %v\n", d_weights4) ////////////
-
-	for layer := len(nn.architecture) - 1; layer >= 0; layer-- {
-		backpropLayer(nn, output, y, layer, d_A4)
-		break ///////////////////
+	d_A := compute_loss_prime(output, y)
+	for layer := len(nn.architecture) - 1; layer > 0; layer-- {
+		d_A = backpropLayer(nn, output, y, layer, d_A)
+		// break ///////////////////
 	}
 }
 
@@ -225,7 +157,7 @@ func MultilayerPerceptron() {
 	// fmt.Printf("len(train_set): %v\n", len(train_set)) /////////////////////////////////////////
 	// fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
 
-	architecture := []int {len(data[0]) - 1, 16, 16, 2}
+	architecture := []int {len(data[0]) - 1, 16, 16, 16, 2}
 	// architecture := []int {len(data[0]) - 1, 2, 2, 2} // test architecture ////
 	nn := buildNN(architecture)
 

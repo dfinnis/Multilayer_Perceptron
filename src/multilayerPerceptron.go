@@ -63,7 +63,11 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 		}
 		z = append(z, layer_value)
 	}
-	prime := softmax_prime(z) ///////// activation for layer !!!!!!!!!!!!!!!!!!
+	// Activation
+	prime := softmax_prime(z)
+	if layer < len(nn.architecture) - 1 {
+		prime = sigmoid_prime(z)
+	}
 
 	var d_z [][]float64
 	for i, sample := range prime {
@@ -100,11 +104,11 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 		}
 		weights = append(weights, weightLayer)
 	}
-	// d_aPrevious := multiply2(d_z, weights)
+	d_aPrevious := multiply2(d_z, weights)
 
 	fmt.Printf("d_bias): %v\n", d_bias) ////////////
 	fmt.Printf("d_weights): %v\n", d_weights) ////////////
-
+	fmt.Printf("d_aPrevious[0][0]): %v\n", d_aPrevious[0][0]) ////////////
 	// return d_aPrevious
 }
 
@@ -175,7 +179,7 @@ func backprop(nn neuralNetwork, output, y [][]float64) {
 	// }
 
 	d_A3 := multiply2(d_z4, weights)
-
+	fmt.Printf("\nd_A3[0][0]: %v\n", d_A3[0][0]) ////////////
 	fmt.Printf("\nlen(d_A3): %v\n", len(d_A3)) ////////////
 	fmt.Printf("len(d_A3[0]): %v\n\n", len(d_A3[0])) ////////////
 

@@ -82,12 +82,12 @@ func matrixMultiply(a [][]float64, b [][]float64) (result [][]float64) {
 }
 
 func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
-	fmt.Println("oh hi backprop!") /////////////////
+	// fmt.Println("oh hi backprop!") /////////////////
 
 	d_A4 := compute_loss_prime(output, y)
 	// fmt.Printf("d_A4: %v\n", d_A4) ////////////
-	fmt.Printf("len(d_A4): %v\n", len(d_A4)) ////////////
-	fmt.Printf("len(d_A4[0]): %v\n", len(d_A4[0])) ////////////
+	// fmt.Printf("len(d_A4): %v\n", len(d_A4)) ////////////
+	// fmt.Printf("len(d_A4[0]): %v\n", len(d_A4[0])) ////////////
 	
 	// d_A4[0][0] = -1 ///////////////////
 	// d_A4[0][1] = 1 ///////////////////
@@ -110,8 +110,8 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 		}
 		d_z4 = append(d_z4, layer_d)
 	}
-	fmt.Printf("d_z4[0]: %v\n", d_z4[0]) ////////////
-	fmt.Printf("len(d_z4): %v\n", len(d_z4)) ////////////
+	// fmt.Printf("d_z4[0]: %v\n", d_z4[0]) ////////////
+	// fmt.Printf("len(d_z4): %v\n", len(d_z4)) ////////////
 
 	var layerOutputs [][]float64
 	for sample, _ := range prime {
@@ -127,7 +127,7 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 	// fmt.Printf("len(layerOutput): %v\n", len(layerOutputs)) ////////////
 	// fmt.Printf("len(layerOutput[0]): %v\n", len(layerOutputs[0])) ////////////
 	d_weights4 := matrixMultiply(d_z4, layerOutputs)
-	fmt.Printf("len(d_weights4): %v\n", len(d_weights4)) ////////////
+	fmt.Printf("\nlen(d_weights4): %v\n", len(d_weights4)) ////////////
 	fmt.Printf("len(d_weights4[0]): %v\n", len(d_weights4[0])) ////////////	
 	// fmt.Printf("d_weights4): %v\n", d_weights4) ////////////
 	
@@ -137,10 +137,112 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 		d_bias4[0] += sample[0]
 		d_bias4[1] += sample[1]
 	}
-	fmt.Printf("d_bias4: %v\n", d_bias4) ////////////
+	// fmt.Printf("d_bias4: %v\n", d_bias4) ////////////
+
+	// var weights [][]float64
+	// for _, neuron := range nn.layers[3].neurons {
+	// 	// fmt.Printf("neuron: %v\n", neuron) ////////////
+	// 	var weightLayer []float64
+	// 	for _, weight := range neuron.weights {
+	// 		// fmt.Printf("weight %v: %v\n", i, weight) ////////////
+	// 		weightLayer = append(weightLayer, weight)
+	// 	}
+	// 	weights = append(weights, weightLayer)
+	// }
 
 
-	// // matrixMultiply test
+	var weights [][]float64
+	for weight := 0; weight < len(nn.layers[3].neurons[0].weights); weight++ {
+		// fmt.Printf("weight: %v\n", weight) ////////////
+		var weightLayer []float64
+		for _, neuron := range nn.layers[3].neurons {
+			// fmt.Printf("n %v: %v\n", n, neuron.weights[weight]) ////////////
+			weightLayer = append(weightLayer, neuron.weights[weight])
+		}
+		weights = append(weights, weightLayer)
+	}
+
+	// fmt.Printf("weights: %v\n", weights) ////////////
+	// fmt.Printf("weights[0]: %v\n", weights[0]) ////////////
+	// fmt.Printf("weights[1]: %v\n", weights[1]) ////////////
+	
+	fmt.Printf("\nlen(weights): %v\n", len(weights)) ////////////
+	fmt.Printf("len(weights[0]): %v\n", len(weights[0])) ////////////
+
+	fmt.Printf("\nlen(d_z4): %v\n", len(d_z4)) ////////////
+	fmt.Printf("len(d_z4[0]): %v\n", len(d_z4[0])) ////////////
+
+	d_A3 := matrixMultiply(weights, d_z4)
+	// fmt.Printf("d_A3: %v\n", d_A3) ////////////
+	fmt.Printf("\nlen(d_A3): %v\n", len(d_A3)) ////////////
+	fmt.Printf("len(d_A3[0]): %v\n\n", len(d_A3[0])) ////////////
+
+}
+
+func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
+
+	for epoch := 1; epoch <= nn.epochs; epoch++ {
+		// shuffle(train_set)
+		input, y := split_x_y(train_set)
+		// fmt.Printf("input: %v\n", input) ////////////
+		// fmt.Printf("len(input): %v\n", len(input)) ////////////
+		// fmt.Printf("len(input[0]): %v\n", len(input[0])) ////////////
+		// fmt.Printf("y: %v\n", y) ////////////
+		// fmt.Printf("len(y): %v\n", len(y)) ////////////
+		// fmt.Printf("len(y[0]): %v\n", len(y[0])) ////////////
+
+		output := feedforward(nn, input)
+		// fmt.Printf("output: %v\n", output) /////////////
+		// fmt.Printf("len(output): %v\n", len(output)) /////////////
+		// fmt.Printf("len(output[0]): %v\n", len(output[0])) /////////////
+
+		backprop(nn, output, y)
+
+		// train_loss = compute_loss(output, y)
+		// train_losses.append(train_losses, train_loss)
+		// predict(test_set)
+		// test_loss = compute_loss(output, y)
+		// test_losses.append(test_losses, test_loss)
+
+		// print validation metrics
+		fmt.Printf("epoch %v/%v: train loss = %v, test loss = %v\n", epoch, nn.epochs, "??", "??")
+	}
+}
+
+// MultilayerPerceptron is the main and only exposed function
+func MultilayerPerceptron() {
+
+	rand.Seed(time.Now().UnixNano())
+
+	data := preprocess()
+	train_set, test_set := split(data)
+
+	// fmt.Printf("\n\nlen(data): %v\n", len(data)) /////////////////////////////////////////
+	// fmt.Printf("len(train_set): %v\n", len(train_set)) /////////////////////////////////////////
+	// fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
+
+	architecture := []int {len(data[0]) - 1, 16, 16, 2}
+	// architecture := []int {len(data[0]) - 1, 2, 2, 2} // test architecture ////
+	nn := buildNN(architecture)
+
+	train(nn, train_set, test_set)
+
+	// ## printNN
+	// fmt.Println(nn.learningRate)
+	// fmt.Println()
+	// fmt.Println(nn.architecture)
+	// for i := 0; i < len(nn.architecture); i++ {
+	// 	fmt.Println()
+	// 	fmt.Println(nn.layers[i])
+	// }
+	// fmt.Println()
+	// fmt.Println("END!!") ////
+}
+
+
+
+
+// func matrixMultiplyTest() {
 	// var a [][]float64
 	// var b [][]float64
 	// var tmp []float64
@@ -172,65 +274,4 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 	// fmt.Printf("b: %v\n", b)
 	// // Truth: [[6 4] [2 2] [4 3]]
 	// fmt.Printf("matrixMultiply test: %v\n", matrixMultiply(a, b))
-}
-
-func train(nn neuralNetwork, train_set [][]float64) {
-
-	for epoch := 1; epoch <= nn.epochs; epoch++ {
-		// shuffle(train_set)
-		input, y := split_x_y(train_set)
-
-		// fmt.Printf("input: %v\n", input) ////////////
-		fmt.Printf("len(input): %v\n", len(input)) ////////////
-		fmt.Printf("len(input[0]): %v\n", len(input[0])) ////////////
-		// fmt.Printf("y: %v\n", y) ////////////
-		fmt.Printf("len(y): %v\n", len(y)) ////////////
-		fmt.Printf("len(y[0]): %v\n", len(y[0])) ////////////
-
-		output := feedforward(nn, input)
-		// fmt.Printf("output: %v\n", output) /////////////
-		fmt.Printf("len(output): %v\n", len(output)) /////////////
-		fmt.Printf("len(output[0]): %v\n", len(output[0])) /////////////
-
-		backprop(nn, output, y)
-
-		// train_loss = compute_loss(output, y)
-		// train_losses.append(train_losses, train_loss)
-		// predict(test_set)
-		// test_loss = compute_loss(output, y)
-		// test_losses.append(test_losses, test_loss)
-
-		// print validation metrics
-		fmt.Printf("epoch %v/%v: train loss = %v, test loss = %v\n", epoch, nn.epochs, "??", "??")
-	}
-}
-
-// MultilayerPerceptron is the main and only exposed function
-func MultilayerPerceptron() {
-
-	rand.Seed(time.Now().UnixNano())
-
-	data := preprocess()
-	train_set, test_set := split(data)
-
-	fmt.Printf("\n\nlen(data): %v\n", len(data)) /////////////////////////////////////////
-	fmt.Printf("len(train_set): %v\n", len(train_set)) /////////////////////////////////////////
-	fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
-
-	architecture := []int {len(data[0]) - 1, 16, 16, 2}
-	// architecture := []int {len(data[0]) - 1, 2, 2, 2} // test architecture ////
-	nn := buildNN(architecture)
-
-	train(nn, train_set)
-
-	// ## printNN
-	// fmt.Println(nn.learningRate)
-	// fmt.Println()
-	// fmt.Println(nn.architecture)
-	// for i := 0; i < len(nn.architecture); i++ {
-	// 	fmt.Println()
-	// 	fmt.Println(nn.layers[i])
-	// }
-	// fmt.Println()
-	// fmt.Println("END!!") ////
-}
+// }

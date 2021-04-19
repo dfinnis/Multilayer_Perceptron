@@ -54,43 +54,12 @@ func compute_loss_prime(outputs [][]float64, y [][]float64) (d_losses [][]float6
 	return
 }
 
-func matrixMultiply(a [][]float64, b [][]float64) (result [][]float64) {
-	// fmt.Printf("\nlen(a): %v\n", len(a)) ////////////
-	// fmt.Printf("len(a[0]): %v\n", len(a[0])) ////////////
-	// fmt.Printf("len(b): %v\n", len(b)) ////////////
-	// fmt.Printf("len(b[0]): %v\n", len(b[0])) ////////////
-	if len(a) == 0 || len(b) == 0 { // protect against empty input
-		return
-	}
-	for i := 0; i < len(a[0]); i++ {
-		// fmt.Printf("i: %v\n", i) ///////////
-		var row []float64
-		for j := 0; j < len(b[0]); j++ {
-			var sum float64
-			// fmt.Printf("j: %v\n", j) ///////////
-			for sample := 0; sample < len(a); sample++ {
-				// fmt.Printf("sample: %v\n", sample) ////////////
-				// fmt.Printf("a[%v][%v]: %v\n", sample, i, a[sample][i]) ////////////
-				// fmt.Printf("b[%v][%v]: %v\n", sample, j, b[sample][j]) ////////////
-				sum += a[sample][i] * b[sample][j]
-			}
-			row = append(row, sum)
-		}
-		result = append(result, row)
-	}
-	return
-}
-
-func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
+func backprop(nn neuralNetwork, output, y [][]float64) {
 	// fmt.Println("oh hi backprop!") /////////////////
-
 	d_A4 := compute_loss_prime(output, y)
 	// fmt.Printf("d_A4: %v\n", d_A4) ////////////
 	// fmt.Printf("len(d_A4): %v\n", len(d_A4)) ////////////
 	// fmt.Printf("len(d_A4[0]): %v\n", len(d_A4[0])) ////////////
-	
-	// d_A4[0][0] = -1 ///////////////////
-	// d_A4[0][1] = 1 ///////////////////
 	
 	var z4 [][]float64
 	for sample, _ := range output {
@@ -126,9 +95,24 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 	}
 	// fmt.Printf("len(layerOutput): %v\n", len(layerOutputs)) ////////////
 	// fmt.Printf("len(layerOutput[0]): %v\n", len(layerOutputs[0])) ////////////
-	d_weights4 := matrixMultiply(d_z4, layerOutputs)
+	// d_weights4 := matrixMultiply(d_z4, layerOutputs)
+	// fmt.Printf("\nd_weights4: %v\n", d_weights4) ////////////
+	// fmt.Printf("\nlen(d_weights4): %v\n", len(d_weights4)) ////////////
+	// fmt.Printf("len(d_weights4[0]): %v\n", len(d_weights4[0])) ////////////	
+
+	// fmt.Printf("\nlen(layerOutputs): %v\n", len(layerOutputs)) ////////////
+	// fmt.Printf("len(layerOutputs[0]): %v\n", len(layerOutputs[0])) ////////////	
+
+	// fmt.Printf("\nlen(d_z4): %v\n", len(d_z4)) ////////////
+	// fmt.Printf("len(d_z4[0]): %v\n", len(d_z4[0])) ////////////
+
+	// out := multiply(d_z4, transpose(layerOutputs))
+	d_weights4 := multiply(transpose(d_z4), layerOutputs)
+	// fmt.Printf("\nd_weights4: %v\n", d_weights4) ////////////
 	fmt.Printf("\nlen(d_weights4): %v\n", len(d_weights4)) ////////////
 	fmt.Printf("len(d_weights4[0]): %v\n", len(d_weights4[0])) ////////////	
+
+
 	// fmt.Printf("d_weights4): %v\n", d_weights4) ////////////
 	
 	var d_bias4 [2]float64
@@ -139,28 +123,27 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 	}
 	// fmt.Printf("d_bias4: %v\n", d_bias4) ////////////
 
-	// var weights [][]float64
-	// for _, neuron := range nn.layers[3].neurons {
-	// 	// fmt.Printf("neuron: %v\n", neuron) ////////////
-	// 	var weightLayer []float64
-	// 	for _, weight := range neuron.weights {
-	// 		// fmt.Printf("weight %v: %v\n", i, weight) ////////////
-	// 		weightLayer = append(weightLayer, weight)
-	// 	}
-	// 	weights = append(weights, weightLayer)
-	// }
-
-
 	var weights [][]float64
-	for weight := 0; weight < len(nn.layers[3].neurons[0].weights); weight++ {
-		// fmt.Printf("weight: %v\n", weight) ////////////
+	for _, neuron := range nn.layers[3].neurons {
+		// fmt.Printf("neuron: %v\n", neuron) ////////////
 		var weightLayer []float64
-		for _, neuron := range nn.layers[3].neurons {
-			// fmt.Printf("n %v: %v\n", n, neuron.weights[weight]) ////////////
-			weightLayer = append(weightLayer, neuron.weights[weight])
+		for _, weight := range neuron.weights {
+			// fmt.Printf("weight %v: %v\n", i, weight) ////////////
+			weightLayer = append(weightLayer, weight)
 		}
 		weights = append(weights, weightLayer)
 	}
+
+	// var weights [][]float64
+	// for weight := 0; weight < len(nn.layers[3].neurons[0].weights); weight++ {
+	// 	// fmt.Printf("weight: %v\n", weight) ////////////
+	// 	var weightLayer []float64
+	// 	for _, neuron := range nn.layers[3].neurons {
+	// 		// fmt.Printf("n %v: %v\n", n, neuron.weights[weight]) ////////////
+	// 		weightLayer = append(weightLayer, neuron.weights[weight])
+	// 	}
+	// 	weights = append(weights, weightLayer)
+	// }
 
 	// fmt.Printf("weights: %v\n", weights) ////////////
 	// fmt.Printf("weights[0]: %v\n", weights[0]) ////////////
@@ -169,14 +152,22 @@ func backprop(nn neuralNetwork, output [][]float64, y [][]float64) {
 	fmt.Printf("\nlen(weights): %v\n", len(weights)) ////////////
 	fmt.Printf("len(weights[0]): %v\n", len(weights[0])) ////////////
 
-	fmt.Printf("\nlen(d_z4): %v\n", len(d_z4)) ////////////
-	fmt.Printf("len(d_z4[0]): %v\n", len(d_z4[0])) ////////////
+	// fmt.Printf("\nlen(d_z4): %v\n", len(d_z4)) ////////////
+	// fmt.Printf("len(d_z4[0]): %v\n", len(d_z4[0])) ////////////
 
-	d_A3 := matrixMultiply(weights, d_z4)
+	d_A3 := multiply2(d_z4, weights)
+
+
+	// d_A3 := multiply(transpose(weights), d_z4)
+	// d_A3 := matrixMultiply(d_z4, weights)
 	// fmt.Printf("d_A3: %v\n", d_A3) ////////////
 	fmt.Printf("\nlen(d_A3): %v\n", len(d_A3)) ////////////
 	fmt.Printf("len(d_A3[0]): %v\n\n", len(d_A3[0])) ////////////
-
+	fmt.Printf("weights[0][0]: %v\n\n", weights[0][0]) ////////////
+	fmt.Printf("weights[1][0]: %v\n\n", weights[1][0]) ////////////
+	fmt.Printf("d_z4[0]): %v\n\n", d_z4[0]) ////////////
+	fmt.Printf("d_A3[0][0]): %v\n\n", d_A3[0][0]) ////////////
+	fmt.Printf("d_A3[0][1]): %v\n\n", d_A3[0][1]) ////////////
 }
 
 func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
@@ -238,40 +229,3 @@ func MultilayerPerceptron() {
 	// fmt.Println()
 	// fmt.Println("END!!") ////
 }
-
-
-
-
-// func matrixMultiplyTest() {
-	// var a [][]float64
-	// var b [][]float64
-	// var tmp []float64
-	// tmp = append(tmp, 2)
-	// tmp = append(tmp, 0)
-	// tmp = append(tmp, 1)
-	// a = append(a, tmp)
-	// tmp = nil
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// a = append(a, tmp)
-	// tmp = nil
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// a = append(a, tmp)
-
-	// tmp = nil
-	// tmp = append(tmp, 2)
-	// tmp = append(tmp, 1)
-	// b = append(b, tmp)
-	// tmp = nil
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// b = append(b, tmp)
-	// b = append(b, tmp)
-	// fmt.Printf("a: %v\n", a)
-	// fmt.Printf("b: %v\n", b)
-	// // Truth: [[6 4] [2 2] [4 3]]
-	// fmt.Printf("matrixMultiply test: %v\n", matrixMultiply(a, b))
-// }

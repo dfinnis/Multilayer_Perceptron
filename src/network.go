@@ -28,6 +28,8 @@ type neuralNetwork struct {
 	layers []layer
 	learningRate float64
 	epochs int
+	trainLoss []float64
+	testLoss []float64
 }
 
 func newNeuron(nn neuralNetwork, layer int) neuron {

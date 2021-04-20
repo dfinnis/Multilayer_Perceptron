@@ -47,14 +47,15 @@ func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
 
 		backprop(nn, output, y)
 
-		// train_loss = compute_loss(output, y)
-		// train_losses.append(train_losses, train_loss)
-		// predict(test_set)
-		// test_loss = compute_loss(output, y)
-		// test_losses.append(test_losses, test_loss)
+		trainLoss := computeLoss(output, y)
+		nn.trainLoss = append(nn.trainLoss, trainLoss)
+
+		// predictions := predict(nn, test_set)
+		// testLoss := compute_loss(predictions, y)
+		// nn.testLoss = append(nn.testLoss, testLoss)
 
 		// print validation metrics
-		fmt.Printf("epoch %v/%v: train loss = %v, test loss = %v\n", epoch, nn.epochs, "??", "??")
+		fmt.Printf("epoch %v/%v: train loss = %v, test loss = %v\n", epoch, nn.epochs, trainLoss, "testLoss??????")
 	}
 }
 

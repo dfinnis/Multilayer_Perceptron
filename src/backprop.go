@@ -1,10 +1,11 @@
 package multilayer
 
 import (
-	"fmt"
+	// "fmt"
 	"math"
 )
 
+// Binary cross-entropy log loss
 func computeLoss(outputs, y [][]float64) (lossSum float64) {
 	// fmt.Printf("\nlen(outputs): %v\n", len(outputs)) ////////////
 	// fmt.Printf("len(outputs[0]): %v\n", len(outputs[0])) ////////////
@@ -57,7 +58,7 @@ func computeLossPrime(outputs [][]float64, y [][]float64) (d_losses [][]float64)
 // }
 
 func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]float64) [][]float64 {
-	fmt.Printf("layer: %v\n", layer) ////////////
+	// fmt.Printf("layer: %v\n", layer) ////////////
 	var z [][]float64
 	for sample, _ := range output {
 		var layer_value []float64
@@ -111,8 +112,8 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 
 	// fmt.Printf("d_bias): %v\n", d_bias) ////////////
 	// fmt.Printf("d_weights): %v\n", d_weights) ////////////
-	fmt.Printf("len(d_bias): %v\n", len(d_bias)) ////////////
-	fmt.Printf("shape(d_weights): %v %v\n", len(d_weights), len(d_weights[0])) ////////////
+	// fmt.Printf("len(d_bias): %v\n", len(d_bias)) ////////////
+	// fmt.Printf("shape(d_weights): %v %v\n", len(d_weights), len(d_weights[0])) ////////////
 
 	// update weights & bias with derivative of loss (SGD)
 	for neuron, _ := range nn.layers[layer].neurons {

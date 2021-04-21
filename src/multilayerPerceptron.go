@@ -40,7 +40,7 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
 
 	for epoch := 1; epoch <= nn.epochs; epoch++ {
-		// shuffle(train_set)
+		shuffle(train_set)
 		input, y := split_x_y(train_set)
 
 		output := feedforward(nn, input)
@@ -67,10 +67,6 @@ func MultilayerPerceptron() {
 	data := preprocess()
 	train_set, test_set := split(data)
 
-	// fmt.Printf("\n\nlen(data): %v\n", len(data)) /////////////////////////////////////////
-	// fmt.Printf("len(train_set): %v\n", len(train_set)) /////////////////////////////////////////
-	// fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
-
 	architecture := []int{len(data[0]) - 1, 16, 16, 16, 2}
 	// architecture := []int{len(data[0]) - 1, 2, 2, 2} // test architecture ////
 	nn := buildNN(architecture)
@@ -79,15 +75,15 @@ func MultilayerPerceptron() {
 
 	saveModel(nn)
 	// loadModel(nn)
-
-	// ## printNN
-	// fmt.Println(nn.learningRate)
-	// fmt.Println()
-	// fmt.Println(nn.architecture)
-	// for i := 0; i < len(nn.architecture); i++ {
-	// 	fmt.Println()
-	// 	fmt.Println(nn.layers[i])
-	// }
-	// fmt.Println()
-	// fmt.Println("END!!") ////
 }
+
+// func dumpNN(nn neuralNetwork) {
+// 	fmt.Println(nn.learningRate)
+// 	fmt.Println()
+// 	fmt.Println(nn.architecture)
+// 	for i := 0; i < len(nn.architecture); i++ {
+// 		fmt.Println()
+// 		fmt.Println(nn.layers[i])
+// 	}
+// 	fmt.Println()
+// }

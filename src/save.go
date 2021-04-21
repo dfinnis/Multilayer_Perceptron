@@ -42,7 +42,7 @@ func saveModel(nn neuralNetwork) {
 	jsonString, err := json.MarshalIndent(model, "", "	")
 	checkError("json.Marshal", err)
 	ioutil.WriteFile("model.json", jsonString, 0644)
-	fmt.Printf("Model saved as model.json\n")
+	fmt.Printf("Model saved as model.json\n\n")
 }
 
 // checkModel exits if model & neural network architecture don't match

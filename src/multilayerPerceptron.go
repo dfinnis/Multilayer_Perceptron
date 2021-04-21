@@ -55,7 +55,7 @@ func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
 		// print validation metrics
 		fmt.Printf(" epoch %5v/%v - train loss: %-18v - test loss: %v\r", epoch, nn.epochs, trainLoss, testLoss)
 	}
-	fmt.Printf("\n")
+	fmt.Printf("\n\n")
 	saveModel(nn)
 }
 
@@ -68,7 +68,7 @@ func predict(nn neuralNetwork, test_set [][]float64) float64 {
 
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
-
+	fmt.Printf("%vLaunching Multilayer Perceptron...%v\n\n", "\x1b[1m", "\x1b[0m")
 	rand.Seed(time.Now().UnixNano())
 
 	data := preprocess()
@@ -81,7 +81,7 @@ func MultilayerPerceptron() {
 	train(nn, train_set, test_set)
 
 	loss := predict(nn, test_set)
-	fmt.Printf("Final loss on validation set: %v\n", loss)
+	fmt.Printf("Final loss on validation set: %v\n\n", loss)
 	// loadModel(nn)
 }
 

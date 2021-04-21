@@ -20,7 +20,7 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 				perceptron := nn.layers[layer].neurons[neuron] // rm for speed? just for human reading
 				var weightedSum float64
 				for weight := 0; weight < len(perceptron.weights); weight++ {
-					weightedSum += nn.layers[layer - 1].neurons[weight].output * perceptron.weights[weight]
+					weightedSum += nn.layers[layer-1].neurons[weight].output * perceptron.weights[weight]
 				}
 				nn.layers[layer].neurons[neuron].value = weightedSum + perceptron.bias
 				nn.layers[layer].neurons[neuron].z = append(nn.layers[layer].neurons[neuron].z, nn.layers[layer].neurons[neuron].value)
@@ -29,8 +29,8 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 		}
 		// Output
 		var output []float64
-		for neuron := 0; neuron < nn.architecture[len(nn.architecture) - 1]; neuron++ {
-			output = append(output, nn.layers[len(nn.architecture) - 1].neurons[neuron].output)
+		for neuron := 0; neuron < nn.architecture[len(nn.architecture)-1]; neuron++ {
+			output = append(output, nn.layers[len(nn.architecture)-1].neurons[neuron].output)
 		}
 		outputs = append(outputs, output)
 	}
@@ -71,13 +71,14 @@ func MultilayerPerceptron() {
 	// fmt.Printf("len(train_set): %v\n", len(train_set)) /////////////////////////////////////////
 	// fmt.Printf("len(test_set): %v\n", len(test_set)) /////////////////////////////////////////
 
-	architecture := []int {len(data[0]) - 1, 16, 16, 16, 2}
+	architecture := []int{len(data[0]) - 1, 16, 16, 16, 2}
 	// architecture := []int {len(data[0]) - 1, 2, 2, 2} // test architecture ////
 	nn := buildNN(architecture)
 
 	train(nn, train_set, test_set)
 
 	saveModel(nn)
+	// loadModel(nn)
 
 	// ## printNN
 	// fmt.Println(nn.learningRate)

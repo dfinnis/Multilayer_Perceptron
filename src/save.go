@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+// Models can be saved and loaded, json file <=> 2D array [][]jsonNeuron
 type jsonNeuron struct {
 	Bias    float64
 	Weights []float64
@@ -19,6 +20,7 @@ func checkError(message string, err error) {
 	}
 }
 
+// Save bias & weights to model.json
 func saveModel(nn neuralNetwork) {
 	model := make([][]jsonNeuron, len(nn.architecture)-1)
 	for layer := 1; layer < len(nn.architecture); layer++ {
@@ -36,6 +38,7 @@ func saveModel(nn neuralNetwork) {
 	ioutil.WriteFile("model.json", jsonString, 0644)
 }
 
+// Load bias & weights from model.json
 func loadModel(nn neuralNetwork) {
 	file, err := ioutil.ReadFile("model.json")
 	checkError("ioutil.ReadFile", err)

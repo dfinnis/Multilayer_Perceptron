@@ -38,25 +38,32 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 }
 
 func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
-
+	fmt.Printf("Training model...\n")
 	for epoch := 1; epoch <= nn.epochs; epoch++ {
 		shuffle(train_set)
 		input, y := split_x_y(train_set)
 
 		output := feedforward(nn, input)
-
 		backprop(nn, output, y)
 
 		trainLoss := computeLoss(output, y)
 		nn.trainLoss = append(nn.trainLoss, trainLoss)
 
-		// predictions := predict(nn, test_set)
-		// testLoss := compute_loss(predictions, y)
-		// nn.testLoss = append(nn.testLoss, testLoss)
+		testLoss := predict(nn, test_set)
+		nn.testLoss = append(nn.testLoss, testLoss)
 
 		// print validation metrics
-		fmt.Printf("epoch %v/%v: train loss = %v, test loss = %v\n", epoch, nn.epochs, trainLoss, "testLoss??????")
+		fmt.Printf(" epoch %5v/%v - train loss: %-18v - test loss: %v\r", epoch, nn.epochs, trainLoss, testLoss)
 	}
+	fmt.Printf("\n")
+	saveModel(nn)
+}
+
+func predict(nn neuralNetwork, test_set [][]float64) float64 {
+	input, y := split_x_y(test_set)
+	predictions := feedforward(nn, input)
+	loss := computeLoss(predictions, y)
+	return loss
 }
 
 // MultilayerPerceptron is the main and only exposed function
@@ -73,7 +80,8 @@ func MultilayerPerceptron() {
 
 	train(nn, train_set, test_set)
 
-	saveModel(nn)
+	loss := predict(nn, test_set)
+	fmt.Printf("Final loss on validation set: %v\n", loss)
 	// loadModel(nn)
 }
 

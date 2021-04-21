@@ -77,6 +77,8 @@ func MultilayerPerceptron() {
 
 	train(nn, train_set, test_set)
 
+	saveModel(nn)
+
 	// ## printNN
 	// fmt.Println(nn.learningRate)
 	// fmt.Println()

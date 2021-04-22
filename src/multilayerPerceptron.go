@@ -2,15 +2,9 @@ package multilayer
 
 import (
 	"fmt"
-	"image/color"
-	"log"
 	"math/rand"
 	"time"
-
 	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
-	"golang.org/x/exp/rand"
-	"gonum.org/v1/plot"
-	"gonum.org/v1/plot/plotter"
 )
 
 func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
@@ -41,43 +35,6 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 		outputs = append(outputs, output)
 	}
 	return
-}
-
-func visualize(trainLoss, testLoss []float64) {
-	fmt.Printf("visualize loss...\n") //////
-	fmt.Printf("%v\n", trainLoss)     ///////
-	fmt.Printf("%v\n", testLoss)      ///////
-	rnd := rand.New(rand.NewSource(1))
-
-	// randomPoints returns some random x, y points
-	// with some interesting kind of trend.
-	randomPoints := func(n int, x float64) plotter.XYs {
-		pts := make(plotter.XYs, n)
-		for i := range pts {
-			if i == 0 {
-				pts[i].X = x + rnd.Float64()
-			} else {
-				pts[i].X = pts[i-1].X + 0.5 + rnd.Float64()
-			}
-			pts[i].Y = -5. + 10*rnd.Float64()
-		}
-		return pts
-	}
-
-	p := plot.New()
-	p.Title.Text = "Filled Line Example"
-	p.X.Label.Text = "X"
-	p.Y.Label.Text = "Y"
-	p.Add(plotter.NewGrid())
-
-	filled, err := plotter.NewLine(randomPoints(4, 0))
-	if err != nil {
-		log.Panic(err)
-	}
-	filled.FillColor = color.RGBA{R: 196, G: 255, B: 196, A: 255}
-
-	p.Add(filled)
-
 }
 
 func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {

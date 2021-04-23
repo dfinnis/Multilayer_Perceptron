@@ -7,7 +7,7 @@ const BRIGHT = "\x1B[1m"
 const RED = "\x1B[31m"
 const GREEN = "\x1B[32m"
 
-func truthTeller(y_pred, y_true [][]float64) {
+func truthTally(y_pred, y_true [][]float64) (float64, float64, float64, float64) {
 	var tp float64 // True Positive		// Predicted True & Is True
 	var fn float64 // False Negative	// Predicted False & Is True
 	var fp float64 // False Positive	// Predicted True & Is False
@@ -28,8 +28,11 @@ func truthTeller(y_pred, y_true [][]float64) {
 			}
 		}
 	}
+	return tp, fn, fp, tn
+}
 
-	fmt.Printf("                     +---------------+\n")
+func confusionMatrix(tp, fn, fp, tn float64) {
+	fmt.Printf("%vConfusion Matrix%v     +---------------+\n", BRIGHT, RESET)
 	fmt.Printf("                     |%v Ground Truth %v |\n", BRIGHT, RESET)
 	fmt.Printf("                     +-------+-------+\n")
 	fmt.Printf("                     |%v%v True %v |%v%v False %v|\n", BRIGHT, GREEN, RESET, BRIGHT, RED, RESET)
@@ -38,7 +41,9 @@ func truthTeller(y_pred, y_true [][]float64) {
 	fmt.Printf("|%v Prediction %v+-------+-------+-------+\n", BRIGHT, RESET)
 	fmt.Printf("|            |%v%v False %v|%v %-5v %v|%v %-5v %v|\n", BRIGHT, RED, RESET, RED, fn, RESET, GREEN, tn, RESET)
 	fmt.Printf("+--------------------+-------+-------+\n\n")
+}
 
+func printMetrics(tp, fn, fp, tn float64) {
 	accuracy := (tp + tn) / (tp + tn + fp + fn)
 	precision := tp / (tp + fp)
 	recall := tp / (tp + fn)
@@ -54,7 +59,9 @@ func truthTeller(y_pred, y_true [][]float64) {
 
 func metrics(nn neuralNetwork, test_set [][]float64) {
 	predictions, y := predict(nn, test_set)
-	loss := computeLoss(predictions, y)
-	fmt.Printf("Final loss on validation set: %v\n\n", loss)
-	truthTeller(predictions, y)
+	// loss := computeLoss(predictions, y)
+	// fmt.Printf("Final loss on validation set: %v\n\n", loss)
+	tp, fn, fp, tn := truthTally(predictions, y)
+	confusionMatrix(tp, fn, fp, tn)
+	printMetrics(tp, fn, fp, tn)
 }

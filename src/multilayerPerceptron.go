@@ -21,7 +21,7 @@ func predictLoss(nn neuralNetwork, samples [][]float64) float64 {
 
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
-	fmt.Printf("%vLaunching Multilayer Perceptron...%v\n\n", "\x1b[1m", "\x1b[0m")
+	fmt.Printf("%vLaunching Multilayer Perceptron...%v\n\n", BRIGHT, RESET)
 	rand.Seed(time.Now().UnixNano())
 
 	data := preprocess()

@@ -24,10 +24,15 @@ func truthTeller(y_pred, y_true [][]float64) {
 		}
 	}
 
-	fmt.Printf("tp %v\n", tp)   ////////////////
-	fmt.Printf("fn %v\n", fn)   ////////////////
-	fmt.Printf("fp %v\n", fp)   ////////////////
-	fmt.Printf("tn %v\n\n", tn) ////////////////
+	fmt.Printf("                     +---------------+\n")
+	fmt.Printf("                     | Ground Truth  |\n")
+	fmt.Printf("                     +-------+-------+\n")
+	fmt.Printf("                     | True  | False |\n")
+	fmt.Printf("+--------------------+-------+-------+\n")
+	fmt.Printf("|            | True  | %-4v  | %-4v  |\n", tp, fp)
+	fmt.Printf("| Prediction +-------+-------+-------+\n")
+	fmt.Printf("|            | False | %-4v  | %-4v  |\n", fn, tn)
+	fmt.Printf("+--------------------+-------+-------+\n\n")
 
 	accuracy := (tp + tn) / (tp + tn + fp + fn)
 	precision := tp / (tp + fp)

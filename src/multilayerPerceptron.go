@@ -56,8 +56,8 @@ func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
 		fmt.Printf(" epoch %5v/%v - train loss: %-18v - test loss: %v\r", epoch, nn.epochs, trainLoss, testLoss)
 	}
 	fmt.Printf("\n\n")
-	saveModel(nn)
 	visualize(nn.trainLoss, nn.testLoss)
+	saveModel(nn)
 }
 
 func predict(nn neuralNetwork, test_set [][]float64) float64 {

@@ -2,6 +2,11 @@ package multilayer
 
 import "fmt"
 
+const RESET = "\x1B[0m"
+const BRIGHT = "\x1B[1m"
+const RED = "\x1B[31m"
+const GREEN = "\x1B[32m"
+
 func truthTeller(y_pred, y_true [][]float64) {
 	var tp float64 // True Positive		// Predicted True & Is True
 	var fn float64 // False Negative	// Predicted False & Is True
@@ -25,13 +30,13 @@ func truthTeller(y_pred, y_true [][]float64) {
 	}
 
 	fmt.Printf("                     +---------------+\n")
-	fmt.Printf("                     | Ground Truth  |\n")
+	fmt.Printf("                     |%v Ground Truth %v |\n", BRIGHT, RESET)
 	fmt.Printf("                     +-------+-------+\n")
-	fmt.Printf("                     | True  | False |\n")
+	fmt.Printf("                     |%v%v True %v |%v%v False %v|\n", BRIGHT, GREEN, RESET, BRIGHT, RED, RESET)
 	fmt.Printf("+--------------------+-------+-------+\n")
-	fmt.Printf("|            | True  | %-4v  | %-4v  |\n", tp, fp)
-	fmt.Printf("| Prediction +-------+-------+-------+\n")
-	fmt.Printf("|            | False | %-4v  | %-4v  |\n", fn, tn)
+	fmt.Printf("|            |%v%v True %v |%v %-5v %v|%v %-5v %v|\n", BRIGHT, GREEN, RESET, GREEN, tp, RESET, RED, fp, RESET)
+	fmt.Printf("|%v Prediction %v+-------+-------+-------+\n", BRIGHT, RESET)
+	fmt.Printf("|            |%v%v False %v|%v %-5v %v|%v %-5v %v|\n", BRIGHT, RED, RESET, RED, fn, RESET, GREEN, tn, RESET)
 	fmt.Printf("+--------------------+-------+-------+\n\n")
 
 	accuracy := (tp + tn) / (tp + tn + fp + fn)

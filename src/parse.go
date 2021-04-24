@@ -44,7 +44,6 @@ func parseArchitecture(arg string) []int {
 
 func parseSeed(i int, args []string) int64 {
 	var seed int64
-	i++
 	if i < len(args) {
 		seedInt, err := strconv.Atoi(args[i])
 		if err != nil {
@@ -95,8 +94,8 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, se
 				usageError("No architecture provided after -a", "")
 			}
 		} else if args[i] == "-s" || args[i] == "--seed" {
-			seed = parseSeed(i, args)
 			i++
+			seed = parseSeed(i, args)
 		} else {
 			usageError("Bad argument: ", args[i])
 		}

@@ -61,7 +61,7 @@ func printMetrics(tp, fn, fp, tn, loss float64) {
 func confusionMatrix(tp, fn, fp, tn float64) {
 	fmt.Printf("%vConfusion Matrix%v     +---------------+\n", BRIGHT, RESET)
 	fmt.Printf("                     |%v Ground Truth %v |\n", BRIGHT, RESET)
-	fmt.Printf("                     +-------+-------+\n")
+	fmt.Printf("Total samples: %-5v +-------+-------+\n", (tp + fn + fp + tn))
 	fmt.Printf("                     |%v%v True %v |%v%v False %v|\n", BRIGHT, GREEN, RESET, BRIGHT, RED, RESET)
 	fmt.Printf("+--------------------+-------+-------+\n")
 	fmt.Printf("|            |%v%v True %v |%v %-5v %v|%v %-5v %v|\n", BRIGHT, GREEN, RESET, GREEN, tp, RESET, RED, fp, RESET)

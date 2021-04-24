@@ -3,25 +3,15 @@ package multilayer
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
 )
 
-func predict(nn neuralNetwork, samples [][]float64) (predictions, y [][]float64) {
-	input, y := split_x_y(samples)
-	predictions = feedforward(nn, input)
-	return
-}
-
-func predictLoss(nn neuralNetwork, samples [][]float64) float64 {
-	predictions, y := predict(nn, samples)
-	loss := computeLoss(predictions, y)
-	return loss
-}
-
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
-	fmt.Printf("%vLaunching Multilayer Perceptron...%v\n\n", BRIGHT, RESET)
+	fmt.Printf("%vLaunching Multilayer Perceptron%v\n\n", BRIGHT, RESET)
+	flagT, flagP, filepath := parseArg()
 	rand.Seed(time.Now().UnixNano())
 
 	data := preprocess()
@@ -31,10 +21,17 @@ func MultilayerPerceptron() {
 	// architecture := []int{len(data[0]) - 1, 2, 2, 2} // test architecture ////
 	nn := buildNN(architecture)
 
-	train(nn, train_set, test_set)
+	_, err := os.Stat(filepath)
+	if flagT || err != nil { // if model.json exists skip training, unless -t
+		train(nn, train_set, test_set)
+	}
 
-	metrics(nn, test_set)
-	// loadModel(nn)
+	if flagP {
+		if filepath != "model.json" || !flagT {
+			loadModel(nn, filepath)
+		}
+		predictFinal(nn, test_set)
+	}
 }
 
 // func dumpNN(nn neuralNetwork) {

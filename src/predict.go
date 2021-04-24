@@ -7,6 +7,18 @@ const BRIGHT = "\x1B[1m"
 const RED = "\x1B[31m"
 const GREEN = "\x1B[32m"
 
+func predict(nn neuralNetwork, samples [][]float64) (predictions, y [][]float64) {
+	input, y := split_x_y(samples)
+	predictions = feedforward(nn, input)
+	return
+}
+
+func predictLoss(nn neuralNetwork, samples [][]float64) float64 {
+	predictions, y := predict(nn, samples)
+	loss := computeLoss(predictions, y)
+	return loss
+}
+
 func truthTally(y_pred, y_true [][]float64) (float64, float64, float64, float64) {
 	var tp float64 // True Positive		// Predicted True & Is True
 	var fn float64 // False Negative	// Predicted False & Is True
@@ -57,10 +69,11 @@ func printMetrics(tp, fn, fp, tn float64) {
 	fmt.Printf("F1_score: %v\n\n", F1_score)
 }
 
-func metrics(nn neuralNetwork, test_set [][]float64) {
+func predictFinal(nn neuralNetwork, test_set [][]float64) {
+	fmt.Printf("%vPredict%v\n\n", BRIGHT, RESET)
 	predictions, y := predict(nn, test_set)
-	// loss := computeLoss(predictions, y)
-	// fmt.Printf("Final loss on validation set: %v\n\n", loss)
+	loss := computeLoss(predictions, y)
+	fmt.Printf("Final loss on validation set: %v\n\n", loss)
 	tp, fn, fp, tn := truthTally(predictions, y)
 	confusionMatrix(tp, fn, fp, tn)
 	printMetrics(tp, fn, fp, tn)

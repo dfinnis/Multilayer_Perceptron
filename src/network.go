@@ -18,7 +18,6 @@ type activationFunc func(nn neuralNetwork, layer int)
 
 type layer struct {
 	// label string
-	// length int
 	neurons    []neuron
 	activation activationFunc // input & hidden = sigmoid, output = softmax
 }
@@ -50,7 +49,6 @@ func newLayer(nn neuralNetwork, currentLayer int) layer {
 		neurons = append(neurons, newNeuron(nn, currentLayer))
 	}
 	return layer{
-		// length:				nn.architecture[currentLayer], ////////////
 		neurons:    neurons,
 		activation: sigmoidLayer,
 	}

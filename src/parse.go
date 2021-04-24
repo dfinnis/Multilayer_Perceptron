@@ -32,6 +32,10 @@ func parseArg() (flagT bool, flagP bool, filepath string) {
 			flagP = true
 			if i < len(args)-1 {
 				i++
+				if args[i] == "-t" || args[i] == "--train" {
+					flagT = true
+					continue
+				}
 				filepath = args[i]
 				_, err := os.Stat(filepath)
 				if err != nil {

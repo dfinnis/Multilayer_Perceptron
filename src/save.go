@@ -47,12 +47,18 @@ func saveModel(nn neuralNetwork) {
 
 // checkModel exits if model & neural network architecture don't match
 func checkModel(model [][]jsonNeuron, nn neuralNetwork) {
+	var architecture []int
+	for layer := 0; layer < len(model); layer++ {
+		architecture = append(architecture, len(model[layer]))
+	}
 	if len(model) != len(nn.architecture)-1 {
-		errorExit("Model & neural network architecture different")
+		fmt.Printf("ERROR Neural network architecture don't match models: %v\n", architecture)
+		os.Exit(1)
 	}
 	for layer := 1; layer < len(nn.architecture); layer++ {
 		if nn.architecture[layer] != len(model[layer-1]) {
-			errorExit("Model & neural network architecture different")
+			fmt.Printf("ERROR Neural network architecture don't match models: %v\n", architecture)
+			os.Exit(1)
 		}
 	}
 }

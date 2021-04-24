@@ -43,17 +43,14 @@ func parseArchitecture(arg string) []int {
 }
 
 func parseSeed(i int, args []string) int64 {
-	var seed int64
-	if i < len(args) {
-		seedInt, err := strconv.Atoi(args[i])
-		if err != nil {
-			usageError("Bad seed: ", args[i])
-		}
-		seed = int64(seedInt)
-	} else {
+	if i >= len(args) {
 		usageError("No seed provided after -s", "")
 	}
-	return seed
+	seed, err := strconv.Atoi(args[i])
+	if err != nil {
+		usageError("Bad seed: ", args[i])
+	}
+	return int64(seed)
 }
 
 // parseArg parses arguments, returns mix and flags

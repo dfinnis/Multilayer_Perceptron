@@ -29,14 +29,15 @@ func parseArchitecture(arg string) []int {
 	for _, layer := range list {
 		integer, err := strconv.Atoi(layer)
 		if err != nil {
-			fmt.Printf("ERROR Bad argument: %v\n", arg)
-			printUsage()
+			usageError("Bad argument: ", arg)
 		}
 		architecture = append(architecture, integer)
 	}
 	if len(architecture) < 2 {
-		fmt.Printf("ERROR Architecture minimum 2 layers\n")
-		printUsage()
+		usageError("Architecture minimum 2 layers", "")
+	}
+	if architecture[len(architecture)-1] != 2 {
+		usageError("Architecture invalid, output layer must be 2 neurons", "")
 	}
 	return architecture
 }
@@ -47,13 +48,11 @@ func parseSeed(i int, args []string) int64 {
 	if i < len(args) {
 		seedInt, err := strconv.Atoi(args[i])
 		if err != nil {
-			fmt.Printf("ERROR Bad seed: %v\n", args[i])
-			printUsage()
+			usageError("Bad seed: ", args[i])
 		}
 		seed = int64(seedInt)
 	} else {
-		fmt.Printf("ERROR No seed provided after -s\n")
-		printUsage()
+		usageError("No seed provided after -s", "")
 	}
 	return seed
 }

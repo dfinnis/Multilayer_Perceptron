@@ -31,6 +31,9 @@ func parseArchitecture(arg string) []int {
 		if err != nil {
 			usageError("Bad argument: ", arg)
 		}
+		if integer > 100 {
+			usageError("Max 100 neurons in a layer, given:", strconv.Itoa(integer))
+		}
 		architecture = append(architecture, integer)
 	}
 	if len(architecture) < 2 {

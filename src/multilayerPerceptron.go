@@ -7,27 +7,6 @@ import (
 	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
 )
 
-func printArchitecture(architecture []int) {
-	fmt.Printf("+----------------------------------+\n")
-	fmt.Printf("|%v   Neural Network Architecture %v   |\n", BRIGHT, RESET)
-	fmt.Printf("+-----------+---------+------------+\n")
-	fmt.Printf("|%v   Layer %v  |%v Neurons %v|%v Activation %v|\n", BRIGHT, RESET, BRIGHT, RESET, BRIGHT, RESET)
-	fmt.Printf("+-----------+---------+------------+\n")
-	for i, layer := range architecture {
-		label := "hidden"
-		activation := "sigmoid"
-		if i == 0 {
-			label = "input"
-			activation = "sigmoid"
-		} else if i == len(architecture)-1 {
-			label = "output"
-			activation = "softmax"
-		}
-		fmt.Printf("| %-2v %-6v | %-7v | %-10v |\n", i+1, label, layer, activation) //////////////
-	}
-	fmt.Printf("+-----------+---------+------------+\n\n")
-}
-
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 	fmt.Printf("\n%v%vLaunching Multilayer Perceptron%v\n\n", BRIGHT, UNDERLINE, RESET)

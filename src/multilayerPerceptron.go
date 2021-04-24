@@ -24,12 +24,11 @@ func MultilayerPerceptron() {
 	_, err := os.Stat(filepath)
 	if flagT || err != nil { // if model.json exists skip training, unless -t
 		train(nn, train_set, test_set)
+	} else {
+		loadModel(nn, filepath)
 	}
 
 	if flagP {
-		if filepath != "model.json" || !flagT {
-			loadModel(nn, filepath)
-		}
 		predictFinal(nn, test_set)
 	}
 }

@@ -13,18 +13,6 @@ type jsonNeuron struct {
 	Weights []float64
 }
 
-func errorExit(message string) {
-	fmt.Printf("ERROR %v\n", message)
-	os.Exit(1)
-}
-
-func checkError(message string, err error) {
-	if err != nil {
-		fmt.Printf("ERROR %v %v\n", message, err)
-		os.Exit(1)
-	}
-}
-
 // Save bias & weights to model.json
 func saveModel(nn neuralNetwork) {
 	fmt.Printf("Saving model...\r")

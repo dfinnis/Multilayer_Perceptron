@@ -1,28 +1,13 @@
 package multilayer
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 )
 
-func printUsage() {
-	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [-t] [-p [FILEPATH]] [-a ARCHITECTURE] [-s SEED]\n\n")
-	fmt.Printf("    [-t] (--train)        Only train, don't predict. Overwrites existing model\n")
-	fmt.Printf("    [-p] (--predict)      Only predict, don't train. Optional [FILEPATH] load model from filepath\n")
-	fmt.Printf("    [-a] (--architecture) Provide ARCHITECTURE as string e.g. \"16 16 16 2\"\n")
-	fmt.Printf("    [-s] (--seed)         Provide SEED for randomization\n")
-	fmt.Printf("    [-h] (--help)         Show usage\n\n")
-	os.Exit(1)
-}
-
-func usageError(msg, err string) {
-	fmt.Printf("ERROR %v %v\n", msg, err)
-	printUsage()
-}
-
+// parseArchitecture converts string to list of ints
 func parseArchitecture(arg string) []int {
 	var architecture []int
 	list := strings.Fields(arg)
@@ -45,6 +30,7 @@ func parseArchitecture(arg string) []int {
 	return architecture
 }
 
+// parseSeed converts string to int
 func parseSeed(i int, args []string) int64 {
 	if i >= len(args) {
 		usageError("No seed provided after -s", "")
@@ -56,7 +42,7 @@ func parseSeed(i int, args []string) int64 {
 	return int64(seed)
 }
 
-// parseArg parses arguments, returns mix and flags
+// parseArg parses and returns arguments
 func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, seed int64) {
 	filepath = "model.json"
 	architecture = []int{16, 16, 16, 2}

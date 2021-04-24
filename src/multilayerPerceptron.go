@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-	"time"
 	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
 )
 
@@ -32,8 +31,8 @@ func printArchitecture(architecture []int) {
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 	fmt.Printf("\n%v%vLaunching Multilayer Perceptron%v\n\n", BRIGHT, UNDERLINE, RESET)
-	flagT, flagP, filepath, arch := parseArg()
-	rand.Seed(time.Now().UnixNano())
+	flagT, flagP, filepath, arch, seed := parseArg()
+	rand.Seed(seed)
 
 	data := preprocess()
 	train_set, test_set := split(data)

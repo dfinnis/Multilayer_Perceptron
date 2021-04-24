@@ -5,14 +5,22 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func printUsage() {
-	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [-t] [-p [filepath]]\n\n")
-	fmt.Printf("    [-t] (--train)   Only train, don't predict. Overwrites existing model\n")
-	fmt.Printf("    [-p] (--predict) Only predict, don't train. Optional [filepath] load model from filepath\n")
-	fmt.Printf("    [-h] (--help)    Show usage\n\n")
+	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [-t] [-p [FILEPATH]] [-a ARCHITECTURE] [-s SEED]\n\n")
+	fmt.Printf("    [-t] (--train)        Only train, don't predict. Overwrites existing model\n")
+	fmt.Printf("    [-p] (--predict)      Only predict, don't train. Optional [FILEPATH] load model from filepath\n")
+	fmt.Printf("    [-a] (--architecture) Provide ARCHITECTURE as string e.g. \"16 16 16 2\"\n")
+	fmt.Printf("    [-s] (--seed)         Provide SEED for randomization\n")
+	fmt.Printf("    [-h] (--help)         Show usage\n\n")
 	os.Exit(1)
+}
+
+func usageError(msg, err string) {
+	fmt.Printf("ERROR %v %v\n", msg, err)
+	printUsage()
 }
 
 func parseArchitecture(arg string) []int {
@@ -33,17 +41,34 @@ func parseArchitecture(arg string) []int {
 	return architecture
 }
 
+func parseSeed(i int, args []string) int64 {
+	var seed int64
+	i++
+	if i < len(args) {
+		seedInt, err := strconv.Atoi(args[i])
+		if err != nil {
+			fmt.Printf("ERROR Bad seed: %v\n", args[i])
+			printUsage()
+		}
+		seed = int64(seedInt)
+	} else {
+		fmt.Printf("ERROR No seed provided after -s\n")
+		printUsage()
+	}
+	return seed
+}
+
 // parseArg parses arguments, returns mix and flags
-func parseArg() (flagT bool, flagP bool, filepath string, architecture []int) {
+func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, seed int64) {
 	filepath = "model.json"
 	architecture = []int{16, 16, 16, 2}
+	seed = time.Now().UnixNano()
 
 	args := os.Args[1:]
 	if len(args) == 0 {
-		return false, true, filepath, architecture
-	} else if len(args) > 4 {
-		fmt.Printf("ERROR Too many arguments\n")
-		printUsage()
+		return false, true, filepath, architecture, seed
+	} else if len(args) > 6 {
+		usageError("Too many arguments: ", strconv.Itoa(len(args)))
 	}
 	for i := 0; i < len(args); i++ {
 		if args[i] == "-h" || args[i] == "--help" {
@@ -53,16 +78,14 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int) {
 		} else if args[i] == "-p" || args[i] == "--predict" {
 			flagP = true
 			if i < len(args)-1 {
-				i++
-				if args[i] == "-t" || args[i] == "--train" {
-					flagT = true
+				if args[i+1] == "-t" || args[i+1] == "--train" || args[i+1] == "-a" || args[i+1] == "--architecture" || args[i+1] == "-s" || args[i+1] == "--seed" {
 					continue
 				}
+				i++
 				filepath = args[i]
 				_, err := os.Stat(filepath)
 				if err != nil {
-					fmt.Printf("ERROR Invalid model filepath\n")
-					printUsage()
+					usageError("Invalid model filepath: ", filepath)
 				}
 			}
 		} else if args[i] == "-a" || args[i] == "--architecture" {
@@ -70,12 +93,13 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int) {
 				i++
 				architecture = parseArchitecture(args[i])
 			} else {
-				fmt.Printf("ERROR No architecture provided after -a\n")
-				printUsage()
+				usageError("No architecture provided after -a", "")
 			}
+		} else if args[i] == "-s" || args[i] == "--seed" {
+			seed = parseSeed(i, args)
+			i++
 		} else {
-			fmt.Printf("ERROR Bad argument: %v\n", args[i])
-			printUsage()
+			usageError("Bad argument: ", args[i])
 		}
 	}
 	if flagT && flagP && filepath != "model.json" {

@@ -8,17 +8,41 @@ import (
 	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
 )
 
+func printArchitecture(architecture []int) {
+	fmt.Printf("+----------------------------------+\n")
+	fmt.Printf("|%v   Neural Network Architecture %v   |\n", BRIGHT, RESET)
+	fmt.Printf("+-----------+---------+------------+\n")
+	fmt.Printf("|%v   Layer %v  |%v Neurons %v|%v Activation %v|\n", BRIGHT, RESET, BRIGHT, RESET, BRIGHT, RESET)
+	fmt.Printf("+-----------+---------+------------+\n")
+	for i, layer := range architecture {
+		label := "hidden"
+		activation := "sigmoid"
+		if i == 0 {
+			label = "input"
+			activation = "sigmoid"
+		} else if i == len(architecture)-1 {
+			label = "output"
+			activation = "softmax"
+		}
+		fmt.Printf("| %-2v %-6v | %-7v | %-10v |\n", i+1, label, layer, activation) //////////////
+	}
+	fmt.Printf("+-----------+---------+------------+\n\n")
+}
+
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
-	fmt.Printf("%vLaunching Multilayer Perceptron%v\n\n", BRIGHT, RESET)
-	flagT, flagP, filepath := parseArg()
+	fmt.Printf("\n%v%vLaunching Multilayer Perceptron%v\n\n", BRIGHT, UNDERLINE, RESET)
+	flagT, flagP, filepath, arch := parseArg()
 	rand.Seed(time.Now().UnixNano())
 
 	data := preprocess()
 	train_set, test_set := split(data)
 
-	architecture := []int{len(data[0]) - 1, 16, 16, 16, 2}
-	// architecture := []int{len(data[0]) - 1, 2, 2, 2} // test architecture ////
+	var architecture []int
+	architecture = append(architecture, len(data[0])-1)
+	architecture = append(architecture, arch...)
+	printArchitecture(architecture)
+
 	nn := buildNN(architecture)
 
 	_, err := os.Stat(filepath)

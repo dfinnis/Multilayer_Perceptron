@@ -4,6 +4,7 @@ import "fmt"
 
 const RESET = "\x1B[0m"
 const BRIGHT = "\x1B[1m"
+const UNDERLINE = "\x1B[4m"
 const RED = "\x1B[31m"
 const GREEN = "\x1B[32m"
 
@@ -70,7 +71,7 @@ func printMetrics(tp, fn, fp, tn float64) {
 }
 
 func predictFinal(nn neuralNetwork, test_set [][]float64) {
-	fmt.Printf("%vPredict%v\n\n", BRIGHT, RESET)
+	fmt.Printf("\n%v%vPredict%v\n\n", BRIGHT, UNDERLINE, RESET)
 	predictions, y := predict(nn, test_set)
 	loss := computeLoss(predictions, y)
 	fmt.Printf("Final loss on validation set: %v\n\n", loss)

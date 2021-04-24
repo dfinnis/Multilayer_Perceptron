@@ -33,7 +33,7 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 }
 
 func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
-	fmt.Printf("%vTrain model%v\n", BRIGHT, RESET)
+	fmt.Printf("\n%v%vTrain model%v\n\n", BRIGHT, UNDERLINE, RESET)
 	for epoch := 1; epoch <= nn.epochs; epoch++ {
 		shuffle(train_set)
 		input, y := split_x_y(train_set)
@@ -48,7 +48,7 @@ func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
 		nn.testLoss = append(nn.testLoss, testLoss)
 
 		// print validation metrics
-		fmt.Printf(" epoch %5v/%v - train loss: %-18v - test loss: %v\r", epoch, nn.epochs, trainLoss, testLoss)
+		fmt.Printf("\repoch %5v/%v - train loss: %-18v - test loss: %v", epoch, nn.epochs, trainLoss, testLoss)
 	}
 	fmt.Printf("\n\n")
 	visualize(nn.trainLoss, nn.testLoss)

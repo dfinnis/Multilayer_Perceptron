@@ -65,6 +65,6 @@ func buildNN(architecture []int) neuralNetwork {
 	}
 	nn.layers[0].activation = nil
 	nn.layers[layer-1].activation = softmaxLayer
-	nn.epochs = 1000 // 30000 // how many best?
+	nn.epochs = 3000 // 30000 // how many best?
 	return nn
 }

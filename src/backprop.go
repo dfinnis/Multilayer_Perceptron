@@ -1,12 +1,29 @@
 package multilayer
 
 import (
-	// "fmt"
 	"math"
 )
 
+func meanSquaredError(outputs, y [][]float64) float64 {
+	var loss float64
+	for output := 0; output < len(outputs); output++ {
+		diff := y[output][0] - outputs[output][0]
+		loss += diff * diff
+	}
+	return loss / float64(len(outputs))
+}
+
+func rootMeanSquaredError(outputs, y [][]float64) float64 {
+	var loss float64
+	for output := 0; output < len(outputs); output++ {
+		diff := y[output][0] - outputs[output][0]
+		loss += math.Sqrt(diff * diff)
+	}
+	return loss / float64(len(outputs))
+}
+
 // Binary cross-entropy log loss
-func computeLoss(outputs, y [][]float64) (lossSum float64) {
+func binaryCrossEntropy(outputs, y [][]float64) (lossSum float64) {
 	// fmt.Printf("\nlen(outputs): %v\n", len(outputs)) ////////////
 	// fmt.Printf("len(outputs[0]): %v\n", len(outputs[0])) ////////////
 	// fmt.Printf("len(y): %v\n", len(y)) ////////////
@@ -18,7 +35,7 @@ func computeLoss(outputs, y [][]float64) (lossSum float64) {
 			// fmt.Printf("lets go: %v\n", (1 - outputs[output][dignosis])) ////////////
 			// fmt.Printf("Log: %v\n", math.Log(1 - outputs[output][dignosis])) ////////////
 			// fmt.Printf("y[output]: %v\n", y[output][dignosis]) ////////////
-			loss += y[output][dignosis] * math.Log(outputs[output][dignosis]) + (1 - y[output][dignosis]) * math.Log(1 - outputs[output][dignosis])
+			loss += y[output][dignosis]*math.Log(outputs[output][dignosis]) + (1-y[output][dignosis])*math.Log(1-outputs[output][dignosis])
 			// fmt.Printf("loss here: %v\n", y[output][dignosis] * math.Log(outputs[output][dignosis]) + (1 - y[output][dignosis]) * math.Log(1 - outputs[output][dignosis])) ////////////
 		}
 		// break ///////
@@ -27,12 +44,18 @@ func computeLoss(outputs, y [][]float64) (lossSum float64) {
 	return
 }
 
+// Binary cross-entropy log loss
+func computeLoss(outputs, y [][]float64) (lossSum float64) {
+	// return meanSquaredError(outputs, y)
+	return rootMeanSquaredError(outputs, y)
+	// return binaryCrossEntropy(outputs, y)
+}
 
 func computeLossPrime(outputs [][]float64, y [][]float64) (d_losses [][]float64) {
 	for output := 0; output < len(outputs); output++ {
 		var d_loss []float64
 		for diagnosis := 0; diagnosis <= 1; diagnosis++ {
-			d_loss = append(d_loss, - (y[output][diagnosis] / outputs[output][diagnosis]) - ((1 - y[output][diagnosis]) / (1 - outputs[output][diagnosis])))
+			d_loss = append(d_loss, -(y[output][diagnosis]/outputs[output][diagnosis])-((1-y[output][diagnosis])/(1-outputs[output][diagnosis])))
 		}
 		d_losses = append(d_losses, d_loss)
 	}
@@ -69,7 +92,7 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 	}
 	// Activation
 	prime := softmax_prime(z)
-	if layer < len(nn.architecture) - 1 {
+	if layer < len(nn.architecture)-1 {
 		prime = sigmoid_prime(z)
 	}
 
@@ -77,7 +100,7 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 	for i, sample := range prime {
 		var layer_d []float64
 		for j, value := range sample {
-			layer_d = append(layer_d, d_A[i][j] * value)
+			layer_d = append(layer_d, d_A[i][j]*value)
 		}
 		d_z = append(d_z, layer_d)
 	}
@@ -85,8 +108,8 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 	var layerOutputs [][]float64
 	for sample, _ := range prime {
 		var layerOutput []float64
-		for neuron := 0; neuron < nn.architecture[layer - 1]; neuron++ {
-			layerOutput = append(layerOutput, nn.layers[layer - 1].neurons[neuron].outputs[sample])
+		for neuron := 0; neuron < nn.architecture[layer-1]; neuron++ {
+			layerOutput = append(layerOutput, nn.layers[layer-1].neurons[neuron].outputs[sample])
 		}
 		layerOutputs = append(layerOutputs, layerOutput)
 	}

@@ -9,8 +9,8 @@ func printUsage() {
 	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [-t] [-p [FILEPATH]] [-a ARCHITECTURE] [-s SEED]\n\n")
 	fmt.Printf("    [-t] (--train)        Only train, don't predict. Overwrites existing model\n")
 	fmt.Printf("    [-p] (--predict)      Only predict, don't train. Optional [FILEPATH] load model from filepath\n")
-	fmt.Printf("    [-a] (--architecture) Provide ARCHITECTURE as string e.g. \"16 16 16 2\"\n")
-	fmt.Printf("    [-s] (--seed)         Provide SEED for randomization\n")
+	fmt.Printf("    [-a] (--architecture) Provide ARCHITECTURE as string e.g. -a \"16 16 2\"\n")
+	fmt.Printf("    [-s] (--seed)         Provide SEED integer for randomization e.g. -s 42\n")
 	fmt.Printf("    [-h] (--help)         Show usage\n\n")
 	os.Exit(1)
 }

@@ -1,6 +1,8 @@
 package multilayer
 
-import "math"
+import (
+	"math"
+)
 
 func meanSquaredError(outputs, y [][]float64) float64 {
 	var loss float64
@@ -49,31 +51,17 @@ func computeLoss(outputs, y [][]float64) (lossSum float64) {
 	return binaryCrossEntropy(outputs, y)
 }
 
-func computeLossPrime(outputs [][]float64, y [][]float64) (d_losses [][]float64) {
+// Tested good!
+func computeLossPrime(outputs [][]float64, y [][]float64) [][]float64 {
+	var d_losses [][]float64
 	for output := 0; output < len(outputs); output++ {
+		loss := (y[output][0] / outputs[output][0]) - ((1 - y[output][0]) / (1 - outputs[output][0]))
 		var d_loss []float64
-		for diagnosis := 0; diagnosis <= 1; diagnosis++ {
-			d_loss = append(d_loss, -(y[output][diagnosis]/outputs[output][diagnosis])-((1-y[output][diagnosis])/(1-outputs[output][diagnosis])))
-		}
+		d_loss = append(d_loss, -loss)
+		d_loss = append(d_loss, loss)
+
 		d_losses = append(d_losses, d_loss)
 	}
-	return
+	// fmt.Printf("d_losses[0]: %v\n", d_losses[0]) ////////////
+	return d_losses
 }
-
-// func computeLossPrime(outputs [][]float64, y [][]float64) (d_losses [][]float64) {
-// 	for output := 0; output < len(outputs); output++ {
-// 		var b []float64
-// 		b = append(b, y[output][0] / outputs[output][0])
-// 		b = append(b, y[output][1] / outputs[output][1])
-
-// 		var m []float64
-// 		m = append(m, (1 - y[output][0]) / (1 - outputs[output][0]))
-// 		m = append(m, (1 - y[output][1]) / (1 - outputs[output][1]))
-
-// 		var d_loss []float64
-// 		d_loss = append(d_loss, - (b[0] - m[0]))
-// 		d_loss = append(d_loss, - (b[1] - m[1]))
-// 		d_losses = append(d_losses, d_loss)
-// 	}
-// 	return
-// }

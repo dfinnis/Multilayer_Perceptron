@@ -35,7 +35,7 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
 	fmt.Printf("\n%v%vTrain model%v\n\n", BRIGHT, UNDERLINE, RESET)
 	for epoch := 1; epoch <= nn.epochs; epoch++ {
-		shuffle(train_set)
+		// shuffle(train_set)
 		input, y := split_x_y(train_set)
 
 		output := feedforward(nn, input)

@@ -15,7 +15,7 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 	if layer < len(nn.architecture)-1 {
 		prime = sigmoid_prime(z)
 	}
-
+	// Activation derivative
 	var d_z [][]float64
 	for i, sample := range prime {
 		var layer_d []float64
@@ -24,7 +24,7 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 		}
 		d_z = append(d_z, layer_d)
 	}
-
+	// Output
 	var layerOutputs [][]float64
 	for sample, _ := range prime {
 		var layerOutput []float64
@@ -33,16 +33,16 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 		}
 		layerOutputs = append(layerOutputs, layerOutput)
 	}
-
+	// Weights derivative
 	d_weights := multiply(transpose(d_z), layerOutputs)
-
+	// Bias derivative
 	d_bias := make([]float64, nn.architecture[layer])
 	for _, sample := range d_z {
 		for neuron, _ := range nn.layers[layer].neurons {
 			d_bias[neuron] += sample[neuron]
 		}
 	}
-
+	// Activation of previous layer derivative
 	var weights [][]float64
 	for _, neuron := range nn.layers[layer].neurons {
 		var weightLayer []float64
@@ -58,7 +58,7 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 	// fmt.Printf("len(d_bias): %v\n", len(d_bias)) ////////////
 	// fmt.Printf("shape(d_weights): %v %v\n", len(d_weights), len(d_weights[0])) ////////////
 
-	// update weights & bias with derivative of loss (SGD)
+	// Update weights & bias with derivative of loss (SGD)
 	for neuron, _ := range nn.layers[layer].neurons {
 		for weight, _ := range nn.layers[layer].neurons[neuron].weights {
 			nn.layers[layer].neurons[neuron].weights[weight] -= nn.learningRate * (d_weights[neuron][weight] / float64(len(output)))

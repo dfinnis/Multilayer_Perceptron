@@ -47,8 +47,8 @@ func binaryCrossEntropy(outputs, y [][]float64) (lossSum float64) {
 // Binary cross-entropy log loss
 func computeLoss(outputs, y [][]float64) (lossSum float64) {
 	// return meanSquaredError(outputs, y)
-	return rootMeanSquaredError(outputs, y)
-	// return binaryCrossEntropy(outputs, y)
+	// return rootMeanSquaredError(outputs, y)
+	return binaryCrossEntropy(outputs, y)
 }
 
 func computeLossPrime(outputs [][]float64, y [][]float64) (d_losses [][]float64) {

@@ -29,11 +29,12 @@ def visualize(loss):
 	test_loss = loss[split:]
 	epoch = list(range(1, split + 1))
 
-	plt.plot(epoch, train_loss)
-	plt.plot(epoch, test_loss)
+	plt.plot(epoch, train_loss, label='train loss')
+	plt.plot(epoch, test_loss, label='test loss')
 	plt.title('Loss over training period')
 	plt.xlabel('Epoch')
 	plt.ylabel('Loss')
+	plt.legend()
 	plt.show()
 
 def main():

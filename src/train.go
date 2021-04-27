@@ -1,6 +1,8 @@
 package multilayer
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 	for sample := 0; sample < len(inputs); sample++ {
@@ -29,6 +31,8 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 		}
 		outputs = append(outputs, output)
 	}
+	// fmt.Printf("\noutputs: %v\n\n", outputs) ///////////////
+	// os.Exit(1)                               //////////////
 	return
 }
 
@@ -48,7 +52,7 @@ func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
 		nn.testLoss = append(nn.testLoss, testLoss)
 
 		// print validation metrics
-		fmt.Printf("\repoch %5v/%v - train loss: %-18v - test loss: %v", epoch, nn.epochs, trainLoss, testLoss)
+		fmt.Printf("\repoch %5v/%v - train loss: %-18v - test loss: %-18v", epoch, nn.epochs, trainLoss, testLoss)
 	}
 	fmt.Printf("\n\n")
 	visualize(nn.trainLoss, nn.testLoss)

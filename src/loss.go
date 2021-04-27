@@ -62,6 +62,7 @@ func computeLossPrime(outputs [][]float64, y [][]float64) [][]float64 {
 
 		d_losses = append(d_losses, d_loss)
 	}
-	// fmt.Printf("d_losses[0]: %v\n", d_losses[0]) ////////////
+	// fmt.Printf(" d_losses[0]: %v\n", d_losses[0]) ////////////
+	// fmt.Printf(" d_losses[1]: %v\n", d_losses[1]) ////////////
 	return d_losses
 }

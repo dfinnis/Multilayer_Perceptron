@@ -18,8 +18,10 @@ func multiply(x, y [][]float64) [][]float64 {
 		return nil
 	}
 	out := make([][]float64, len(x))
+	// for i := len(x) - 1; i >= 0; i-- {
 	for i := 0; i < len(x); i++ {
 		out[i] = make([]float64, len(y[0]))
+		// for j := len(y[0]) - 1; j >= 0; j-- {
 		for j := 0; j < len(y[0]); j++ {
 			for k := 0; k < len(y); k++ {
 				out[i][j] += x[i][k] * y[k][j]
@@ -28,6 +30,20 @@ func multiply(x, y [][]float64) [][]float64 {
 	}
 	return out
 }
+
+// // Dot (Inner) product
+// func dotProduct(firstMatrix [][]float64, secondMatrix [][]float64) (result [][]float64) {
+// 	result = make([][]float64, len(firstMatrix))
+// 	for ii := 0; ii < len(firstMatrix); ii++ {
+// 		result[ii] = make([]float64, len(secondMatrix[0]))
+// 		for jj := 0; jj < len(secondMatrix[0]); jj++ {
+// 			for kk := 0; kk < len(secondMatrix); kk++ {
+// 				result[ii][jj] += firstMatrix[ii][kk] * secondMatrix[kk][jj]
+// 			}
+// 		}
+// 	}
+// 	return
+// }
 
 func multiply2(x, y [][]float64) [][]float64 {
 	// fmt.Println("oh hi multiply2!") /////////////////
@@ -82,35 +98,35 @@ func multiply2(x, y [][]float64) [][]float64 {
 // }
 
 // func matrixMultiplyTest() {
-	// var a [][]float64
-	// var b [][]float64
-	// var tmp []float64
-	// tmp = append(tmp, 2)
-	// tmp = append(tmp, 0)
-	// tmp = append(tmp, 1)
-	// a = append(a, tmp)
-	// tmp = nil
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// a = append(a, tmp)
-	// tmp = nil
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// a = append(a, tmp)
+// var a [][]float64
+// var b [][]float64
+// var tmp []float64
+// tmp = append(tmp, 2)
+// tmp = append(tmp, 0)
+// tmp = append(tmp, 1)
+// a = append(a, tmp)
+// tmp = nil
+// tmp = append(tmp, 1)
+// tmp = append(tmp, 1)
+// tmp = append(tmp, 1)
+// a = append(a, tmp)
+// tmp = nil
+// tmp = append(tmp, 1)
+// tmp = append(tmp, 1)
+// tmp = append(tmp, 1)
+// a = append(a, tmp)
 
-	// tmp = nil
-	// tmp = append(tmp, 2)
-	// tmp = append(tmp, 1)
-	// b = append(b, tmp)
-	// tmp = nil
-	// tmp = append(tmp, 1)
-	// tmp = append(tmp, 1)
-	// b = append(b, tmp)
-	// b = append(b, tmp)
-	// fmt.Printf("a: %v\n", a)
-	// fmt.Printf("b: %v\n", b)
-	// // Truth: [[6 4] [2 2] [4 3]]
-	// fmt.Printf("matrixMultiply test: %v\n", matrixMultiply(a, b))
+// tmp = nil
+// tmp = append(tmp, 2)
+// tmp = append(tmp, 1)
+// b = append(b, tmp)
+// tmp = nil
+// tmp = append(tmp, 1)
+// tmp = append(tmp, 1)
+// b = append(b, tmp)
+// b = append(b, tmp)
+// fmt.Printf("a: %v\n", a)
+// fmt.Printf("b: %v\n", b)
+// // Truth: [[6 4] [2 2] [4 3]]
+// fmt.Printf("matrixMultiply test: %v\n", matrixMultiply(a, b))
 // }

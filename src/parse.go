@@ -46,7 +46,8 @@ func parseSeed(i int, args []string) int64 {
 func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, seed int64) {
 	// Default settings
 	filepath = "model.json"
-	architecture = []int{16, 16, 16, 2}
+	// architecture = []int{16, 16, 16, 2}
+	architecture = []int{16, 16, 2}
 	seed = time.Now().UnixNano()
 
 	args := os.Args[1:]

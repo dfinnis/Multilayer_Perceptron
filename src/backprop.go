@@ -3,6 +3,7 @@ package multilayer
 func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]float64) [][]float64 {
 	// fmt.Printf("layer: %v\n", layer) ////////////
 	var z [][]float64
+	// Layer Value
 	for sample, _ := range output {
 		var layer_value []float64
 		for _, neuron := range nn.layers[layer].neurons {
@@ -10,11 +11,19 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 		}
 		z = append(z, layer_value)
 	}
+	// d_A[0][0] = 1                      ////////////
+	// d_A[0][1] = -1                     ////////////
+	// z[0][0] = 2                        ////////////
+	// z[0][1] = 3                        ////////////
+	// fmt.Printf("d_A[0]: %v\n", d_A[0]) ////////////
+	// fmt.Printf("z[0]: %v\n", z[0])     ////////////
 	// Activation
 	prime := softmax_prime(z)
 	if layer < len(nn.architecture)-1 {
 		prime = sigmoid_prime(z)
 	}
+	// fmt.Printf("prime[0]: %v\n", prime[0]) ////////////
+
 	// Activation derivative
 	var d_z [][]float64
 	for i, sample := range prime {
@@ -24,6 +33,7 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 		}
 		d_z = append(d_z, layer_d)
 	}
+	// fmt.Printf("d_z[0]: %v\n", d_z[0]) ////////////
 	// Output
 	var layerOutputs [][]float64
 	for sample, _ := range prime {
@@ -33,8 +43,45 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 		}
 		layerOutputs = append(layerOutputs, layerOutput)
 	}
+	// fmt.Printf("layerOutputs[0]: %v\n", layerOutputs[0])          ////////////
+	// fmt.Printf("len(layerOutputs: %v\n", len(layerOutputs))       ////////////
+	// fmt.Printf("len(layerOutputs[0]: %v\n", len(layerOutputs[0])) ////////////
+	// fmt.Printf("len(z: %v\n", len(z))                             ////////////
+	// fmt.Printf("len(z[0]: %v\n", len(z[0]))                       ///////////
+
 	// Weights derivative
-	d_weights := multiply(transpose(d_z), layerOutputs)
+	// a := mat.NewDense(len(d_z), len(d_z[0]), d_z[0])
+	// for i, _ := range d_z {
+	// 	for j, _ := range d_z[i] {
+	// 		&a[i][j] = d_z[i][j]
+	// 	}
+	// }
+	// var d_weights_test mat.Dense
+	// d_weights_test.Mul(d_z, transpose(layerOutputs))
+
+	// Print the result using the formatter.
+	// fc := mat.Formatted(a, mat.Prefix("    "), mat.Squeeze())
+	// fmt.Printf("c = %v", fc)
+
+	d_weights := multiply(transpose(d_z), layerOutputs) // correct?
+	// d_weights := dotProduct(layerOutputs, transpose(d_z)) // correct?
+	// if layer == 3 {
+	// 	fmt.Printf("d_weights: %v\n", d_weights) //////////
+	// }
+	// d_weights[0][0] = 1                                 /////////////////////
+	// var flip_weights [][]float64                      ////////////////////////
+	// for neuron := len(d_weights) - 1; neuron >= 0; neuron--{
+	// 	flip_weights = append(flip_weights, d_weights[neuron]) ////////////////////////
+	// }
+
+	// fmt.Printf("len(d_weights: %v\n", len(d_weights))       ////////////
+	// fmt.Printf("len(d_weights[0]: %v\n", len(d_weights[0])) ///////////
+
+	// fmt.Printf("d_weights[0]: %v\n", d_weights[0])          ///////////
+	// fmt.Printf("d_weights[1]: %v\n", d_weights[1])          ///////////
+	// fmt.Printf("flip_weights: %v\n", flip_weights)          ///////////
+
+	// os.Exit(1) //////////////
 	// Bias derivative
 	d_bias := make([]float64, nn.architecture[layer])
 	for _, sample := range d_z {

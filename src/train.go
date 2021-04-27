@@ -50,7 +50,7 @@ func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
 		nn.testLoss = append(nn.testLoss, testLoss)
 
 		// print validation metrics
-		fmt.Printf("\repoch %5v/%v - train loss: %-18v - test loss: %-18v", epoch, nn.epochs, trainLoss, testLoss)
+		fmt.Printf("\repoch %5v/%v - train loss: %-19v - test loss: %-19v", epoch, nn.epochs, trainLoss, testLoss)
 	}
 	fmt.Printf("\n\n")
 	visualize(nn.trainLoss, nn.testLoss)

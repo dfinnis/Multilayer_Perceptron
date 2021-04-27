@@ -53,24 +53,19 @@ func softmaxLayer(nn neuralNetwork, layer int) {
 	ouput := softmax(values)
 	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
 		nn.layers[layer].neurons[neuron].output = ouput[neuron]
-		// nn.layers[layer].neurons[neuron].outputs = append(nn.layers[layer].neurons[neuron].outputs, ouput[neuron])
 	}
 }
 
 func softmax_prime(z [][]float64) (d_Z4 [][]float64) {
 	for _, sample := range z {
-		// fmt.Printf("%v: %v\n", i, sample) ///////////
 		soft := softmax(sample)
 		var minus []float64
-		minus = append(minus, 1 - soft[0])
-		minus = append(minus, 1 - soft[1])
-		// fmt.Printf("%v: %v\n", soft, minus) ////////////////
+		minus = append(minus, 1-soft[0])
+		minus = append(minus, 1-soft[1])
 		var d []float64
-		d = append(d, soft[0] * minus[0])
-		d = append(d, soft[1] * minus[1])
+		d = append(d, soft[0]*minus[0])
+		d = append(d, soft[1]*minus[1])
 		d_Z4 = append(d_Z4, d)
-		// fmt.Printf("%v: %v: %v\n", soft, minus, d) ////////////////
 	}
 	return
-	// return softmax(z) * (1 - softmax(z))
 }

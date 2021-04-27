@@ -32,12 +32,6 @@ func MultilayerPerceptron() {
 
 	if flagP {
 		predictFinal(nn, test_set)
-		// predictions, y := predict(nn, train_set) ////////////////////
-		// // loss := computeLoss(predictions, y) ////////////////////
-		// tp, fn, fp, tn := truthTally(predictions, y) ////////////////////
-		// // printMetrics(tp, fn, fp, tn, loss) ////////////////////
-
-		// confusionMatrix(tp, fn, fp, tn) ////////////////////
 	}
 }
 

@@ -31,8 +31,6 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 		}
 		outputs = append(outputs, output)
 	}
-	// fmt.Printf("\noutputs: %v\n\n", outputs) ///////////////
-	// os.Exit(1)                               //////////////
 	return
 }
 

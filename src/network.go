@@ -17,7 +17,6 @@ type neuron struct {
 type activationFunc func(nn neuralNetwork, layer int)
 
 type layer struct {
-	// label string
 	neurons    []neuron
 	activation activationFunc // input & hidden = sigmoid, output = softmax
 }

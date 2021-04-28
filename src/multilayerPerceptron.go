@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-	// "gonum/mat" // matrix linear algebra // gonum.org/v1/gonum/mat
 )
 
 // MultilayerPerceptron is the main and only exposed function

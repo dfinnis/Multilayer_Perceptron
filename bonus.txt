@@ -1,6 +1,14 @@
 #### -- Bonus -- ####
-1. -a --architectures
-2. 
-3. 
+1. -a --architecture
+2. -e --early, early stopping?????????
+3. loss function (mse, rmse)??????????
 4. 
 5. 
+
+#### -- TO DO -- ####
+
+- fix visuzualize long arg bug
+- clean up backprop
+- loss < 0.08
+
+- find out problem with 3 layer architecture?

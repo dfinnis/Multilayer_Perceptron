@@ -7,14 +7,26 @@ import (
 	"time"
 )
 
+// parseFilepath checks if filepath exists
+func parseFilepath(filepath string) string {
+	_, err := os.Stat(filepath)
+	if err != nil {
+		usageError("Invalid model filepath: ", filepath)
+	}
+	return filepath
+}
+
 // parseArchitecture converts string to list of ints
-func parseArchitecture(arg string) []int {
+func parseArchitecture(i int, args []string) []int {
+	if i >= len(args) {
+		usageError("No architecture provided after -a", "")
+	}
 	var architecture []int
-	list := strings.Fields(arg)
+	list := strings.Fields(args[i])
 	for _, layer := range list {
 		integer, err := strconv.Atoi(layer)
 		if err != nil {
-			usageError("Bad argument: ", arg)
+			usageError("Bad argument: ", args[i])
 		}
 		if integer > 100 {
 			usageError("Max 100 neurons in a layer, given:", strconv.Itoa(integer))
@@ -55,6 +67,7 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, se
 	} else if len(args) > 6 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))
 	}
+
 	for i := 0; i < len(args); i++ {
 		if args[i] == "-h" || args[i] == "--help" {
 			printUsage()
@@ -67,19 +80,11 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, se
 					continue
 				}
 				i++
-				filepath = args[i]
-				_, err := os.Stat(filepath)
-				if err != nil {
-					usageError("Invalid model filepath: ", filepath)
-				}
+				filepath = parseFilepath(args[i])
 			}
 		} else if args[i] == "-a" || args[i] == "--architecture" {
-			if i < len(args)-1 {
-				i++
-				architecture = parseArchitecture(args[i])
-			} else {
-				usageError("No architecture provided after -a", "")
-			}
+			i++
+			architecture = parseArchitecture(i, args)
 		} else if args[i] == "-s" || args[i] == "--seed" {
 			i++
 			seed = parseSeed(i, args)
@@ -87,6 +92,7 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, se
 			usageError("Bad argument: ", args[i])
 		}
 	}
+
 	if flagT && flagP && filepath != "model.json" {
 		errorExit("invalid option combination: -t saves model.json but -p loads different model")
 	}

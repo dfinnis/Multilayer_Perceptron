@@ -53,7 +53,7 @@ func backpropLayer(nn neuralNetwork, output, y [][]float64, layer int, d_A [][]f
 		}
 		weights = append(weights, weightLayer)
 	}
-	d_aLast := multiply2(d_z, weights)
+	d_aLast := multiply(d_z, weights)
 	// Update weights & bias with derivative of loss (SGD)
 	for neuron, _ := range nn.layers[layer].neurons {
 		for weight, _ := range nn.layers[layer].neurons[neuron].weights {

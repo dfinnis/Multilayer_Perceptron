@@ -8,7 +8,6 @@
 #### -- TO DO -- ####
 
 - fix visuzualize long arg bug
-- clean up backprop
 - loss < 0.08
 
 - find out problem with 3 layer architecture?

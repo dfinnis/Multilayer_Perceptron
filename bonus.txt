@@ -7,6 +7,7 @@
 
 #### -- TO DO -- ####
 
+- show seed
 - fix visuzualize long arg bug
 - loss < 0.08
 

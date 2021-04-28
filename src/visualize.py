@@ -1,33 +1,19 @@
 import argparse
 import matplotlib.pyplot as plt
+import csv
 
-def error_exit(err_msg):
-	print('Error: {}' .format(err_msg))
-	sys.exit()
+def read_csv():
+	train_loss = []
+	test_loss = []
+	with open('loss.csv', 'r') as file:
+		reader = csv.reader(file)
+		for row in reader:
+			train_loss.append(float(row[0]))
+			test_loss.append(float(row[1]))
+	return train_loss, test_loss
 
-def parse_arg():
-	my_parser = argparse.ArgumentParser(description="Visualize loss over training period")
-	my_parser.add_argument('Loss',
-					   metavar='loss',
-					   type=str,
-					   help='loss')
-	args = my_parser.parse_args()
-	loss = args.Loss
-	return loss
-
-def Convert(string):
-	floats=[]
-	strings = string.split(" ")
-	for element in strings:
-		floats.append(float(element))
-	return floats
-
-def visualize(loss):
-	loss = Convert(loss)
-	split = int(len(loss)/2)
-	train_loss = loss[:split]
-	test_loss = loss[split:]
-	epoch = list(range(1, split + 1))
+def visualize(train_loss, test_loss):
+	epoch = list(range(1, len(test_loss) + 1))
 
 	plt.plot(epoch, train_loss, label='train loss')
 	plt.plot(epoch, test_loss, label='test loss')
@@ -39,8 +25,8 @@ def visualize(loss):
 
 def main():
 	try:
-		loss = parse_arg()
-		visualize(loss)
+		train_loss, test_loss = read_csv()
+		visualize(train_loss, test_loss)
 	except Exception:
 		print("Error: Failed to visualize data. Is data valid?")
 		pass

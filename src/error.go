@@ -16,18 +16,18 @@ func printUsage() {
 }
 
 func usageError(msg, err string) {
-	fmt.Printf("ERROR %v %v\n", msg, err)
+	fmt.Printf("%vERROR %v %v%v\n", RED, msg, err, RESET)
 	printUsage()
 }
 
 func errorExit(message string) {
-	fmt.Printf("ERROR %v\n", message)
+	fmt.Printf("%vERROR %v%v\n", RED, message, RESET)
 	os.Exit(1)
 }
 
 func checkError(message string, err error) {
 	if err != nil {
-		fmt.Printf("ERROR %v %v\n", message, err)
+		fmt.Printf("%vERROR %v %v%v\n", RED, message, err, RESET)
 		os.Exit(1)
 	}
 }

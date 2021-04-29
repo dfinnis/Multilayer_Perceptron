@@ -2,15 +2,13 @@ package multilayer
 
 import (
 	"fmt"
-	"math/rand"
 	"os"
 )
 
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 	fmt.Printf("\n%v%vLaunching Multilayer Perceptron%v\n\n", BRIGHT, UNDERLINE, RESET)
-	flagT, flagP, filepath, arch, seed := parseArg()
-	rand.Seed(seed)
+	flagT, flagP, filepath, arch := parseArg()
 
 	data := preprocess()
 	train_set, test_set := split(data)

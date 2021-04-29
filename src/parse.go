@@ -1,11 +1,22 @@
 package multilayer
 
 import (
+	"fmt"
+	"math/rand"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 )
+
+// defaultConfig initializes default values
+func defaultConfig() (string, []int, int64, bool) {
+	filepath := "model.json"
+	architecture := []int{16, 16, 2}
+	seed := time.Now().UnixNano()
+	flagS := false
+	return filepath, architecture, seed, flagS
+}
 
 // parseFilepath checks if filepath exists
 func parseFilepath(filepath string) string {
@@ -42,7 +53,7 @@ func parseArchitecture(i int, args []string) []int {
 	return architecture
 }
 
-// parseSeed converts string to int
+// parseSeed converts arg string to int
 func parseSeed(i int, args []string) int64 {
 	if i >= len(args) {
 		usageError("No seed provided after -s", "")
@@ -54,16 +65,21 @@ func parseSeed(i int, args []string) int64 {
 	return int64(seed)
 }
 
+// seedRandom initializes rand with time or -s SEED
+func seedRandom(seed int64, flagS bool) {
+	rand.Seed(seed)
+	if !flagS {
+		fmt.Printf("Random seed: %d\n\n", seed)
+	}
+}
+
 // parseArg parses and returns arguments for flags -t -p -a -s
-func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, seed int64) {
-	// Default settings
-	filepath = "model.json"
-	architecture = []int{16, 16, 2}
-	seed = time.Now().UnixNano()
+func parseArg() (flagT bool, flagP bool, filepath string, architecture []int) {
+	filepath, architecture, seed, flagS := defaultConfig()
 
 	args := os.Args[1:]
 	if len(args) == 0 {
-		return false, true, filepath, architecture, seed
+		return false, true, filepath, architecture
 	} else if len(args) > 6 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))
 	}
@@ -88,6 +104,7 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, se
 		} else if args[i] == "-s" || args[i] == "--seed" {
 			i++
 			seed = parseSeed(i, args)
+			flagS = true
 		} else {
 			usageError("Bad argument: ", args[i])
 		}
@@ -99,5 +116,6 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, se
 	if !flagT && !flagP {
 		flagP = true
 	}
+	seedRandom(seed, flagS)
 	return
 }

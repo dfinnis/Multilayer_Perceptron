@@ -74,13 +74,14 @@ func seedRandom(seed int64, flagS bool) {
 }
 
 // parseArg parses and returns arguments for flags -t -p -a -s
-func parseArg() (flagT bool, flagP bool, filepath string, architecture []int) {
+func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, flagE bool) {
 	filepath, architecture, seed, flagS := defaultConfig()
 
 	args := os.Args[1:]
 	if len(args) == 0 {
-		return false, true, filepath, architecture
-	} else if len(args) > 6 {
+		seedRandom(seed, flagS)
+		return false, true, filepath, architecture, false
+	} else if len(args) > 7 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))
 	}
 
@@ -92,7 +93,7 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int) {
 		} else if args[i] == "-p" || args[i] == "--predict" {
 			flagP = true
 			if i < len(args)-1 {
-				if args[i+1] == "-t" || args[i+1] == "--train" || args[i+1] == "-a" || args[i+1] == "--architecture" || args[i+1] == "-s" || args[i+1] == "--seed" {
+				if args[i+1] == "-t" || args[i+1] == "--train" || args[i+1] == "-a" || args[i+1] == "--architecture" || args[i+1] == "-s" || args[i+1] == "--seed" || args[i+1] == "-e" || args[i+1] == "--early" {
 					continue
 				}
 				i++
@@ -105,6 +106,8 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int) {
 			i++
 			seed = parseSeed(i, args)
 			flagS = true
+		} else if args[i] == "-e" || args[i] == "--early" {
+			flagE = true
 		} else {
 			usageError("Bad argument: ", args[i])
 		}

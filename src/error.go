@@ -11,6 +11,7 @@ func printUsage() {
 	fmt.Printf("    [-p] (--predict)      Only predict, don't train. Optional [FILEPATH] load model from filepath\n")
 	fmt.Printf("    [-a] (--architecture) Provide ARCHITECTURE as string e.g. -a \"16 16 2\"\n")
 	fmt.Printf("    [-s] (--seed)         Provide SEED integer for randomization e.g. -s 42\n")
+	fmt.Printf("    [-e] (--early)        Early stopping. Stop training when test set loss starts increasing\n")
 	fmt.Printf("    [-h] (--help)         Show usage\n\n")
 	os.Exit(1)
 }

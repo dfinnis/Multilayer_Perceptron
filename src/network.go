@@ -53,7 +53,7 @@ func newLayer(nn neuralNetwork, currentLayer int) layer {
 	}
 }
 
-func buildNN(architecture []int) neuralNetwork {
+func buildNN(architecture []int, flagE bool) neuralNetwork {
 	nn := neuralNetwork{}
 	nn.architecture = architecture
 	nn.learningRate = 0.01
@@ -64,6 +64,10 @@ func buildNN(architecture []int) neuralNetwork {
 	}
 	nn.layers[0].activation = nil
 	nn.layers[layer-1].activation = softmaxLayer
-	nn.epochs = 15000
+	if flagE { // early stopping, "infinite" training
+		nn.epochs = 42000
+	} else {
+		nn.epochs = 15000
+	}
 	return nn
 }

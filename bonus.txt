@@ -8,5 +8,6 @@
 #### -- TO DO -- ####
 
 - loss < 0.08
+Random seed: 1619687999274871000  - loss: 0.059255
 
 - find out problem with 3 layer architecture?

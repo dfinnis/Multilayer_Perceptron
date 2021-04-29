@@ -34,7 +34,7 @@ func feedforward(nn neuralNetwork, inputs [][]float64) (outputs [][]float64) {
 	return
 }
 
-func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
+func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64, flagE bool) {
 	fmt.Printf("\n%v%vTrain model%v\n\n", BRIGHT, UNDERLINE, RESET)
 	for epoch := 1; epoch <= nn.epochs; epoch++ {
 		// shuffle(train_set)
@@ -51,6 +51,12 @@ func train(nn neuralNetwork, train_set [][]float64, test_set [][]float64) {
 
 		// print validation metrics
 		fmt.Printf("\repoch %5v/%v - train loss: %-19v - test loss: %-19v", epoch, nn.epochs, trainLoss, testLoss)
+
+		if epoch > 1000 && flagE {
+			if nn.testLoss[len(nn.testLoss)-1] > nn.testLoss[len(nn.testLoss)-2] {
+				break
+			}
+		}
 	}
 	fmt.Printf("\n\n")
 	visualize(nn.trainLoss, nn.testLoss)

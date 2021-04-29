@@ -42,7 +42,7 @@ func visualize(trainLoss, testLoss []float64) {
 	out, err := cmd.CombinedOutput()
 	checkError("visualize.py", err)
 	if len(out) != 0 {
-		errorExit("visualize.py")
+		fmt.Printf("%vERROR visualize.py output: %v%v\n\n", RED, RESET, out)
 	}
 	err = os.Remove("loss.csv")
 	checkError("Failed to delete loss.csv", err)

@@ -1,7 +1,6 @@
 package multilayer
 
 import (
-	"fmt"
 	"math/rand"
 )
 
@@ -35,23 +34,22 @@ func splitData(data [][]float64, flagT, flagP, flagS bool, err error) (train_set
 	} else { // flagP
 		test_set = data
 	}
-	fmt.Printf("Training samples: %v\n", len(train_set))
-	fmt.Printf("Test samples:     %v\n\n", len(test_set))
+	printSplit(len(train_set), len(test_set))
 	return
 }
 
 // split_x_y splits sample data (x), & diagnosis (y)
-func split_x_y(train_set [][]float64) (x [][]float64, y [][]float64) {
-	for i := 0; i < len(train_set); i++ {
+func split_x_y(data [][]float64) (x [][]float64, y [][]float64) {
+	for i := 0; i < len(data); i++ {
 		// x = data
 		var sample []float64
-		for column := 1; column < len(train_set[0]); column++ {
-			sample = append(sample, train_set[i][column])
+		for column := 1; column < len(data[0]); column++ {
+			sample = append(sample, data[i][column])
 		}
 		x = append(x, sample)
 		// y = one hot diagnosis (Malignant / Benign)
 		var oneHot []float64
-		if train_set[i][0] == 0.0 {
+		if data[i][0] == 0.0 {
 			oneHot = []float64{0, 1}
 		} else {
 			oneHot = []float64{1, 0}

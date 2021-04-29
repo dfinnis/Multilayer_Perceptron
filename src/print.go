@@ -8,6 +8,15 @@ const UNDERLINE = "\x1B[4m"
 const RED = "\x1B[31m"
 const GREEN = "\x1B[32m"
 
+func printSplit(train_set, test_set int) {
+	fmt.Printf("+--------------+---------+\n")
+	fmt.Printf("|%v Data Split   %v|%v Samples %v|\n", BRIGHT, RESET, BRIGHT, RESET)
+	fmt.Printf("+--------------+---------+\n")
+	fmt.Printf("| Training set | %-7v |\n", train_set)
+	fmt.Printf("| Test set     | %-7v |\n", test_set)
+	fmt.Printf("+--------------+---------+\n\n")
+}
+
 func printArchitecture(architecture []int) {
 	fmt.Printf("+----------------------------------+\n")
 	fmt.Printf("|%v   Neural Network Architecture %v   |\n", BRIGHT, RESET)

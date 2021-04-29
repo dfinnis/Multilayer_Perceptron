@@ -54,6 +54,7 @@ func readCsv(filePath string) [][]float32 {
 	return data
 }
 
+// float32to64 converts a list of float64 to float32
 func float32to64(in []float32) []float64 {
 	var out []float64
 	for _, element := range in {
@@ -61,14 +62,6 @@ func float32to64(in []float32) []float64 {
 	}
 	return out
 }
-
-// func float64to32(in []float64) []float32 {
-// 	var out []float32
-// 	for _, element := range in {
-// 		out = append(out, float32(element))
-// 	}
-// 	return out
-// }
 
 // standardize centers data around mean, & applys a standard deviation
 func standardize(data [][]float32) {

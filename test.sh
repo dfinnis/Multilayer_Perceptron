@@ -15,6 +15,6 @@ go build
 ./Multilayer_Perceptron data_test.csv -p
 
 ## Cleanup
-rm MultilayerPerceptron
+rm Multilayer_Perceptron
 rm data_training.csv
 rm data_test.csv

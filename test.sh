@@ -1,4 +1,6 @@
 #### -- Multilayer Perceptron Test -- ####
+# The following commands are the same as running:
+# go run main.go
 
 ## Create Datasets
 python3 evaluation.py

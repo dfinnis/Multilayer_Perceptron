@@ -16,5 +16,6 @@ Metrics
 - loss < 0.08
 Random seed: 1619687999274871000  - test loss: 0.059255
 Random seed: 1619696818483627000  - test loss: 0.07170248736062926
+Random seed: 1619699659782358000  - test loss: 0.031915861152130876
 
 - find out problem with 3 layer architecture?

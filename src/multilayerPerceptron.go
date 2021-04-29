@@ -7,17 +7,12 @@ import (
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 	fmt.Printf("\n%v%vLaunching Multilayer Perceptron%v\n\n", BRIGHT, UNDERLINE, RESET)
-	flagT, dataPath, flagP, modelPath, arch, flagE, flagS, err := parseArg()
+	flagT, dataPath, flagP, modelPath, architecture, flagE, flagS, err := parseArg()
 
 	data := preprocess(dataPath)
 	train_set, test_set := splitData(data, flagT, flagP, flagS, err)
 
-	var architecture []int
-	architecture = append(architecture, len(data[0])-1)
-	architecture = append(architecture, arch...)
-	printArchitecture(architecture)
-
-	nn := buildNN(architecture, flagE)
+	nn := buildNN(len(data[0])-1, architecture, flagE)
 
 	if flagT || err != nil { // if model.json exists skip training, unless -t
 		train(nn, train_set, test_set, flagE)

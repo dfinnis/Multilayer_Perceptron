@@ -53,13 +53,21 @@ func newLayer(nn neuralNetwork, currentLayer int) layer {
 	}
 }
 
-func buildNN(architecture []int, flagE bool) neuralNetwork {
+func getArchitecture(inputLen int, arch []int) []int {
+	var architecture []int
+	architecture = append(architecture, inputLen)
+	architecture = append(architecture, arch...)
+	printArchitecture(architecture)
+	return architecture
+}
+
+func buildNN(inputLen int, architecture []int, flagE bool) neuralNetwork {
 	nn := neuralNetwork{}
-	nn.architecture = architecture
+	nn.architecture = getArchitecture(inputLen, architecture)
 	nn.learningRate = 0.01
 
 	var layer int
-	for layer = 0; layer < len(architecture); layer++ {
+	for layer = 0; layer < len(nn.architecture); layer++ {
 		nn.layers = append(nn.layers, newLayer(nn, layer))
 	}
 	nn.layers[0].activation = nil

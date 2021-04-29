@@ -29,7 +29,8 @@ func saveModel(nn neuralNetwork) {
 	}
 	jsonString, err := json.MarshalIndent(model, "", "	")
 	checkError("json.Marshal", err)
-	ioutil.WriteFile("model.json", jsonString, 0644)
+	err = ioutil.WriteFile("model.json", jsonString, 0644)
+	checkError("ioutil.WriteFile", err)
 	fmt.Printf("Model saved as model.json\n\n")
 }
 

@@ -2,6 +2,8 @@ package multilayer
 
 import (
 	"fmt"
+	"math"
+	"time"
 )
 
 // setInput loads one samples data to the input layer
@@ -50,6 +52,8 @@ func feedforward(nn neuralNetwork, inputs [][]float32) (outputs [][]float32) {
 // train trains the network & saves the model
 func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flagE bool) {
 	fmt.Printf("\n%v%vTrain model%v\n\n", BRIGHT, UNDERLINE, RESET)
+	start := time.Now()
+
 	for epoch := 1; epoch <= nn.epochs; epoch++ {
 		input, y := splitXY(train_set)
 
@@ -57,21 +61,26 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flagE 
 		backprop(nn, output, y)
 
 		trainLoss := computeLoss(output, y)
-		nn.trainLoss = append(nn.trainLoss, trainLoss)
-
 		testLoss := predictLoss(nn, test_set)
+
+		if math.IsNaN(float64(trainLoss)) || (len(test_set) > 0 && math.IsNaN(float64(testLoss))) {
+			break
+		}
+		nn.trainLoss = append(nn.trainLoss, trainLoss)
 		nn.testLoss = append(nn.testLoss, testLoss)
 
-		// print validation metrics
+		// Print Metrics
 		fmt.Printf("\repoch %5v/%v - train loss: %-10v - test loss: %-10v", epoch, nn.epochs, trainLoss, testLoss)
 
+		// Early Stopping
 		if epoch > 1000 && flagE {
 			if nn.testLoss[len(nn.testLoss)-1] > nn.testLoss[len(nn.testLoss)-2] {
 				break
 			}
 		}
 	}
-	fmt.Printf("\n\n")
+	elapsed := time.Since(start)
+	fmt.Printf("\n\nTraining time: %v\n\n", elapsed)
 	visualize(nn.trainLoss, nn.testLoss)
 	saveModel(nn)
 }

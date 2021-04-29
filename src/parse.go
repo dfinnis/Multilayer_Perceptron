@@ -123,6 +123,9 @@ func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, arch
 	if flagT && flagP && modelPath != "model.json" {
 		errorExit("invalid option combination: -t saves model.json but -p loads different model")
 	}
+	if flagT && !flagP && flagE && !flagS {
+		flagE = false
+	}
 	seedRandom(seed, flagS)
 	return
 }

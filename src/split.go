@@ -58,8 +58,8 @@ func getY(data [][]float64, i int) []float64 {
 	return oneHot
 }
 
-// split_x_y splits sample data (x), & diagnosis (y)
-func split_x_y(data [][]float64) (x [][]float64, y [][]float64) {
+// splitXY splits sample data (x), & diagnosis (y)
+func splitXY(data [][]float64) (x [][]float64, y [][]float64) {
 	for i := 0; i < len(data); i++ {
 		x = append(x, getX(data, i))
 		y = append(y, getY(data, i))

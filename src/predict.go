@@ -3,7 +3,7 @@ package multilayer
 import "fmt"
 
 func predict(nn neuralNetwork, samples [][]float64) (predictions, y [][]float64) {
-	input, y := split_x_y(samples)
+	input, y := splitXY(samples)
 	predictions = feedforward(nn, input)
 	return
 }

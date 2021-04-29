@@ -1,6 +1,6 @@
-#### Multilayer Perceptron Test ####
+#### -- Multilayer Perceptron Test -- ####
 
-## Create datasets
+## Create Datasets
 python3 evaluation.py
 
 ## Build

@@ -30,6 +30,7 @@ type neuralNetwork struct {
 	testLoss     []float64
 }
 
+// newNeuron initializes a neuron with random weights and zero bias
 func newNeuron(nn neuralNetwork, layer int) neuron {
 	var weights []float64
 	if layer > 0 {
@@ -42,6 +43,7 @@ func newNeuron(nn neuralNetwork, layer int) neuron {
 	}
 }
 
+// newLayer initializes a layer with neurons & sigmoid activation
 func newLayer(nn neuralNetwork, currentLayer int) layer {
 	var neurons []neuron
 	for i := 0; i < nn.architecture[currentLayer]; i++ {
@@ -53,6 +55,7 @@ func newLayer(nn neuralNetwork, currentLayer int) layer {
 	}
 }
 
+// getArchitecture joins the input layer to the rest
 func getArchitecture(inputLen int, arch []int) []int {
 	var architecture []int
 	architecture = append(architecture, inputLen)
@@ -61,6 +64,7 @@ func getArchitecture(inputLen int, arch []int) []int {
 	return architecture
 }
 
+// buildNN initializes a neural network
 func buildNN(inputLen int, architecture []int, flagE bool) neuralNetwork {
 	nn := neuralNetwork{}
 	nn.architecture = getArchitecture(inputLen, architecture)

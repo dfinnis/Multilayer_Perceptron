@@ -38,23 +38,31 @@ func splitData(data [][]float64, flagT, flagP, flagS bool, err error) (train_set
 	return
 }
 
+// getX returns the data minus diagnosis
+func getX(data [][]float64, i int) []float64 {
+	var sample []float64
+	for column := 1; column < len(data[0]); column++ {
+		sample = append(sample, data[i][column])
+	}
+	return sample
+}
+
+// getY returns one hot diagnosis (Malignant / Benign)
+func getY(data [][]float64, i int) []float64 {
+	var oneHot []float64
+	if data[i][0] == 0.0 {
+		oneHot = []float64{0, 1}
+	} else {
+		oneHot = []float64{1, 0}
+	}
+	return oneHot
+}
+
 // split_x_y splits sample data (x), & diagnosis (y)
 func split_x_y(data [][]float64) (x [][]float64, y [][]float64) {
 	for i := 0; i < len(data); i++ {
-		// x = data
-		var sample []float64
-		for column := 1; column < len(data[0]); column++ {
-			sample = append(sample, data[i][column])
-		}
-		x = append(x, sample)
-		// y = one hot diagnosis (Malignant / Benign)
-		var oneHot []float64
-		if data[i][0] == 0.0 {
-			oneHot = []float64{0, 1}
-		} else {
-			oneHot = []float64{1, 0}
-		}
-		y = append(y, oneHot)
+		x = append(x, getX(data, i))
+		y = append(y, getY(data, i))
 	}
 	return
 }

@@ -19,16 +19,6 @@ func defaultConfig() (string, string, []int, int64, bool) {
 	return dataPath, modelPath, architecture, seed, flagS
 }
 
-// modelExists ensures we train if model doesn't exist
-func modelExists(modelPath string) (flagT, flagP bool) {
-	_, err := os.Stat(modelPath)
-	if err != nil {
-		flagT = true
-		flagP = true
-	}
-	return
-}
-
 // parseFilepath checks if filepath exists
 func parseFilepath(filepath string) string {
 	_, err := os.Stat(filepath)

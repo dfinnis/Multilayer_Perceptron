@@ -11,7 +11,7 @@ Metrics
 
 #### -- TO DO -- ####
 
-- -t data_training.csv; -p data_test.csv   Split!
+- -l --learning rate?
 
 - loss < 0.08
 Random seed: 1619687999274871000  - test loss: 0.059255

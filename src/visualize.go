@@ -35,7 +35,7 @@ func writeCSV(trainLoss, testLoss []float32) {
 	}
 }
 
-// visualize calls visualize.py, giving loss as argument
+// visualize writes loss to csv & calls visualize.py
 func visualize(trainLoss, testLoss []float32) {
 	writeCSV(trainLoss, testLoss)
 	cmd := exec.Command("python3", "src/visualize.py")

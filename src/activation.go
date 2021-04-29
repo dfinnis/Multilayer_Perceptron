@@ -34,7 +34,6 @@ func max32(max, value float32) float32 {
 func softmax(values []float32) []float32 {
 	max := values[0]
 	for _, value := range values {
-		// max = float32(math.Max(max, value)
 		max = max32(max, value)
 	}
 

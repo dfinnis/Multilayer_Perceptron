@@ -2,3 +2,5 @@ Multilayer_Perceptron
 .DS_Store
 model.json
 loss.csv
+data_test.csv
+data_training.csv

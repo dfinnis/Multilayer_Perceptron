@@ -2,16 +2,15 @@ package multilayer
 
 import (
 	"fmt"
-	"os"
 )
 
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {
 	fmt.Printf("\n%v%vLaunching Multilayer Perceptron%v\n\n", BRIGHT, UNDERLINE, RESET)
-	flagT, flagP, filepath, arch, flagE := parseArg()
+	flagT, dataPath, flagP, modelPath, arch, flagE, flagS, err := parseArg()
 
-	data := preprocess()
-	train_set, test_set := split(data)
+	data := preprocess(dataPath)
+	train_set, test_set := splitData(data, flagT, flagP, flagS, err)
 
 	var architecture []int
 	architecture = append(architecture, len(data[0])-1)
@@ -20,25 +19,13 @@ func MultilayerPerceptron() {
 
 	nn := buildNN(architecture, flagE)
 
-	_, err := os.Stat(filepath)
 	if flagT || err != nil { // if model.json exists skip training, unless -t
 		train(nn, train_set, test_set, flagE)
 	} else {
-		loadModel(nn, filepath)
+		loadModel(nn, modelPath)
 	}
 
-	if flagP {
+	if flagP || (!flagT && !flagP) {
 		predictFinal(nn, test_set)
 	}
 }
-
-// func dumpNN(nn neuralNetwork) {
-// 	fmt.Println(nn.learningRate)
-// 	fmt.Println()
-// 	fmt.Println(nn.architecture)
-// 	for i := 0; i < len(nn.architecture); i++ {
-// 		fmt.Println()
-// 		fmt.Println(nn.layers[i])
-// 	}
-// 	fmt.Println()
-// }

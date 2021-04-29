@@ -41,7 +41,7 @@ func truthTally(y_pred, y_true [][]float64) (float64, float64, float64, float64)
 func predictFinal(nn neuralNetwork, test_set [][]float64) {
 	fmt.Printf("\n%v%vPredict%v\n\n", BRIGHT, UNDERLINE, RESET)
 	predictions, y := predict(nn, test_set)
-	loss := computeLoss(predictions, y)
+	loss := binaryCrossEntropy(predictions, y)
 	tp, fn, fp, tn := truthTally(predictions, y)
 	printMetrics(tp, fn, fp, tn, loss)
 	confusionMatrix(tp, fn, fp, tn)

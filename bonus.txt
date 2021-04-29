@@ -1,13 +1,20 @@
 #### -- Bonus -- ####
 1. -a --architecture
-2. -e --early, early stopping?????????
+2. -e --early, early stopping
 3. loss function (mse, rmse)??????????
 4. 
 5. 
 
+-s --seed
+Confusion Matrix
+Metrics
+
 #### -- TO DO -- ####
 
+- -t data_training.csv; -p data_test.csv   Split!
+
 - loss < 0.08
-Random seed: 1619687999274871000  - loss: 0.059255
+Random seed: 1619687999274871000  - test loss: 0.059255
+Random seed: 1619696818483627000  - test loss: 0.07170248736062926
 
 - find out problem with 3 layer architecture?

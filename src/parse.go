@@ -10,19 +10,30 @@ import (
 )
 
 // defaultConfig initializes default values
-func defaultConfig() (string, []int, int64, bool) {
-	filepath := "model.json"
+func defaultConfig() (string, string, []int, int64, bool) {
+	dataPath := "data.csv"
+	modelPath := "model.json"
 	architecture := []int{16, 16, 2}
 	seed := time.Now().UnixNano()
 	flagS := false
-	return filepath, architecture, seed, flagS
+	return dataPath, modelPath, architecture, seed, flagS
+}
+
+// modelExists ensures we train if model doesn't exist
+func modelExists(modelPath string) (flagT, flagP bool) {
+	_, err := os.Stat(modelPath)
+	if err != nil {
+		flagT = true
+		flagP = true
+	}
+	return
 }
 
 // parseFilepath checks if filepath exists
 func parseFilepath(filepath string) string {
 	_, err := os.Stat(filepath)
 	if err != nil {
-		usageError("Invalid model filepath: ", filepath)
+		usageError("Invalid filepath: ", filepath)
 	}
 	return filepath
 }
@@ -74,13 +85,18 @@ func seedRandom(seed int64, flagS bool) {
 }
 
 // parseArg parses and returns arguments for flags -t -p -a -s
-func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, flagE bool) {
-	filepath, architecture, seed, flagS := defaultConfig()
+func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, architecture []int, flagE, flagS bool, err error) {
+	dataPath, modelPath, architecture, seed, flagS := defaultConfig()
+	_, err = os.Stat(modelPath)
 
 	args := os.Args[1:]
 	if len(args) == 0 {
 		seedRandom(seed, flagS)
-		return false, true, filepath, architecture, false
+		if err != nil {
+			flagT = true
+			flagP = true
+		}
+		return
 	} else if len(args) > 7 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))
 	}
@@ -97,7 +113,8 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, fl
 					continue
 				}
 				i++
-				filepath = parseFilepath(args[i])
+				modelPath = parseFilepath(args[i])
+				_, err = os.Stat(modelPath)
 			}
 		} else if args[i] == "-a" || args[i] == "--architecture" {
 			i++
@@ -109,15 +126,12 @@ func parseArg() (flagT bool, flagP bool, filepath string, architecture []int, fl
 		} else if args[i] == "-e" || args[i] == "--early" {
 			flagE = true
 		} else {
-			usageError("Bad argument: ", args[i])
+			dataPath = parseFilepath(args[i])
 		}
 	}
 
-	if flagT && flagP && filepath != "model.json" {
+	if flagT && flagP && modelPath != "model.json" {
 		errorExit("invalid option combination: -t saves model.json but -p loads different model")
-	}
-	if !flagT && !flagP {
-		flagP = true
 	}
 	seedRandom(seed, flagS)
 	return

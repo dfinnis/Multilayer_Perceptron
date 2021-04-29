@@ -6,7 +6,7 @@ import (
 )
 
 func printUsage() {
-	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [-t] [-p [FILEPATH]] [-a ARCHITECTURE] [-s SEED]\n\n")
+	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [DATA.CSV] [-t] [-p [FILEPATH]] [-a ARCHITECTURE] [-s SEED]\n\n")
 	fmt.Printf("    [-t] (--train)        Only train, don't predict. Overwrites existing model\n")
 	fmt.Printf("    [-p] (--predict)      Only predict, don't train. Optional [FILEPATH] load model from filepath\n")
 	fmt.Printf("    [-a] (--architecture) Provide ARCHITECTURE as string e.g. -a \"16 16 2\"\n")

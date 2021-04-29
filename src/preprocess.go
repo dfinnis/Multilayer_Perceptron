@@ -11,14 +11,14 @@ import (
 )
 
 // readCsv reads data.csv into a 2d array of floats
-func readCsv(filePath string) [][]float64 {
+func readCsv(filePath string) [][]float32 {
 	f, err := os.Open(filePath)
 	checkError("Unable to read input data file", err)
 	defer f.Close()
 	csvReader := csv.NewReader(f)
 	// // in := "id, diagnosis','radius_mean','texture_mean','perimeter_mean','area_mean','smoothness_mean','compactness_mean','concavity_mean','concave points_mean','symmetry_mean','fractal_dimension_mean','radius_se','texture_se','perimeter_se','area_se','smoothness_se','compactness_se','concavity_se','concave points_se','symmetry_se','fractal_dimension_se','radius_worst','texture_worst','perimeter_worst','area_worst','smoothness_worst','compactness_worst','concavity_worst','concave points_worst','symmetry_worst','fractal_dimension_worst"
 
-	var data [][]float64
+	var data [][]float32
 	for {
 		var drop bool
 		dataStr, err := csvReader.Read()
@@ -26,7 +26,7 @@ func readCsv(filePath string) [][]float64 {
 			break
 		}
 		checkError("Unable to parse data file as CSV", err)
-		var sample []float64
+		var sample []float32
 		for column, dataPoint := range dataStr {
 			if column == 1 {
 				if dataPoint == "M" {
@@ -44,7 +44,7 @@ func readCsv(filePath string) [][]float64 {
 				}
 				float, err := strconv.ParseFloat(dataPoint, 64)
 				checkError("Unable to parse data file as float", err)
-				sample = append(sample, float)
+				sample = append(sample, float32(float))
 			}
 		}
 		if !drop {
@@ -54,17 +54,33 @@ func readCsv(filePath string) [][]float64 {
 	return data
 }
 
+func float32to64(in []float32) []float64 {
+	var out []float64
+	for _, element := range in {
+		out = append(out, float64(element))
+	}
+	return out
+}
+
+// func float64to32(in []float64) []float32 {
+// 	var out []float32
+// 	for _, element := range in {
+// 		out = append(out, float32(element))
+// 	}
+// 	return out
+// }
+
 // standardize centers data around mean, & applys a standard deviation
-func standardize(data [][]float64) {
+func standardize(data [][]float32) {
 	for col := 1; col < len(data[0]); col++ {
-		var column []float64
+		var column []float32
 		for _, sample := range data {
 			column = append(column, sample[col])
 		}
 
-		mean := stat.Mean(column, nil)
-		variance := stat.Variance(column, nil)
-		stddev := math.Sqrt(variance)
+		mean := float32(stat.Mean(float32to64(column), nil))
+		variance := stat.Variance(float32to64(column), nil)
+		stddev := float32(math.Sqrt(variance))
 
 		for sample, _ := range data {
 			data[sample][col] = (data[sample][col] - mean) / stddev
@@ -73,7 +89,7 @@ func standardize(data [][]float64) {
 }
 
 // preprocess reads data.csv & standardizes data
-func preprocess(dataPath string) [][]float64 {
+func preprocess(dataPath string) [][]float32 {
 	data := readCsv(dataPath)
 	standardize(data)
 	return data

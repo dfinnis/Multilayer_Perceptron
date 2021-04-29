@@ -2,8 +2,8 @@ package multilayer
 
 import "math"
 
-func sigmoid(z float64) float64 {
-	return 1 / (1 + math.Exp(-z))
+func sigmoid(z float32) float32 {
+	return 1 / (1 + float32(math.Exp(float64(-z))))
 }
 
 func sigmoidLayer(nn neuralNetwork, layer int) {
@@ -13,10 +13,10 @@ func sigmoidLayer(nn neuralNetwork, layer int) {
 	}
 }
 
-func sigmoid_prime(inputs [][]float64) [][]float64 {
-	outputs := make([][]float64, len(inputs))
+func sigmoid_prime(inputs [][]float32) [][]float32 {
+	outputs := make([][]float32, len(inputs))
 	for i, input := range inputs {
-		outputs[i] = make([]float64, len(inputs[0]))
+		outputs[i] = make([]float32, len(inputs[0]))
 		for j, z := range input {
 			outputs[i][j] = sigmoid(z) * (1 - sigmoid(z))
 		}
@@ -24,16 +24,24 @@ func sigmoid_prime(inputs [][]float64) [][]float64 {
 	return outputs
 }
 
-func softmax(values []float64) []float64 {
+func max32(max, value float32) float32 {
+	if max > value {
+		return max
+	}
+	return value
+}
+
+func softmax(values []float32) []float32 {
 	max := values[0]
 	for _, value := range values {
-		max = math.Max(max, value)
+		// max = float32(math.Max(max, value)
+		max = max32(max, value)
 	}
 
-	outputs := make([]float64, len(values))
-	var sum float64
+	outputs := make([]float32, len(values))
+	var sum float32
 	for i, value := range values {
-		outputs[i] -= math.Exp(value - max)
+		outputs[i] -= float32(math.Exp(float64(value - max)))
 		sum += outputs[i]
 	}
 	for i, output := range outputs {
@@ -43,7 +51,7 @@ func softmax(values []float64) []float64 {
 }
 
 func softmaxLayer(nn neuralNetwork, layer int) {
-	var values []float64
+	var values []float32
 	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
 		values = append(values, nn.layers[layer].neurons[neuron].value)
 	}
@@ -53,13 +61,13 @@ func softmaxLayer(nn neuralNetwork, layer int) {
 	}
 }
 
-func softmax_prime(z [][]float64) (d_Z [][]float64) {
+func softmax_prime(z [][]float32) (d_Z [][]float32) {
 	for _, sample := range z {
 		soft := softmax(sample)
-		var minus []float64
+		var minus []float32
 		minus = append(minus, 1-soft[0])
 		minus = append(minus, 1-soft[1])
-		var d []float64
+		var d []float32
 		d = append(d, soft[0]*minus[0])
 		d = append(d, soft[1]*minus[1])
 		d_Z = append(d_Z, d)

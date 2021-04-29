@@ -8,7 +8,7 @@ import (
 )
 
 // lossToStr converts 2 lists of floats to a 2d string array
-func lossToStr(trainLoss, testLoss []float64) [][]string {
+func lossToStr(trainLoss, testLoss []float32) [][]string {
 	var lossStrArray [][]string
 	for i := 0; i < len(trainLoss); i++ {
 		var lossStr []string
@@ -20,7 +20,7 @@ func lossToStr(trainLoss, testLoss []float64) [][]string {
 }
 
 // writeCSV writes trainLoss & testLoss to loss.csv
-func writeCSV(trainLoss, testLoss []float64) {
+func writeCSV(trainLoss, testLoss []float32) {
 	loss := lossToStr(trainLoss, testLoss)
 	file, err := os.Create("loss.csv")
 	checkError("Cannot create file", err)
@@ -36,7 +36,7 @@ func writeCSV(trainLoss, testLoss []float64) {
 }
 
 // visualize calls visualize.py, giving loss as argument
-func visualize(trainLoss, testLoss []float64) {
+func visualize(trainLoss, testLoss []float32) {
 	writeCSV(trainLoss, testLoss)
 	cmd := exec.Command("python3", "src/visualize.py")
 	out, err := cmd.CombinedOutput()

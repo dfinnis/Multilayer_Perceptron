@@ -38,7 +38,7 @@ func printArchitecture(architecture []int) {
 	fmt.Printf("+-----------+---------+------------+\n\n")
 }
 
-func printMetrics(tp, fn, fp, tn, loss float64) {
+func printMetrics(tp, fn, fp, tn, loss float32) {
 	accuracy := (tp + tn) / (tp + tn + fp + fn)
 	precision := tp / (tp + fp)
 	recall := tp / (tp + fn)
@@ -67,7 +67,7 @@ func printMetrics(tp, fn, fp, tn, loss float64) {
 
 }
 
-func confusionMatrix(tp, fn, fp, tn float64) {
+func confusionMatrix(tp, fn, fp, tn float32) {
 	fmt.Printf("%vConfusion Matrix%v     +---------------+\n", BRIGHT, RESET)
 	fmt.Printf("                     |%v Ground Truth %v |\n", BRIGHT, RESET)
 	fmt.Printf("Total samples: %-5v +-------+-------+\n", (tp + fn + fp + tn))

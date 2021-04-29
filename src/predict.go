@@ -2,23 +2,23 @@ package multilayer
 
 import "fmt"
 
-func predict(nn neuralNetwork, samples [][]float64) (predictions, y [][]float64) {
+func predict(nn neuralNetwork, samples [][]float32) (predictions, y [][]float32) {
 	input, y := splitXY(samples)
 	predictions = feedforward(nn, input)
 	return
 }
 
-func predictLoss(nn neuralNetwork, samples [][]float64) float64 {
+func predictLoss(nn neuralNetwork, samples [][]float32) float32 {
 	predictions, y := predict(nn, samples)
 	loss := computeLoss(predictions, y)
 	return loss
 }
 
-func truthTally(y_pred, y_true [][]float64) (float64, float64, float64, float64) {
-	var tp float64 // True Positive		// Predicted True & Is True
-	var fn float64 // False Negative	// Predicted False & Is True
-	var fp float64 // False Positive	// Predicted True & Is False
-	var tn float64 // True Negative		// Predicted False & Is False
+func truthTally(y_pred, y_true [][]float32) (float32, float32, float32, float32) {
+	var tp float32 // True Positive		// Predicted True & Is True
+	var fn float32 // False Negative	// Predicted False & Is True
+	var fp float32 // False Positive	// Predicted True & Is False
+	var tn float32 // True Negative		// Predicted False & Is False
 
 	for i := 0; i < len(y_pred); i++ {
 		if y_true[i][1] == 1 { // Is True
@@ -38,7 +38,7 @@ func truthTally(y_pred, y_true [][]float64) (float64, float64, float64, float64)
 	return tp, fn, fp, tn
 }
 
-func predictFinal(nn neuralNetwork, test_set [][]float64) {
+func predictFinal(nn neuralNetwork, test_set [][]float32) {
 	fmt.Printf("\n%v%vPredict%v\n\n", BRIGHT, UNDERLINE, RESET)
 	predictions, y := predict(nn, test_set)
 	loss := binaryCrossEntropy(predictions, y)

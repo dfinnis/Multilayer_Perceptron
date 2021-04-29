@@ -9,8 +9,8 @@ import (
 
 // Save/load model, 2D array [][]jsonNeuron <=> json file
 type jsonNeuron struct {
-	Bias    float64
-	Weights []float64
+	Bias    float32
+	Weights []float32
 }
 
 // Save bias & weights to model.json

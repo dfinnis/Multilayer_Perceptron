@@ -6,12 +6,12 @@ import (
 )
 
 type neuron struct {
-	bias    float64
-	weights []float64
-	value   float64   // before activation func
-	output  float64   // after activation func
-	z       []float64 // value for each sample
-	outputs []float64 // output for each sample
+	bias    float32
+	weights []float32
+	value   float32   // before activation func
+	output  float32   // after activation func
+	z       []float32 // value for each sample
+	outputs []float32 // output for each sample
 }
 
 type activationFunc func(nn neuralNetwork, layer int)
@@ -24,18 +24,18 @@ type layer struct {
 type neuralNetwork struct {
 	architecture []int
 	layers       []layer
-	learningRate float64
+	learningRate float32
 	epochs       int
-	trainLoss    []float64
-	testLoss     []float64
+	trainLoss    []float32
+	testLoss     []float32
 }
 
 // newNeuron initializes a neuron with random weights and zero bias
 func newNeuron(nn neuralNetwork, layer int) neuron {
-	var weights []float64
+	var weights []float32
 	if layer > 0 {
 		for i := 0; i < nn.architecture[layer-1]; i++ {
-			weights = append(weights, rand.Float64()*math.Sqrt(2/float64(nn.architecture[layer-1])))
+			weights = append(weights, float32(rand.Float64()*math.Sqrt(2/float64(nn.architecture[layer-1]))))
 		}
 	}
 	return neuron{

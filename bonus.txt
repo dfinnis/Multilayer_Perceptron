@@ -11,6 +11,8 @@ Metrics
 
 #### -- TO DO -- ####
 
+- clean loss.go
+
 - -l --learning rate?
 flag train number of epochs?
 

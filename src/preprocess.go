@@ -86,6 +86,6 @@ func standardize(data [][]float32) {
 func preprocess(dataPath string) [][]float32 {
 	data := readCsv(dataPath)
 	standardize(data)
-	fmt.Printf("Data read from: %v\n\n", dataPath)
+	fmt.Printf("Data loaded from: %v\n\n", dataPath)
 	return data
 }

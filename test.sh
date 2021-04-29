@@ -14,3 +14,5 @@ go build
 
 ## Cleanup
 rm MultilayerPerceptron
+rm data_training.csv
+rm data_test.csv

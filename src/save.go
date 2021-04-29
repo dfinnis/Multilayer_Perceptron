@@ -54,7 +54,7 @@ func checkModel(model [][]jsonNeuron, nn neuralNetwork) {
 
 // Load bias & weights from model.json
 func loadModel(nn neuralNetwork, filepath string) {
-	fmt.Printf("Loading model from %v...", filepath)
+	fmt.Printf("Loading model from: %v...", filepath)
 	file, err := ioutil.ReadFile(filepath)
 	checkError("ioutil.ReadFile", err)
 
@@ -71,5 +71,5 @@ func loadModel(nn neuralNetwork, filepath string) {
 			}
 		}
 	}
-	fmt.Printf("\rModel loaded from %v    \n\n", filepath)
+	fmt.Printf("\rModel loaded from: %v    \n\n", filepath)
 }

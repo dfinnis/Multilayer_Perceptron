@@ -30,7 +30,9 @@ To run. <br>
 Alternatively, build and run the binary. <br>
 ```go build; ./Multilayer_Perceptron```
 
-Default behaviour is if model.json exists only predict, if model.json does not exist train & predict.
+Default behaviour is to split the data into training & test sets, train a model on the training set, save it as *model.json*, then predict for the test set.
+If *model.json* already exists load *model.json* then predict.
+
 
 ## Flags
 
@@ -38,13 +40,18 @@ Default behaviour is if model.json exists only predict, if model.json does not e
 
 Only train, don't predict. Uses the entire dataset to train. Overwrites existing model.json.
 
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/t.png">
+
+
 ### -p --predict
 
 Only predict, don't train. Uses the entire dataset to predict unless seeded with *-s*.
 
 The default model path is "model.json", but with additional argument *FILEPATH* model is loaded from given filepath.
 
-*-t -p* both train & predict, even if model.json already exists.
+*-t -p* both train & predict, even if *model.json* already exists.
+
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/p.png">
 
 ### -e --early
 
@@ -60,6 +67,16 @@ Provide addtional argument EPOCHS to determine length of training. Must be an in
 
 The default number of epochs is 15000, which is usually around when test loss reaches its minimum on default settings.
 
+### -s --seed
+
+```go run main.go -t -p -e -s 4242```
+
+Provide addtional argument SEED integer for randomization.
+
+This seeds the pseudo-randomization of weights and shuffling of data.
+Thus a data split, model & loss can be replicated exactly with a given seed.
+The default seed is the current time.
+
 ### -l --learning
 
 ```go run main.go -t -p -e -l 0.1```
@@ -74,14 +91,13 @@ Provide addtional argument ARCHITECTURE as string.
 
 The default architecture is "16 16 2".
 
-### -s --seed
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/a.png">
 
-```go run main.go -t -p -e -s 4242```
+### data.csv
 
-Provide addtional argument SEED integer for randomization.
+```go run main.go data.csv```
 
-This seeds the pseudo-randomization of weights and shuffling of data.
-Thus a data split, model & loss can be replicated exactly with a given seed.
+Any non-flag argument will be read as data path. The default data path is *data.csv*.
 
 ## Test
 
@@ -90,3 +106,5 @@ Thus a data split, model & loss can be replicated exactly with a given seed.
 42 provides *evaluation.py* which splits *data.csv* randomly into *data_training.csv* & *data_test.csv*.
 
 *test.sh* runs *evaluation.py* then trains a model with *data_training.csv*, & predicts with *data_test.csv*.
+
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/test.png">

@@ -14,10 +14,11 @@ No libraries for data frames or matrix multiplication, only math.Exp .Log & .Sqr
 float64 everything?
 
 - loss < 0.08
-Random seed: 1619696818483627000  - test loss: 0.07170248736062926
+Random seed: 1619696818483627000  - test loss: 0.071702
 Random seed: 1619707987089926000  - test loss: 0.059896
 Random seed: 1619687999274871000  - test loss: 0.059255
-Random seed: 1619699659782358000  - test loss: 0.031915861152130876
+Random seed: 1619699659782358000  - test loss: 0.031915
+Random seed: 1619787177180511000  - test loss: 0.031636
 Random seed: 1619720454332218000  - test loss: 0.024296
 
 - find out problem with 3 layer architecture?

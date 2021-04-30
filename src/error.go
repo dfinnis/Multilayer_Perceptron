@@ -6,13 +6,15 @@ import (
 )
 
 func printUsage() {
-	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [DATA.CSV] [-t] [-p [FILEPATH]] [-a ARCHITECTURE] [-s SEED]\n\n")
-	fmt.Printf("    [-t] (--train)        Only train, don't predict. Overwrites existing model\n")
-	fmt.Printf("    [-p] (--predict)      Only predict, don't train. Optional [FILEPATH] load model from filepath\n")
-	fmt.Printf("    [-a] (--architecture) Provide ARCHITECTURE as string e.g. -a \"16 16 2\"\n")
-	fmt.Printf("    [-s] (--seed)         Provide SEED integer for randomization e.g. -s 42\n")
-	fmt.Printf("    [-e] (--early)        Early stopping. Stop training when test set loss starts increasing\n")
-	fmt.Printf("    [-h] (--help)         Show usage\n\n")
+	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [DATA.CSV] [-t] [-p [FILEPATH]] [-e] [-a ARCHITECTURE] [-s SEED] [-l LEARNING] [-ep EPOCHS]\n\n")
+	fmt.Printf("    [-t]  (--train)        Only train, don't predict. Overwrites existing model\n")
+	fmt.Printf("    [-p]  (--predict)      Only predict, don't train. Optional [FILEPATH] load model from filepath\n")
+	fmt.Printf("    [-e]  (--early)        Early stopping. Stop training when test set loss starts increasing\n")
+	fmt.Printf("    [-a]  (--architecture) Provide ARCHITECTURE as string e.g. -a \"16 16 2\"\n")
+	fmt.Printf("    [-s]  (--seed)         Provide SEED integer for randomization e.g. -s 42\n")
+	fmt.Printf("    [-l]  (--learning)     Provide LEARNING rate. Must be float between 0 & 1, default 0.01\n")
+	fmt.Printf("    [-ep] (--epochs)       Provide EPOCHS. Must be integer between 0 & 100000, default 15000\n")
+	fmt.Printf("    [-h]  (--help)         Show usage\n\n")
 	os.Exit(1)
 }
 

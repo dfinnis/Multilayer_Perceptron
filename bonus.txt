@@ -5,10 +5,10 @@
 4. -mse (mean squared error), & -rmse (root mean squared error) loss functions
 5. -l --learning, -ep --epochs & -s --seed
 
-+ test.sh
-+ No libraries for data frames or matrix multiplication
+6. test.sh
+7. No libraries for data frames or matrix multiplication
 	(only math.Exp .Log & .Sqrt, stat.Mean & .Variance)
-+ README.md
+8. README.md
 
 
 #### -- loss < 0.08 -- ####

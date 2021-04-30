@@ -1,8 +1,6 @@
 package multilayer
 
-import (
-	"math"
-)
+import "math"
 
 // Mean Squared Error loss
 func meanSquaredError(outputs, y [][]float32) float32 {

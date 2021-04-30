@@ -10,7 +10,7 @@ test.sh
 
 #### -- TO DO -- ####
 
-- clean loss.go
+float64 everything?
 
 - -l --learning rate?
 -ep --epochs train number of epochs?

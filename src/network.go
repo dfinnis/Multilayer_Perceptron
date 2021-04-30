@@ -86,8 +86,8 @@ func setLossFunc(nn neuralNetwork, flagMSE, flagRMSE bool) neuralNetwork {
 
 // setEpochs parses flags -e --early stopping & -ep epochs
 func setEpochs(nn neuralNetwork, flagE bool, epochs int) neuralNetwork {
-	_, _, _, _, _, _, defaultEpochs := defaultConfig()
-	if flagE && epochs == defaultEpochs { // early stopping, "infinite" training
+	flags := defaultConfig()
+	if flagE && epochs == flags.epochs { // early stopping, "infinite" training
 		nn.epochs = 42000
 	} else {
 		nn.epochs = epochs
@@ -96,9 +96,9 @@ func setEpochs(nn neuralNetwork, flagE bool, epochs int) neuralNetwork {
 }
 
 // buildNN initializes a neural network
-func buildNN(inputLen int, architecture []int, flagE, flagMSE, flagRMSE bool, learningRate float32, epochs int) neuralNetwork {
+func buildNN(inputLen int, flags flags) neuralNetwork {
 	nn := neuralNetwork{}
-	nn.architecture = getArchitecture(inputLen, architecture)
+	nn.architecture = getArchitecture(inputLen, flags.architecture)
 	// Build layer by layer
 	var layer int
 	for layer = 0; layer < len(nn.architecture); layer++ {
@@ -108,8 +108,8 @@ func buildNN(inputLen int, architecture []int, flagE, flagMSE, flagRMSE bool, le
 	nn.layers[0].activation = nil                // Input Layer no activation
 	nn.layers[layer-1].activation = softmaxLayer // Output Layer Softmax activation
 
-	nn = setLossFunc(nn, flagMSE, flagRMSE)
-	nn = setEpochs(nn, flagE, epochs)
-	nn.learningRate = learningRate
+	nn = setLossFunc(nn, flags.flagMSE, flags.flagRMSE)
+	nn = setEpochs(nn, flags.flagE, flags.epochs)
+	nn.learningRate = flags.learningRate
 	return nn
 }

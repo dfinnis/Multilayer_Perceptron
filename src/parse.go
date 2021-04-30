@@ -9,16 +9,34 @@ import (
 	"time"
 )
 
+// flags contains all flags and arguments
+type flags struct {
+	flagT        bool
+	dataPath     string
+	flagP        bool
+	modelPath    string
+	architecture []int
+	seed         int64
+	flagE        bool
+	flagS        bool
+	flagMSE      bool
+	flagRMSE     bool
+	learningRate float32
+	epochs       int
+	err          error
+}
+
 // defaultConfig initializes default values
-func defaultConfig() (string, string, []int, int64, bool, float32, int) {
-	dataPath := "data.csv"
-	modelPath := "model.json"
-	architecture := []int{16, 16, 2}
-	seed := time.Now().UnixNano()
-	flagS := false
-	var learningRate float32 = 0.01
-	epochs := 15000
-	return dataPath, modelPath, architecture, seed, flagS, learningRate, epochs
+func defaultConfig() flags {
+	flags := flags{}
+	flags.dataPath = "data.csv"
+	flags.modelPath = "model.json"
+	flags.architecture = []int{16, 16, 2}
+	flags.seed = time.Now().UnixNano()
+	flags.flagS = false
+	flags.learningRate = 0.01
+	flags.epochs = 15000
+	return flags
 }
 
 // parseFilepath checks if filepath exists
@@ -121,19 +139,19 @@ func parseEpochs(i int, args []string) int {
 	return epochs
 }
 
-// parseArg parses and returns arguments for flags -t -p -a -s
-func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, architecture []int, flagE, flagS, flagMSE, flagRMSE bool, learningRate float32, epochs int, err error) {
-	dataPath, modelPath, architecture, seed, flagS, learningRate, epochs := defaultConfig()
-	_, err = os.Stat(modelPath)
+// parseArg parses and returns arguments for flags
+func parseArg() flags {
+	flags := defaultConfig()
+	_, flags.err = os.Stat(flags.modelPath)
 
 	args := os.Args[1:]
 	if len(args) == 0 {
-		seedRandom(seed, flagS)
-		if err != nil {
-			flagT = true
-			flagP = true
+		seedRandom(flags.seed, flags.flagS)
+		if flags.err != nil {
+			flags.flagT = true
+			flags.flagP = true
 		}
-		return
+		return flags
 	} else if len(args) > 12 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))
 	}
@@ -142,47 +160,47 @@ func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, arch
 		if args[i] == "-h" || args[i] == "--help" {
 			printUsage()
 		} else if args[i] == "-t" || args[i] == "--train" {
-			flagT = true
+			flags.flagT = true
 		} else if args[i] == "-p" || args[i] == "--predict" {
-			flagP = true
+			flags.flagP = true
 			if i < len(args)-1 {
 				if isFlag(args[i+1]) {
 					continue
 				}
 				i++
-				modelPath = parseFilepath(args[i])
-				_, err = os.Stat(modelPath)
+				flags.modelPath = parseFilepath(args[i])
+				_, flags.err = os.Stat(flags.modelPath)
 			}
 		} else if args[i] == "-a" || args[i] == "--architecture" {
 			i++
-			architecture = parseArchitecture(i, args)
+			flags.architecture = parseArchitecture(i, args)
 		} else if args[i] == "-s" || args[i] == "--seed" {
 			i++
-			seed = parseSeed(i, args)
-			flagS = true
+			flags.seed = parseSeed(i, args)
+			flags.flagS = true
 		} else if args[i] == "-e" || args[i] == "--early" {
-			flagE = true
+			flags.flagE = true
 		} else if args[i] == "-ep" || args[i] == "--epochs" {
 			i++
-			epochs = parseEpochs(i, args)
+			flags.epochs = parseEpochs(i, args)
 		} else if args[i] == "-l" || args[i] == "--learning" {
 			i++
-			learningRate = parseLearningRate(i, args)
+			flags.learningRate = parseLearningRate(i, args)
 		} else if args[i] == "-mse" || args[i] == "--mean" {
-			flagMSE = true
+			flags.flagMSE = true
 		} else if args[i] == "-rmse" || args[i] == "--root" {
-			flagRMSE = true
+			flags.flagRMSE = true
 		} else {
-			dataPath = parseFilepath(args[i])
+			flags.dataPath = parseFilepath(args[i])
 		}
 	}
 
-	if flagT && flagP && modelPath != "model.json" {
+	if flags.flagT && flags.flagP && flags.modelPath != "model.json" {
 		errorExit("invalid option combination: -t saves model.json but -p loads different model")
 	}
-	if flagT && !flagP && flagE && !flagS {
-		flagE = false
+	if flags.flagT && !flags.flagP && flags.flagE && !flags.flagS {
+		flags.flagE = false
 	}
-	seedRandom(seed, flagS)
-	return
+	seedRandom(flags.seed, flags.flagS)
+	return flags
 }

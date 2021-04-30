@@ -7,24 +7,24 @@ func MultilayerPerceptron() {
 	fmt.Printf("\n%v%vLaunching Multilayer Perceptron%v\n\n", BRIGHT, UNDERLINE, RESET)
 
 	// Flags
-	flagT, dataPath, flagP, modelPath, architecture, flagE, flagS, flagMSE, flagRMSE, learningRate, epochs, err := parseArg()
+	flags := parseArg()
 
 	// Data
-	data := preprocess(dataPath)
-	train_set, test_set := splitData(data, flagT, flagP, flagS, err)
+	data := preprocess(flags.dataPath)
+	train_set, test_set := splitData(data, flags)
 
 	// Initialize
-	nn := buildNN(len(data[0])-1, architecture, flagE, flagMSE, flagRMSE, learningRate, epochs)
+	nn := buildNN(len(data[0])-1, flags)
 
 	// Train
-	if flagT || err != nil { // if model.json exists skip training, unless -t
-		train(nn, train_set, test_set, flagE)
+	if flags.flagT || flags.err != nil { // if model.json exists skip training, unless -t
+		train(nn, train_set, test_set, flags.flagE)
 	} else {
-		loadModel(nn, modelPath)
+		loadModel(nn, flags.modelPath)
 	}
 
 	// Predict
-	if flagP || (!flagT && !flagP) {
+	if flags.flagP || (!flags.flagT && !flags.flagP) {
 		predictFinal(nn, test_set)
 	}
 }

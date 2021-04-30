@@ -25,11 +25,13 @@ func split(data [][]float32) (train_set [][]float32, test_set [][]float32) {
 }
 
 // splitData shuffles data and creates training and test sets
-func splitData(data [][]float32, flagT, flagP, flagS bool, err error) (train_set, test_set [][]float32) {
+func splitData(data [][]float32, flags flags) (train_set, test_set [][]float32) {
 	shuffle(data)
-	if (!flagT && !flagP && flagS) || (flagT && flagP) || flagS || err != nil {
+	if (!flags.flagT && !flags.flagP && flags.flagS) ||
+		(flags.flagT && flags.flagP) ||
+		flags.flagS || flags.err != nil {
 		train_set, test_set = split(data)
-	} else if flagT {
+	} else if flags.flagT {
 		train_set = data
 	} else { // flagP
 		test_set = data

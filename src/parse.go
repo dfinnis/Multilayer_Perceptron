@@ -10,13 +10,15 @@ import (
 )
 
 // defaultConfig initializes default values
-func defaultConfig() (string, string, []int, int64, bool) {
+func defaultConfig() (string, string, []int, int64, bool, float32, int) {
 	dataPath := "data.csv"
 	modelPath := "model.json"
 	architecture := []int{16, 16, 2}
 	seed := time.Now().UnixNano()
 	flagS := false
-	return dataPath, modelPath, architecture, seed, flagS
+	var learningRate float32 = 0.01
+	epochs := 15000
+	return dataPath, modelPath, architecture, seed, flagS, learningRate, epochs
 }
 
 // parseFilepath checks if filepath exists
@@ -81,15 +83,47 @@ func isFlag(arg string) bool {
 		arg == "-s" || arg == "--seed" ||
 		arg == "-e" || arg == "--early" ||
 		arg == "-mse" || arg == "--mean" ||
-		arg == "-rmse" || arg == "--root" {
+		arg == "-rmse" || arg == "--root" ||
+		arg == "-l" || arg == "--learning" ||
+		arg == "-ep" || arg == "--epochs" {
 		return true
 	}
 	return false
 }
 
+// parseLearningRate parses string to float, must be between 0 & 1
+func parseLearningRate(i int, args []string) float32 {
+	if i >= len(args) {
+		usageError("No learning rate provided after -l", "")
+	}
+	learningRate, err := strconv.ParseFloat(args[i], 32)
+	if err != nil {
+		usageError("Bad learning rate: ", args[i])
+	}
+	if learningRate <= 0 || learningRate >= 1 {
+		usageError("Learning rate must be between 0 and 1, given: ", args[i])
+	}
+	return float32(learningRate)
+}
+
+// parseEpochs  parses string to int, must be between 0 & 100000
+func parseEpochs(i int, args []string) int {
+	if i >= len(args) {
+		usageError("No epochs number provided after -ep", "")
+	}
+	epochs, err := strconv.Atoi(args[i])
+	if err != nil {
+		usageError("Bad epochs: ", args[i])
+	}
+	if epochs <= 0 || epochs >= 100000 {
+		usageError("Learning rate must be between 0 and 100000, given: ", args[i])
+	}
+	return epochs
+}
+
 // parseArg parses and returns arguments for flags -t -p -a -s
-func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, architecture []int, flagE, flagS, flagMSE, flagRMSE bool, err error) {
-	dataPath, modelPath, architecture, seed, flagS := defaultConfig()
+func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, architecture []int, flagE, flagS, flagMSE, flagRMSE bool, learningRate float32, epochs int, err error) {
+	dataPath, modelPath, architecture, seed, flagS, learningRate, epochs := defaultConfig()
 	_, err = os.Stat(modelPath)
 
 	args := os.Args[1:]
@@ -100,7 +134,7 @@ func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, arch
 			flagP = true
 		}
 		return
-	} else if len(args) > 8 {
+	} else if len(args) > 12 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))
 	}
 
@@ -128,6 +162,12 @@ func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, arch
 			flagS = true
 		} else if args[i] == "-e" || args[i] == "--early" {
 			flagE = true
+		} else if args[i] == "-ep" || args[i] == "--epochs" {
+			i++
+			epochs = parseEpochs(i, args)
+		} else if args[i] == "-l" || args[i] == "--learning" {
+			i++
+			learningRate = parseLearningRate(i, args)
 		} else if args[i] == "-mse" || args[i] == "--mean" {
 			flagMSE = true
 		} else if args[i] == "-rmse" || args[i] == "--root" {

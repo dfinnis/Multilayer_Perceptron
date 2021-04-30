@@ -73,7 +73,7 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flagE 
 		fmt.Printf("\repoch %5v/%v - train loss: %-11v - test loss: %-11v", epoch, nn.epochs, trainLoss, testLoss)
 
 		// Early Stopping
-		if epoch > 1000 && flagE {
+		if epoch > 100 && flagE {
 			if nn.testLoss[len(nn.testLoss)-1] > nn.testLoss[len(nn.testLoss)-2] {
 				break
 			}

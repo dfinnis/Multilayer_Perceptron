@@ -21,8 +21,9 @@ Random seed: 1619699659782358000  - test loss: 0.031915
 Random seed: 1619787177180511000  - test loss: 0.031636
 Random seed: 1619720454332218000  - test loss: 0.024296
 
+
 #### -- TO DO -- ####
 
-float64 everything?
+- float64 everything?
 
-fix problem with 3 layer architecture? => exploding / vanishing gradients
+- fix problem with 3 layer architecture? => exploding / vanishing gradients

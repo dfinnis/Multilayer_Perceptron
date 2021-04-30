@@ -1,8 +1,6 @@
 package multilayer
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // MultilayerPerceptron is the main and only exposed function
 func MultilayerPerceptron() {

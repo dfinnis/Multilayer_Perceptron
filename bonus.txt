@@ -6,7 +6,7 @@
 5. -l --learning, -ep --epochs & -s --seed
 
 test.sh
-No libraries for data frames or matrix multiplication, only math.Exp .Log & .Sqrt
+No libraries for data frames or matrix multiplication, only math.Exp .Log & .Sqrt, stat.Mean & .Variance
 
 
 #### -- TO DO -- ####

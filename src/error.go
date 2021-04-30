@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// printUsage prints usage & quits
 func printUsage() {
 	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [DATA.CSV] [-t] [-p [FILEPATH]] [-e] [-a ARCHITECTURE] [-s SEED] [-l LEARNING] [-ep EPOCHS]\n\n")
 	fmt.Printf("    [-t]  (--train)        Only train, don't predict. Overwrites existing model\n")
@@ -18,16 +19,19 @@ func printUsage() {
 	os.Exit(1)
 }
 
+// usageError prints error message & usage, then quits
 func usageError(msg, err string) {
 	fmt.Printf("%vERROR %v %v%v\n", RED, msg, err, RESET)
 	printUsage()
 }
 
+// errorExit prints error message & quits
 func errorExit(message string) {
 	fmt.Printf("%vERROR %v%v\n", RED, message, RESET)
 	os.Exit(1)
 }
 
+// checkError prints error message & quits if error
 func checkError(message string, err error) {
 	if err != nil {
 		fmt.Printf("%vERROR %v %v%v\n", RED, message, err, RESET)

@@ -2,10 +2,12 @@ package multilayer
 
 import "math"
 
+// sigmoid returns activation for one input
 func sigmoid(z float32) float32 {
 	return 1 / (1 + float32(math.Exp(float64(-z))))
 }
 
+// sigmoidLayer applies sigmoid activation to each neuron's value, saving output
 func sigmoidLayer(nn neuralNetwork, layer int) {
 	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
 		nn.layers[layer].neurons[neuron].output = sigmoid(nn.layers[layer].neurons[neuron].value)
@@ -13,7 +15,8 @@ func sigmoidLayer(nn neuralNetwork, layer int) {
 	}
 }
 
-func sigmoid_prime(inputs [][]float32) [][]float32 {
+// sigmoidPrime returns sigmoid derivative
+func sigmoidPrime(inputs [][]float32) [][]float32 {
 	outputs := make([][]float32, len(inputs))
 	for i, input := range inputs {
 		outputs[i] = make([]float32, len(inputs[0]))
@@ -24,6 +27,7 @@ func sigmoid_prime(inputs [][]float32) [][]float32 {
 	return outputs
 }
 
+// max32 reuturns the max from 2 inputs
 func max32(max, value float32) float32 {
 	if max > value {
 		return max
@@ -31,6 +35,7 @@ func max32(max, value float32) float32 {
 	return value
 }
 
+// softmax returns activation for a layer
 func softmax(values []float32) []float32 {
 	max := values[0]
 	for _, value := range values {
@@ -49,6 +54,7 @@ func softmax(values []float32) []float32 {
 	return outputs
 }
 
+// softmaxLayer applies softmax activation to a layer, saving output
 func softmaxLayer(nn neuralNetwork, layer int) {
 	var values []float32
 	for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
@@ -60,7 +66,8 @@ func softmaxLayer(nn neuralNetwork, layer int) {
 	}
 }
 
-func softmax_prime(z [][]float32) (d_Z [][]float32) {
+// softmaxPrime returns softmax derivative
+func softmaxPrime(z [][]float32) (d_Z [][]float32) {
 	for _, sample := range z {
 		soft := softmax(sample)
 		var minus []float32

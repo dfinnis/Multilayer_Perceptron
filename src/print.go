@@ -8,6 +8,7 @@ const UNDERLINE = "\x1B[4m"
 const RED = "\x1B[31m"
 const GREEN = "\x1B[32m"
 
+// printSplit shows how the data is split between training & test set
 func printSplit(train_set, test_set int) {
 	fmt.Printf("+--------------+---------+\n")
 	fmt.Printf("|%v Data Split   %v|%v Samples %v|\n", BRIGHT, RESET, BRIGHT, RESET)
@@ -17,6 +18,7 @@ func printSplit(train_set, test_set int) {
 	fmt.Printf("+--------------+---------+\n\n")
 }
 
+// printArchitecture shows the network shape
 func printArchitecture(architecture []int) {
 	fmt.Printf("+----------------------------------+\n")
 	fmt.Printf("|%v   Neural Network Architecture %v   |\n", BRIGHT, RESET)
@@ -38,6 +40,7 @@ func printArchitecture(architecture []int) {
 	fmt.Printf("+-----------+---------+------------+\n\n")
 }
 
+// printMetrics shows the final metrics
 func printMetrics(tp, fn, fp, tn, loss float32) {
 	accuracy := (tp + tn) / (tp + tn + fp + fn)
 	precision := tp / (tp + fp)
@@ -67,6 +70,7 @@ func printMetrics(tp, fn, fp, tn, loss float32) {
 
 }
 
+// confusionMatrix shows true & false, positives & negatives
 func confusionMatrix(tp, fn, fp, tn float32) {
 	fmt.Printf("%vConfusion Matrix%v     +---------------+\n", BRIGHT, RESET)
 	fmt.Printf("                     |%v Ground Truth %v |\n", BRIGHT, RESET)

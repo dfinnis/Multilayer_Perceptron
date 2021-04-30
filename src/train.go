@@ -18,7 +18,7 @@ func setInput(nn neuralNetwork, inputs [][]float32, sample int) {
 func feedforwardSample(nn neuralNetwork) {
 	for layer := 1; layer < len(nn.architecture); layer++ {
 		for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
-			perceptron := nn.layers[layer].neurons[neuron] // rm for speed? just for human reading
+			perceptron := nn.layers[layer].neurons[neuron]
 			var weightedSum float32
 			for weight := 0; weight < len(perceptron.weights); weight++ {
 				weightedSum += nn.layers[layer-1].neurons[weight].output * perceptron.weights[weight]

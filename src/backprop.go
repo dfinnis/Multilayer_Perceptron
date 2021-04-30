@@ -15,9 +15,9 @@ func getLayerValue(nn neuralNetwork, output [][]float32, layer int) [][]float32 
 
 // getPrime finds the activation
 func getPrime(nn neuralNetwork, layer int, z [][]float32) [][]float32 {
-	prime := softmax_prime(z)
+	prime := softmaxPrime(z)
 	if layer < len(nn.architecture)-1 {
-		prime = sigmoid_prime(z)
+		prime = sigmoidPrime(z)
 	}
 	return prime
 }
@@ -82,7 +82,6 @@ func updateNN(nn neuralNetwork, layer int, d_weights [][]float32, d_bias []float
 
 // backpropLayer updates the layers weights and bias
 func backpropLayer(nn neuralNetwork, output, y [][]float32, layer int, d_A [][]float32) [][]float32 {
-	// fmt.Printf("layer: %v\n", layer) ////////////
 	z := getLayerValue(nn, output, layer)
 	prime := getPrime(nn, layer, z)
 	d_z := getActivationSlope(prime, d_A)

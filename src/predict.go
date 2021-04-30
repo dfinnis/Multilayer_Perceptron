@@ -2,18 +2,21 @@ package multilayer
 
 import "fmt"
 
+// predict returns predictions & ground truth for given samples
 func predict(nn neuralNetwork, samples [][]float32) (predictions, y [][]float32) {
 	input, y := splitXY(samples)
 	predictions = feedforward(nn, input)
 	return
 }
 
+// predictLoss predicts and returns loss
 func predictLoss(nn neuralNetwork, samples [][]float32) float32 {
 	predictions, y := predict(nn, samples)
 	loss := nn.lossFunc(predictions, y)
 	return loss
 }
 
+// truthTally counts true & false, positives & negatives
 func truthTally(y_pred, y_true [][]float32) (float32, float32, float32, float32) {
 	var tp float32 // True Positive		// Predicted True & Is True
 	var fn float32 // False Negative	// Predicted False & Is True
@@ -38,6 +41,7 @@ func truthTally(y_pred, y_true [][]float32) (float32, float32, float32, float32)
 	return tp, fn, fp, tn
 }
 
+// predictFinal prints metrics for predictions on test set
 func predictFinal(nn neuralNetwork, test_set [][]float32) {
 	fmt.Printf("\n%v%vPredict%v\n\n", BRIGHT, UNDERLINE, RESET)
 	predictions, y := predict(nn, test_set)

@@ -5,6 +5,7 @@ import (
 	"math/rand"
 )
 
+// neuron is a basic perceptron
 type neuron struct {
 	bias    float32
 	weights []float32
@@ -14,15 +15,19 @@ type neuron struct {
 	outputs []float32 // output for each sample
 }
 
+// activationFunc can be sigmoid or softmax
 type activationFunc func(nn neuralNetwork, layer int)
 
+// layer contains a number of neurons
 type layer struct {
 	neurons    []neuron
 	activation activationFunc // input & hidden = sigmoid, output = softmax
 }
 
+// lossFunc can be Binary cross-entropy / Mean squared error / Root mean squared error
 type lossFunc func(outputs, y [][]float32) float32
 
+// neuralNetwork contains all info about the network
 type neuralNetwork struct {
 	architecture []int
 	layers       []layer
@@ -30,7 +35,7 @@ type neuralNetwork struct {
 	epochs       int
 	trainLoss    []float32
 	testLoss     []float32
-	lossFunc     lossFunc // Binary cross-entropy / mse / rmse
+	lossFunc     lossFunc
 }
 
 // newNeuron initializes a neuron with random weights and zero bias

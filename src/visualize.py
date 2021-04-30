@@ -2,6 +2,7 @@ import argparse
 import matplotlib.pyplot as plt
 import csv
 
+# read_csv reads loss.csv
 def read_csv():
 	train_loss = []
 	test_loss = []
@@ -12,6 +13,7 @@ def read_csv():
 			test_loss.append(float(row[1]))
 	return train_loss, test_loss
 
+# visualize plots loss over training
 def visualize(train_loss, test_loss):
 	epoch = list(range(1, len(test_loss) + 1))
 
@@ -23,6 +25,7 @@ def visualize(train_loss, test_loss):
 	plt.legend()
 	plt.show()
 
+# main reads loss.csv and plots loss
 def main():
 	try:
 		train_loss, test_loss = read_csv()

@@ -36,7 +36,23 @@ func defaultConfig() flags {
 	flags.flagS = false
 	flags.learningRate = 0.01
 	flags.epochs = 15000
+	_, flags.err = os.Stat(flags.modelPath)
 	return flags
+}
+
+// isFlag returns true if argument is flag (apart from -p)
+func isFlag(arg string) bool {
+	if arg == "-t" || arg == "--train" ||
+		arg == "-a" || arg == "--architecture" ||
+		arg == "-s" || arg == "--seed" ||
+		arg == "-e" || arg == "--early" ||
+		arg == "-mse" || arg == "--mean" ||
+		arg == "-rmse" || arg == "--root" ||
+		arg == "-l" || arg == "--learning" ||
+		arg == "-ep" || arg == "--epochs" {
+		return true
+	}
+	return false
 }
 
 // parseFilepath checks if filepath exists
@@ -94,21 +110,6 @@ func seedRandom(seed int64, flagS bool) {
 	}
 }
 
-// isFlag returns true if argument is flag (apart from -p)
-func isFlag(arg string) bool {
-	if arg == "-t" || arg == "--train" ||
-		arg == "-a" || arg == "--architecture" ||
-		arg == "-s" || arg == "--seed" ||
-		arg == "-e" || arg == "--early" ||
-		arg == "-mse" || arg == "--mean" ||
-		arg == "-rmse" || arg == "--root" ||
-		arg == "-l" || arg == "--learning" ||
-		arg == "-ep" || arg == "--epochs" {
-		return true
-	}
-	return false
-}
-
 // parseLearningRate parses string to float, must be between 0 & 1
 func parseLearningRate(i int, args []string) float32 {
 	if i >= len(args) {
@@ -142,7 +143,6 @@ func parseEpochs(i int, args []string) int {
 // parseArg parses and returns arguments for flags
 func parseArg() flags {
 	flags := defaultConfig()
-	_, flags.err = os.Stat(flags.modelPath)
 
 	args := os.Args[1:]
 	if len(args) == 0 {

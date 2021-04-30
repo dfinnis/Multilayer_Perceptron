@@ -38,9 +38,13 @@ If *model.json* already exists load *model.json* then predict.
 
 ### -t --train
 
-Only train, don't predict. Uses the entire dataset to train. Overwrites existing model.json.
+Only train, don't predict. Uses the entire dataset to train & overwrites *model.json* if it already exists.
 
-<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/t.png">
+Train outputs a line graph of loss over training period.
+
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/t.png" width="600">
+
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/loss.png" width="600">
 
 
 ### -p --predict
@@ -51,13 +55,17 @@ The default model path is "model.json", but with additional argument *FILEPATH* 
 
 *-t -p* both train & predict, even if *model.json* already exists.
 
-<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/p.png">
+Predict outputs metrics & confusion matrix for predictions on the test set.
+
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/p.png" width="800">
+
 
 ### -e --early
 
 ```go run main.go -t -p -e```
 
 Early stopping. Stop training when test set loss starts to increase. This avoids overfitting.
+
 
 ### -ep --epochs
 
@@ -66,6 +74,7 @@ Early stopping. Stop training when test set loss starts to increase. This avoids
 Provide addtional argument EPOCHS to determine length of training. Must be an integer between 0 & 100000.
 
 The default number of epochs is 15000, which is usually around when test loss reaches its minimum on default settings.
+
 
 ### -s --seed
 
@@ -77,11 +86,13 @@ This seeds the pseudo-randomization of weights and shuffling of data.
 Thus a data split, model & loss can be replicated exactly with a given seed.
 The default seed is the current time.
 
+
 ### -l --learning
 
 ```go run main.go -t -p -e -l 0.1```
 
 Provide addtional argument LEARNING rate. Must be a float between 0 & 1. The default learning rate is 0.01.
+
 
 ### -a --architecture
 
@@ -89,15 +100,17 @@ Provide addtional argument LEARNING rate. Must be a float between 0 & 1. The def
 
 Provide addtional argument ARCHITECTURE as string.
 
-The default architecture is "16 16 2".
+The default architecture is "16 16 2". 2 hidden layers with 16 neurons, and an output layer with 2 neurons.
 
-<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/a.png">
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/a.png" width="320">
+
 
 ### data.csv
 
 ```go run main.go data.csv```
 
 Any non-flag argument will be read as data path. The default data path is *data.csv*.
+
 
 ## Test
 
@@ -107,4 +120,4 @@ Any non-flag argument will be read as data path. The default data path is *data.
 
 *test.sh* runs *evaluation.py* then trains a model with *data_training.csv*, & predicts with *data_test.csv*.
 
-<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/test.png">
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/test.png" width="600">

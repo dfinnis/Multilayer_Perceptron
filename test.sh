@@ -9,7 +9,7 @@ python3 evaluation.py
 go build
 
 ## Train
-./Multilayer_Perceptron data_training.csv -t
+./Multilayer_Perceptron data_training.csv -t -e
 
 ## Predict
 ./Multilayer_Perceptron data_test.csv -p

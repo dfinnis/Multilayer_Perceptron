@@ -3,18 +3,15 @@
 2. -a --architecture
 3. Additional metrics & confusion matrix
 4. -mse (mean squared error), & -rmse (root mean squared error) loss functions
-5. 
+5. -l --learning, -ep --epochs & -s --seed
 
--s --seed
 test.sh
-No libraries for matrix multiplication
+No libraries for data frames or matrix multiplication, only math.Exp .Log & .Sqrt
+
 
 #### -- TO DO -- ####
 
 float64 everything?
-
-- -l --learning rate?
--ep --epochs train number of epochs?
 
 - loss < 0.08
 Random seed: 1619696818483627000  - test loss: 0.07170248736062926

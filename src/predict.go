@@ -10,7 +10,7 @@ func predict(nn neuralNetwork, samples [][]float32) (predictions, y [][]float32)
 
 func predictLoss(nn neuralNetwork, samples [][]float32) float32 {
 	predictions, y := predict(nn, samples)
-	loss := computeLoss(predictions, y)
+	loss := nn.lossFunc(predictions, y)
 	return loss
 }
 

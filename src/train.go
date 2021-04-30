@@ -60,7 +60,7 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flagE 
 		output := feedforward(nn, input)
 		backprop(nn, output, y)
 
-		trainLoss := computeLoss(output, y)
+		trainLoss := nn.lossFunc(output, y)
 		testLoss := predictLoss(nn, test_set)
 
 		if math.IsNaN(float64(trainLoss)) || (len(test_set) > 0 && math.IsNaN(float64(testLoss))) {
@@ -70,7 +70,7 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flagE 
 		nn.testLoss = append(nn.testLoss, testLoss)
 
 		// Print Metrics
-		fmt.Printf("\repoch %5v/%v - train loss: %-10v - test loss: %-10v", epoch, nn.epochs, trainLoss, testLoss)
+		fmt.Printf("\repoch %5v/%v - train loss: %-11v - test loss: %-11v", epoch, nn.epochs, trainLoss, testLoss)
 
 		// Early Stopping
 		if epoch > 1000 && flagE {

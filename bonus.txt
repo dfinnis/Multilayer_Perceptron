@@ -1,25 +1,25 @@
 #### -- Bonus -- ####
-1. -a --architecture
-2. -e --early, early stopping
-3. loss function (mse, rmse)??????????
-4. 
+1. -e --early, early stopping
+2. -a --architecture
+3. Additional metrics & confusion matrix
+4. -mse (mean squared error), & -rmse (root mean squared error) loss functions
 5. 
 
 -s --seed
-Confusion Matrix
-Metrics
+test.sh
 
 #### -- TO DO -- ####
 
 - clean loss.go
 
 - -l --learning rate?
-flag train number of epochs?
+-ep --epochs train number of epochs?
 
 - loss < 0.08
-Random seed: 1619687999274871000  - test loss: 0.059255
 Random seed: 1619696818483627000  - test loss: 0.07170248736062926
+Random seed: 1619707987089926000  - test loss: 0.059896
+Random seed: 1619687999274871000  - test loss: 0.059255
 Random seed: 1619699659782358000  - test loss: 0.031915861152130876
-1619707987089926000
+Random seed: 1619720454332218000  - test loss: 0.024296
 
 - find out problem with 3 layer architecture?

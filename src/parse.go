@@ -74,8 +74,21 @@ func seedRandom(seed int64, flagS bool) {
 	}
 }
 
+// isFlag returns true if argument is flag (apart from -p)
+func isFlag(arg string) bool {
+	if arg == "-t" || arg == "--train" ||
+		arg == "-a" || arg == "--architecture" ||
+		arg == "-s" || arg == "--seed" ||
+		arg == "-e" || arg == "--early" ||
+		arg == "-mse" || arg == "--mean" ||
+		arg == "-rmse" || arg == "--root" {
+		return true
+	}
+	return false
+}
+
 // parseArg parses and returns arguments for flags -t -p -a -s
-func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, architecture []int, flagE, flagS bool, err error) {
+func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, architecture []int, flagE, flagS, flagMSE, flagRMSE bool, err error) {
 	dataPath, modelPath, architecture, seed, flagS := defaultConfig()
 	_, err = os.Stat(modelPath)
 
@@ -87,7 +100,7 @@ func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, arch
 			flagP = true
 		}
 		return
-	} else if len(args) > 7 {
+	} else if len(args) > 8 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))
 	}
 
@@ -99,7 +112,7 @@ func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, arch
 		} else if args[i] == "-p" || args[i] == "--predict" {
 			flagP = true
 			if i < len(args)-1 {
-				if args[i+1] == "-t" || args[i+1] == "--train" || args[i+1] == "-a" || args[i+1] == "--architecture" || args[i+1] == "-s" || args[i+1] == "--seed" || args[i+1] == "-e" || args[i+1] == "--early" {
+				if isFlag(args[i+1]) {
 					continue
 				}
 				i++
@@ -115,6 +128,10 @@ func parseArg() (flagT bool, dataPath string, flagP bool, modelPath string, arch
 			flagS = true
 		} else if args[i] == "-e" || args[i] == "--early" {
 			flagE = true
+		} else if args[i] == "-mse" || args[i] == "--mean" {
+			flagMSE = true
+		} else if args[i] == "-rmse" || args[i] == "--root" {
+			flagRMSE = true
 		} else {
 			dataPath = parseFilepath(args[i])
 		}

@@ -4,25 +4,27 @@ import (
 	"math"
 )
 
-// func meanSquaredError(outputs, y [][]float32) float32 {
-// 	var loss float32
-// 	for output := 0; output < len(outputs); output++ {
-// 		diff := y[output][0] - outputs[output][0]
-// 		loss += 2 * (diff * diff)
-// 	}
-// 	return loss / float32(len(outputs))
-// }
+// Mean Squared Error loss
+func meanSquaredError(outputs, y [][]float32) float32 {
+	var loss float32
+	for output := 0; output < len(outputs); output++ {
+		diff := y[output][0] - outputs[output][0]
+		loss += 2 * (diff * diff)
+	}
+	return loss / float32(len(outputs))
+}
 
-// func rootMeanSquaredError(outputs, y [][]float32) float32 {
-// 	var loss float32
-// 	for output := 0; output < len(outputs); output++ {
-// 		diff := y[output][0] - outputs[output][0]
-// 		loss += 2 * (math.Sqrt(diff * diff))
-// 	}
-// 	return loss / float32(len(outputs))
-// }
+// Root Mean Squared Error loss
+func rootMeanSquaredError(outputs, y [][]float32) float32 {
+	var loss float32
+	for output := 0; output < len(outputs); output++ {
+		diff := y[output][0] - outputs[output][0]
+		loss += 2 * float32(math.Sqrt(float64(diff*diff)))
+	}
+	return loss / float32(len(outputs))
+}
 
-// Binary cross-entropy log loss
+// Binary Cross-Entropy log loss
 func binaryCrossEntropy(outputs, y [][]float32) (lossSum float32) {
 	var loss float32
 	for output := 0; output < len(outputs); output++ {
@@ -34,14 +36,7 @@ func binaryCrossEntropy(outputs, y [][]float32) (lossSum float32) {
 	return
 }
 
-// Binary cross-entropy log loss
-func computeLoss(outputs, y [][]float32) (lossSum float32) {
-	return binaryCrossEntropy(outputs, y)
-	// return meanSquaredError(outputs, y)
-	// return rootMeanSquaredError(outputs, y)
-}
-
-// Binary cross-entropy log loss derivative
+// Binary Cross-Entropy log loss derivative
 func computeLossPrime(outputs [][]float32, y [][]float32) [][]float32 {
 	var d_losses [][]float32
 	for output := 0; output < len(outputs); output++ {

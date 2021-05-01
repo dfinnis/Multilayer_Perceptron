@@ -106,6 +106,13 @@ The default architecture is "16 16 2". 2 hidden layers with 16 neurons, and an o
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/a.png" width="320">
 
 
+### -q --quiet
+
+```go run main.go -q```
+
+Don't print architecture or seed.
+
+
 ### data.csv
 
 ```go run main.go data.csv```

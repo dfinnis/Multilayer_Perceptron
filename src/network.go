@@ -64,11 +64,13 @@ func newLayer(nn neuralNetwork, currentLayer int) layer {
 }
 
 // getArchitecture joins the input layer to the rest
-func getArchitecture(inputLen int, arch []int) []int {
+func getArchitecture(inputLen int, flags flags) []int {
 	var architecture []int
 	architecture = append(architecture, inputLen)
-	architecture = append(architecture, arch...)
-	printArchitecture(architecture)
+	architecture = append(architecture, flags.architecture...)
+	if !flags.flagQ {
+		printArchitecture(architecture)
+	}
 	return architecture
 }
 
@@ -98,7 +100,7 @@ func setEpochs(nn neuralNetwork, flagE bool, epochs int) neuralNetwork {
 // buildNN initializes a neural network
 func buildNN(inputLen int, flags flags) neuralNetwork {
 	nn := neuralNetwork{}
-	nn.architecture = getArchitecture(inputLen, flags.architecture)
+	nn.architecture = getArchitecture(inputLen, flags)
 	// Build layer by layer
 	var layer int
 	for layer = 0; layer < len(nn.architecture); layer++ {

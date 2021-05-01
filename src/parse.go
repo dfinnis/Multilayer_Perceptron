@@ -21,6 +21,7 @@ type flags struct {
 	flagS        bool
 	flagMSE      bool
 	flagRMSE     bool
+	flagQ        bool
 	learningRate float32
 	epochs       int
 	err          error
@@ -33,7 +34,6 @@ func defaultConfig() flags {
 	flags.modelPath = "model.json"
 	flags.architecture = []int{16, 16, 2}
 	flags.seed = time.Now().UnixNano()
-	flags.flagS = false
 	flags.learningRate = 0.01
 	flags.epochs = 15000
 	_, flags.err = os.Stat(flags.modelPath)
@@ -49,7 +49,8 @@ func isFlag(arg string) bool {
 		arg == "-mse" || arg == "--mean" ||
 		arg == "-rmse" || arg == "--root" ||
 		arg == "-l" || arg == "--learning" ||
-		arg == "-ep" || arg == "--epochs" {
+		arg == "-ep" || arg == "--epochs" ||
+		arg == "-q" || arg == "--quiet" {
 		return true
 	}
 	return false
@@ -103,10 +104,10 @@ func parseSeed(i int, args []string) int64 {
 }
 
 // seedRandom initializes rand with time or -s SEED
-func seedRandom(seed int64, flagS bool) {
-	rand.Seed(seed)
-	if !flagS {
-		fmt.Printf("Random seed: %d\n\n", seed)
+func seedRandom(flags flags) {
+	rand.Seed(flags.seed)
+	if !(flags.flagS || flags.flagQ) {
+		fmt.Printf("Random seed: %d\n\n", flags.seed)
 	}
 }
 
@@ -146,13 +147,13 @@ func parseArg() flags {
 
 	args := os.Args[1:]
 	if len(args) == 0 {
-		seedRandom(flags.seed, flags.flagS)
+		seedRandom(flags)
 		if flags.err != nil {
 			flags.flagT = true
 			flags.flagP = true
 		}
 		return flags
-	} else if len(args) > 12 {
+	} else if len(args) > 13 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))
 	}
 
@@ -190,6 +191,8 @@ func parseArg() flags {
 			flags.flagMSE = true
 		} else if args[i] == "-rmse" || args[i] == "--root" {
 			flags.flagRMSE = true
+		} else if args[i] == "-q" || args[i] == "--quiet" {
+			flags.flagQ = true
 		} else {
 			flags.dataPath = parseFilepath(args[i])
 		}
@@ -201,6 +204,6 @@ func parseArg() flags {
 	if flags.flagT && !flags.flagP && flags.flagE && !flags.flagS {
 		flags.flagE = false
 	}
-	seedRandom(flags.seed, flags.flagS)
+	seedRandom(flags)
 	return flags
 }

@@ -4,10 +4,10 @@
 
 #### -- Print Header -- ####
 RESET="\x1b[0m"
-BRIGHT="\x1b[1m"
+BOLD="\x1b[1m"
 
 printf "\E[H\E[2J" ## Clear screen
-printf $BRIGHT
+printf $BOLD
 echo "Launching Multilayer Perceptron Test...$RESET\n"
 
 ## Create Datasets
@@ -19,12 +19,12 @@ go build
 
 ## Train
 echo "Training on data_training.csv...\n"
-./Multilayer_Perceptron data_training.csv -t
+./Multilayer_Perceptron data_training.csv -t -q
 
 ## Predict
 echo
 echo "Predicting on data_test.csv...\n"
-./Multilayer_Perceptron data_test.csv -p
+./Multilayer_Perceptron data_test.csv -p -q
 
 ## Cleanup
 rm Multilayer_Perceptron

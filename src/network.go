@@ -75,10 +75,10 @@ func getArchitecture(inputLen int, flags flags) []int {
 }
 
 // setLossFunc parses flags -mse & -rmse, default binaryCrossEntropy loss
-func setLossFunc(nn neuralNetwork, flagMSE, flagRMSE bool) neuralNetwork {
-	if flagMSE {
+func setLossFunc(nn neuralNetwork, flags flags) neuralNetwork {
+	if flags.flagMSE {
 		nn.lossFunc = meanSquaredError
-	} else if flagRMSE {
+	} else if flags.flagRMSE {
 		nn.lossFunc = rootMeanSquaredError
 	} else {
 		nn.lossFunc = binaryCrossEntropy
@@ -87,12 +87,12 @@ func setLossFunc(nn neuralNetwork, flagMSE, flagRMSE bool) neuralNetwork {
 }
 
 // setEpochs parses flags -e --early stopping & -ep epochs
-func setEpochs(nn neuralNetwork, flagE bool, epochs int) neuralNetwork {
-	flags := defaultConfig()
-	if flagE && epochs == flags.epochs { // early stopping, "infinite" training
+func setEpochs(nn neuralNetwork, flags flags) neuralNetwork {
+	defaultConfig := defaultConfig()
+	if flags.flagE && flags.epochs == defaultConfig.epochs { // early stopping, "infinite" training
 		nn.epochs = 42000
 	} else {
-		nn.epochs = epochs
+		nn.epochs = flags.epochs
 	}
 	return nn
 }
@@ -110,8 +110,8 @@ func buildNN(inputLen int, flags flags) neuralNetwork {
 	nn.layers[0].activation = nil                // Input Layer no activation
 	nn.layers[layer-1].activation = softmaxLayer // Output Layer Softmax activation
 
-	nn = setLossFunc(nn, flags.flagMSE, flags.flagRMSE)
-	nn = setEpochs(nn, flags.flagE, flags.epochs)
+	nn = setLossFunc(nn, flags)
+	nn = setEpochs(nn, flags)
 	nn.learningRate = flags.learningRate
 	return nn
 }

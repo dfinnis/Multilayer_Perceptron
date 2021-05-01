@@ -16,6 +16,7 @@ Based on the Wisconsin breast cancer diagnosis dataset.
 
 See the [subject](https://github.com/dfinnis/Multilayer_Perceptron/blob/master/subject.pdf) for more details.
 
+
 ## Getting Started
 
 First you need to have your golang workspace set up on your machine.
@@ -128,4 +129,4 @@ Any non-flag argument will be read as data path. The default data path is *data.
 
 *test.sh* runs *evaluation.py* then trains a model with *data_training.csv*, & predicts with *data_test.csv*.
 
-<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/test.png" width="600">
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/test.png" width="840">

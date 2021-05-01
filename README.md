@@ -6,6 +6,7 @@ Based on the Wisconsin breast cancer diagnosis dataset.
 
 #### Implemented from scratch:
 * Data preprocessing
+* Flexible neural network architecture
 * Feedforward
 * Backpropagation
 * Gradient descent

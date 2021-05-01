@@ -7,7 +7,7 @@ import (
 
 // printUsage prints usage & quits
 func printUsage() {
-	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [DATA.CSV] [-t] [-p [FILEPATH]] [-e] [-a ARCHITECTURE] [-s SEED] [-l LEARNING] [-ep EPOCHS]\n\n")
+	fmt.Printf("\nUsage:\tgo build; ./Multilayer_Perceptron [DATA.CSV] [-t] [-p [FILEPATH]] [-e] [-ep EPOCHS] [-s SEED] [-a ARCHITECTURE] [-l LEARNING] [-q]\n\n")
 	fmt.Printf("    [-t]  (--train)        Only train, don't predict. Overwrites existing model\n")
 	fmt.Printf("    [-p]  (--predict)      Only predict, don't train. Optional [FILEPATH] load model from filepath\n")
 	fmt.Printf("    [-e]  (--early)        Early stopping. Stop training when test set loss starts increasing\n")

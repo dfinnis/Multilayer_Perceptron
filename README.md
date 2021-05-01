@@ -123,10 +123,10 @@ Any non-flag argument will be read as data path. The default data path is *data.
 
 ## Test
 
-```./test.sh```
-
 42 provides *evaluation.py* which splits *data.csv* randomly into *data_training.csv* & *data_test.csv*.
 
 *test.sh* runs *evaluation.py* then trains a model with *data_training.csv*, & predicts with *data_test.csv*.
+
+```./test.sh```
 
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/test.png" width="840">

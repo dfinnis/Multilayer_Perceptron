@@ -42,8 +42,9 @@ func truthTally(y_pred, y_true [][]float32) (float32, float32, float32, float32)
 }
 
 // predictFinal prints metrics for predictions on test set
-func predictFinal(nn neuralNetwork, test_set [][]float32) {
+func predictFinal(nn neuralNetwork, test_set [][]float32, modelPath string) {
 	fmt.Printf("\n%v%vPredict%v\n\n", BRIGHT, UNDERLINE, RESET)
+	loadModel(nn, modelPath)
 	predictions, y := predict(nn, test_set)
 	loss := binaryCrossEntropy(predictions, y)
 	tp, fn, fp, tn := truthTally(predictions, y)

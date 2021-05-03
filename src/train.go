@@ -2,7 +2,6 @@ package multilayer
 
 import (
 	"fmt"
-	"math"
 	"time"
 )
 
@@ -49,6 +48,11 @@ func feedforward(nn neuralNetwork, inputs [][]float32) (outputs [][]float32) {
 	return
 }
 
+// isNan returns true if given float32 is Nan
+func isNaN(float float32) bool {
+	return float != float
+}
+
 // train trains the network & saves the model
 func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flagE bool) {
 	fmt.Printf("\n%v%vTrain model%v\n\n", BRIGHT, UNDERLINE, RESET)
@@ -63,24 +67,25 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flagE 
 		trainLoss := nn.lossFunc(output, y)
 		testLoss := predictLoss(nn, test_set)
 
-		if math.IsNaN(float64(trainLoss)) || (len(test_set) > 0 && math.IsNaN(float64(testLoss))) {
+		if isNaN(trainLoss) || (len(test_set) > 0 && isNaN(testLoss)) {
 			break
 		}
+		// Early Stopping
+		if epoch > 100 && flagE && testLoss > nn.testLoss[len(nn.testLoss)-1] {
+			break
+		}
+
+		// Save Loss
 		nn.trainLoss = append(nn.trainLoss, trainLoss)
 		nn.testLoss = append(nn.testLoss, testLoss)
 
 		// Print Metrics
 		fmt.Printf("\repoch %5v/%v - train loss: %-11v - test loss: %-11v", epoch, nn.epochs, trainLoss, testLoss)
 
-		// Early Stopping
-		if epoch > 100 && flagE {
-			if nn.testLoss[len(nn.testLoss)-1] > nn.testLoss[len(nn.testLoss)-2] {
-				break
-			}
-		}
+		saveModel(nn)
 	}
 	elapsed := time.Since(start)
 	fmt.Printf("\n\nTraining time: %v\n\n", elapsed)
+	fmt.Printf("Model saved as: model.json\n\n")
 	visualize(nn.trainLoss, nn.testLoss)
-	saveModel(nn)
 }

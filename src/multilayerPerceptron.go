@@ -19,12 +19,10 @@ func MultilayerPerceptron() {
 	// Train
 	if flags.flagT || flags.err != nil { // if model.json exists skip training, unless -t
 		train(nn, train_set, test_set, flags.flagE)
-	} else {
-		loadModel(nn, flags.modelPath)
 	}
 
 	// Predict
 	if flags.flagP || (!flags.flagT && !flags.flagP) {
-		predictFinal(nn, test_set)
+		predictFinal(nn, test_set, flags.modelPath)
 	}
 }

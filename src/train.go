@@ -37,7 +37,7 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flagE 
 		nn.testLoss = append(nn.testLoss, testLoss)
 
 		// Print Metrics
-		fmt.Printf("\repoch %5v/%v - train loss: %-11v - test loss: %-11v", epoch, nn.epochs, trainLoss, testLoss)
+		fmt.Printf("\rEpoch %5v/%v - Training loss: %-11v - Test loss: %-11v", epoch, nn.epochs, trainLoss, testLoss)
 
 		saveModel(nn)
 	}

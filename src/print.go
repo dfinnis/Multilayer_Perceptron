@@ -26,14 +26,14 @@ func printArchitecture(architecture []int) {
 	fmt.Printf("|%v Layer     %v|%v Neurons %v|%v Activation %v|\n", BRIGHT, RESET, BRIGHT, RESET, BRIGHT, RESET)
 	fmt.Printf("+-----------+---------+------------+\n")
 	for i, layer := range architecture {
-		label := "hidden"
-		activation := "sigmoid"
+		label := "Hidden"
+		activation := "Sigmoid"
 		if i == 0 {
-			label = "input"
-			activation = "sigmoid"
+			label = "Input"
+			activation = "None"
 		} else if i == len(architecture)-1 {
-			label = "output"
-			activation = "softmax"
+			label = "Output"
+			activation = "Softmax"
 		}
 		fmt.Printf("| %-2v %-6v | %-7v | %-10v |\n", i+1, label, layer, activation) //////////////
 	}

@@ -9,6 +9,7 @@
 7. No libraries for data frames or matrix multiplication
 	(only math.Exp .Log & .Sqrt, stat.Mean & .Variance)
 8. README.md
+9. Can watch model.json learn
 
 
 #### -- loss < 0.08 -- ####

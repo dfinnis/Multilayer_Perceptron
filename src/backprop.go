@@ -1,6 +1,6 @@
 package multilayer
 
-// getLayerValue finds the value for neurons in layer for all samples
+// getLayerValue returns the value for neurons in layer for all samples
 func getLayerValue(nn neuralNetwork, output [][]float32, layer int) [][]float32 {
 	var z [][]float32
 	for sample, _ := range output {
@@ -13,7 +13,7 @@ func getLayerValue(nn neuralNetwork, output [][]float32, layer int) [][]float32 
 	return z
 }
 
-// getPrime finds the activation
+// getPrime returns the activation
 func getPrime(nn neuralNetwork, layer int, z [][]float32) [][]float32 {
 	prime := softmaxPrime(z)
 	if layer < len(nn.architecture)-1 {
@@ -22,7 +22,7 @@ func getPrime(nn neuralNetwork, layer int, z [][]float32) [][]float32 {
 	return prime
 }
 
-// Activation derivative
+// getActivationSlope returns the activation derivative
 func getActivationSlope(prime, d_A [][]float32) [][]float32 {
 	var d_z [][]float32
 	for i, sample := range prime {
@@ -35,7 +35,7 @@ func getActivationSlope(prime, d_A [][]float32) [][]float32 {
 	return d_z
 }
 
-// getLayerOutput finds the previous layers outputs
+// getLayerOutput returns the previous layers outputs
 func getLayerOutput(nn neuralNetwork, prime [][]float32, layer int) [][]float32 {
 	var layerOutputs [][]float32
 	for sample, _ := range prime {
@@ -48,7 +48,7 @@ func getLayerOutput(nn neuralNetwork, prime [][]float32, layer int) [][]float32 
 	return layerOutputs
 }
 
-// getBiasSlope finds the bias derivative
+// getBiasSlope returns the bias derivative
 func getBiasSlope(nn neuralNetwork, d_z [][]float32, layer int) []float32 {
 	d_bias := make([]float32, nn.architecture[layer])
 	for _, sample := range d_z {
@@ -59,7 +59,7 @@ func getBiasSlope(nn neuralNetwork, d_z [][]float32, layer int) []float32 {
 	return d_bias
 }
 
-// getLayerWeights finds all the layers weights
+// getLayerWeights returns all the layers weights
 func getLayerWeights(nn neuralNetwork, layer int) [][]float32 {
 	var weights [][]float32
 	for _, neuron := range nn.layers[layer].neurons {
@@ -86,10 +86,13 @@ func backpropLayer(nn neuralNetwork, output, y [][]float32, layer int, d_A [][]f
 	prime := getPrime(nn, layer, z)
 	d_z := getActivationSlope(prime, d_A)
 	layerOutputs := getLayerOutput(nn, prime, layer)
+
 	d_weights := multiply(transpose(d_z), layerOutputs)
 	d_bias := getBiasSlope(nn, d_z, layer)
+
 	weights := getLayerWeights(nn, layer)
 	d_aLast := multiply(d_z, weights)
+
 	updateNN(nn, layer, d_weights, d_bias, float32(len(output)))
 	return d_aLast
 }

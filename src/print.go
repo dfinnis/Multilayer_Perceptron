@@ -35,7 +35,7 @@ func printArchitecture(architecture []int) {
 			label = "Output"
 			activation = "Softmax"
 		}
-		fmt.Printf("| %-2v %-6v | %-7v | %-10v |\n", i+1, label, layer, activation) //////////////
+		fmt.Printf("| %-2v %-6v | %-7v | %-10v |\n", i+1, label, layer, activation)
 	}
 	fmt.Printf("+-----------+---------+------------+\n\n")
 }

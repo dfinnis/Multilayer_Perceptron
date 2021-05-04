@@ -126,7 +126,7 @@ func parseLearningRate(i int, args []string) float32 {
 	return float32(learningRate)
 }
 
-// parseEpochs  parses string to int, must be between 0 & 100000
+// parseEpochs parses string to int, must be between 0 & 100000
 func parseEpochs(i int, args []string) int {
 	if i >= len(args) {
 		usageError("No epochs number provided after -ep", "")

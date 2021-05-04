@@ -1,6 +1,6 @@
 package multilayer
 
-// transpose a matrix
+// transpose a matrix, switch row and column indices
 func transpose(x [][]float32) [][]float32 {
 	out := make([][]float32, len(x[0]))
 	for i := 0; i < len(x); i += 1 {
@@ -11,7 +11,7 @@ func transpose(x [][]float32) [][]float32 {
 	return out
 }
 
-// matrix multiplication
+// multiply performs matrix multiplication & returns result
 func multiply(x, y [][]float32) [][]float32 {
 	if len(x[0]) != len(y) {
 		return nil

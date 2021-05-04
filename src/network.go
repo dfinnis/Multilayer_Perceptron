@@ -74,6 +74,13 @@ func getArchitecture(inputLen int, flags flags) []int {
 	return architecture
 }
 
+// setActivation sets the input & output layers activation
+func setActivation(nn neuralNetwork, flags flags, depth int) neuralNetwork {
+	nn.layers[0].activation = nil                // Input Layer no activation
+	nn.layers[depth-1].activation = softmaxLayer // Output Layer Softmax activation
+	return nn
+}
+
 // setLossFunc parses flags -mse & -rmse, default binaryCrossEntropy loss
 func setLossFunc(nn neuralNetwork, flags flags) neuralNetwork {
 	if flags.flagMSE {
@@ -107,9 +114,7 @@ func buildNN(inputLen int, flags flags) neuralNetwork {
 		nn.layers = append(nn.layers, newLayer(nn, layer))
 	}
 
-	nn.layers[0].activation = nil                // Input Layer no activation
-	nn.layers[layer-1].activation = softmaxLayer // Output Layer Softmax activation
-
+	nn = setActivation(nn, flags, layer)
 	nn = setLossFunc(nn, flags)
 	nn = setEpochs(nn, flags)
 	nn.learningRate = flags.learningRate

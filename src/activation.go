@@ -23,13 +23,18 @@ func sigmoidLayer(nn neuralNetwork, layer int) {
 	}
 }
 
-// sigmoidPrime returns sigmoid derivative
-func sigmoidPrime(inputs [][]float32) [][]float32 {
+// sigmoidPrime returns sigmoid derivative for one value
+func sigmoidPrime(z float32) float32 {
+	return sigmoid(z) * (1 - sigmoid(z))
+}
+
+// sigmoidPrimeLayer returns sigmoid derivative for one layer
+func sigmoidPrimeLayer(inputs [][]float32) [][]float32 {
 	outputs := make([][]float32, len(inputs))
 	for i, input := range inputs {
 		outputs[i] = make([]float32, len(inputs[0]))
 		for j, z := range input {
-			outputs[i][j] = sigmoid(z) * (1 - sigmoid(z))
+			outputs[i][j] = sigmoidPrime(z)
 		}
 	}
 	return outputs

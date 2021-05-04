@@ -17,7 +17,7 @@ func getLayerValue(nn neuralNetwork, output [][]float32, layer int) [][]float32 
 func getPrime(nn neuralNetwork, layer int, z [][]float32) [][]float32 {
 	prime := softmaxPrime(z)
 	if layer < len(nn.architecture)-1 {
-		prime = sigmoidPrime(z)
+		prime = sigmoidPrimeLayer(z)
 	}
 	return prime
 }

@@ -18,13 +18,13 @@ type flags struct {
 	modelPath    string
 	architecture []int
 	seed         int64
+	epochs       int
+	learningRate float32
 	flagE        bool
 	flagS        bool
 	flagMSE      bool
 	flagRMSE     bool
 	flagQ        bool
-	learningRate float32
-	epochs       int
 	err          error
 }
 
@@ -38,6 +38,16 @@ func defaultConfig() flags {
 	flags.learningRate = 0.01
 	flags.epochs = 15000
 	_, flags.err = os.Stat(flags.modelPath)
+	return flags
+}
+
+// noFlags updates flags appropriately if no flags are given
+func noFlags(flags flags) flags {
+	if flags.err != nil {
+		flags.flagT = true
+		flags.flagP = true
+	}
+	seedRandom(flags)
 	return flags
 }
 
@@ -66,6 +76,13 @@ func parseFilepath(filepath string) string {
 	return filepath
 }
 
+// parseModelPath sets path to model, default: model.json
+func parseModelPath(filepath string, flags flags) flags {
+	flags.modelPath = parseFilepath(filepath)
+	_, flags.err = os.Stat(flags.modelPath)
+	return flags
+}
+
 // parseDataPath sets path to data, default: data.csv. Catches all bad arguments
 func parseDataPath(filepath string, flags flags) flags {
 	if flags.dataPathSet {
@@ -73,13 +90,6 @@ func parseDataPath(filepath string, flags flags) flags {
 	}
 	flags.dataPath = parseFilepath(filepath)
 	flags.dataPathSet = true
-	return flags
-}
-
-// parseModelPath sets path to model, default: model.json
-func parseModelPath(filepath string, flags flags) flags {
-	flags.modelPath = parseFilepath(filepath)
-	_, flags.err = os.Stat(flags.modelPath)
 	return flags
 }
 
@@ -131,21 +141,6 @@ func seedRandom(flags flags) {
 	}
 }
 
-// parseLearningRate parses string to float, must be between 0 & 1
-func parseLearningRate(i int, args []string) float32 {
-	if i >= len(args) {
-		usageError("No learning rate provided after -l", "")
-	}
-	learningRate, err := strconv.ParseFloat(args[i], 32)
-	if err != nil {
-		usageError("Bad learning rate: ", args[i])
-	}
-	if learningRate <= 0 || learningRate >= 1 {
-		usageError("Learning rate must be between 0 and 1, given: ", args[i])
-	}
-	return float32(learningRate)
-}
-
 // parseEpochs parses string to int, must be between 0 & 100000
 func parseEpochs(i int, args []string) int {
 	if i >= len(args) {
@@ -161,17 +156,28 @@ func parseEpochs(i int, args []string) int {
 	return epochs
 }
 
+// parseLearningRate parses string to float, must be between 0 & 1
+func parseLearningRate(i int, args []string) float32 {
+	if i >= len(args) {
+		usageError("No learning rate provided after -l", "")
+	}
+	learningRate, err := strconv.ParseFloat(args[i], 32)
+	if err != nil {
+		usageError("Bad learning rate: ", args[i])
+	}
+	if learningRate <= 0 || learningRate >= 1 {
+		usageError("Learning rate must be between 0 and 1, given: ", args[i])
+	}
+	return float32(learningRate)
+}
+
 // parseArg parses and returns arguments for flags
 func parseArg() flags {
 	flags := defaultConfig()
 
 	args := os.Args[1:]
 	if len(args) == 0 {
-		seedRandom(flags)
-		if flags.err != nil {
-			flags.flagT = true
-			flags.flagP = true
-		}
+		flags = noFlags(flags)
 		return flags
 	} else if len(args) > 13 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))

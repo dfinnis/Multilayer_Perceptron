@@ -30,7 +30,7 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flagE 
 		}
 
 		// Early Stopping
-		if epoch > 100 && flagE && testLoss > nn.testLoss[len(nn.testLoss)-1] {
+		if flagE && epoch > 100 && testLoss > nn.testLoss[len(nn.testLoss)-1] {
 			break
 		}
 

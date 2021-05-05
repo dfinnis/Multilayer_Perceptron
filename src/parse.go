@@ -11,8 +11,9 @@ import (
 
 // flags contains all flags and arguments
 type flags struct {
-	flagT        bool
 	dataPath     string
+	dataPathSet  bool
+	flagT        bool
 	flagP        bool
 	modelPath    string
 	architecture []int
@@ -65,6 +66,23 @@ func parseFilepath(filepath string) string {
 	return filepath
 }
 
+// parseDataPath sets path to data, default: data.csv. Catches all bad arguments
+func parseDataPath(filepath string, flags flags) flags {
+	if flags.dataPathSet {
+		usageError("Invalid argument: ", filepath)
+	}
+	flags.dataPath = parseFilepath(filepath)
+	flags.dataPathSet = true
+	return flags
+}
+
+// parseModelPath sets path to model, default: model.json
+func parseModelPath(filepath string, flags flags) flags {
+	flags.modelPath = parseFilepath(filepath)
+	_, flags.err = os.Stat(flags.modelPath)
+	return flags
+}
+
 // parseArchitecture converts string to list of ints
 func parseArchitecture(i int, args []string) []int {
 	if i >= len(args) {
@@ -92,7 +110,7 @@ func parseArchitecture(i int, args []string) []int {
 }
 
 // parseSeed converts arg string to int
-func parseSeed(i int, args []string) int64 {
+func parseSeed(i int, args []string, flags flags) flags {
 	if i >= len(args) {
 		usageError("No seed provided after -s", "")
 	}
@@ -100,7 +118,9 @@ func parseSeed(i int, args []string) int64 {
 	if err != nil {
 		usageError("Bad seed: ", args[i])
 	}
-	return int64(seed)
+	flags.seed = int64(seed)
+	flags.flagS = true
+	return flags
 }
 
 // seedRandom initializes rand with time or -s SEED
@@ -169,16 +189,14 @@ func parseArg() flags {
 					continue
 				}
 				i++
-				flags.modelPath = parseFilepath(args[i])
-				_, flags.err = os.Stat(flags.modelPath)
+				flags = parseModelPath(args[i], flags)
 			}
 		} else if args[i] == "-a" || args[i] == "--architecture" {
 			i++
 			flags.architecture = parseArchitecture(i, args)
 		} else if args[i] == "-s" || args[i] == "--seed" {
 			i++
-			flags.seed = parseSeed(i, args)
-			flags.flagS = true
+			flags = parseSeed(i, args, flags)
 		} else if args[i] == "-e" || args[i] == "--early" {
 			flags.flagE = true
 		} else if args[i] == "-ep" || args[i] == "--epochs" {
@@ -194,7 +212,7 @@ func parseArg() flags {
 		} else if args[i] == "-q" || args[i] == "--quiet" {
 			flags.flagQ = true
 		} else {
-			flags.dataPath = parseFilepath(args[i])
+			flags = parseDataPath(args[i], flags)
 		}
 	}
 

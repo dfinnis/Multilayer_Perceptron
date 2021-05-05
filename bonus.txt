@@ -24,6 +24,7 @@ go run main.go -t -p -e -s 1619720454332218000    - test loss: 0.024296
 go run main.go -t -p -e -s 1619947830718951000    - test loss: 0.021450
 go run main.go -t -p -e -s 1620059181132839000    - test loss: 0.018200
 
+go run main.go -t -p -e -a "16 2" -s 1620223358086255000   - test loss: 0.068140   - 15 seconds
 
 #### -- TO DO -- ####
 

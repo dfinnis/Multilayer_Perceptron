@@ -9,13 +9,6 @@ func predict(nn neuralNetwork, samples [][]float32) (predictions, y [][]float32)
 	return
 }
 
-// predictLoss predicts and returns loss
-func predictLoss(nn neuralNetwork, samples [][]float32) float32 {
-	predictions, y := predict(nn, samples)
-	loss := nn.lossFunc(predictions, y)
-	return loss
-}
-
 // truthTally counts true & false, positives & negatives
 func truthTally(y_pred, y_true [][]float32) (float32, float32, float32, float32) {
 	var tp float32 // True Positive		// Predicted True & Is True

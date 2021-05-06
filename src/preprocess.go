@@ -17,7 +17,7 @@ func readCsv(filePath string) [][]float32 {
 	checkError("Unable to read input data file", err)
 	defer f.Close()
 	csvReader := csv.NewReader(f)
-	// // in := "id, diagnosis','radius_mean','texture_mean','perimeter_mean','area_mean','smoothness_mean','compactness_mean','concavity_mean','concave points_mean','symmetry_mean','fractal_dimension_mean','radius_se','texture_se','perimeter_se','area_se','smoothness_se','compactness_se','concavity_se','concave points_se','symmetry_se','fractal_dimension_se','radius_worst','texture_worst','perimeter_worst','area_worst','smoothness_worst','compactness_worst','concavity_worst','concave points_worst','symmetry_worst','fractal_dimension_worst"
+	// in := [32]string{"id", "diagnosis", "radius_mean", "texture_mean", "perimeter_mean", "area_mean", "smoothness_mean", "compactness_mean", "concavity_mean", "concave points_mean", "symmetry_mean", "fractal_dimension_mean", "radius_se", "texture_se", "perimeter_se", "area_se", "smoothness_se", "compactness_se", "concavity_se", "concave points_se", "symmetry_se", "fractal_dimension_se", "radius_worst", "texture_worst", "perimeter_worst", "area_worst", "smoothness_worst", "compactness_worst", "concavity_worst", "concave points_worst", "symmetry_worst", "fractal_dimension_worst"}
 
 	var data [][]float32
 	for {
@@ -52,10 +52,20 @@ func readCsv(filePath string) [][]float32 {
 			data = append(data, sample)
 		}
 	}
+	return data
+}
+
+// checkData ensures data exists & each sample is 31 long
+func checkData(data [][]float32, filePath string) {
 	if len(data) == 0 {
 		usageError("Data file empty: ", filePath)
 	}
-	return data
+	for i, sample := range data {
+		if len(sample) != 31 {
+			fmt.Printf("%vERROR Data file invalid, len(data[%v]): %v%v\n", RED, i, len(sample), RESET)
+			os.Exit(1)
+		}
+	}
 }
 
 // float32to64 converts a list of float64 to float32
@@ -88,6 +98,7 @@ func standardize(data [][]float32) {
 // preprocess reads data.csv & standardizes data
 func preprocess(dataPath string) [][]float32 {
 	data := readCsv(dataPath)
+	checkData(data, dataPath)
 	standardize(data)
 	fmt.Printf("Data loaded from: %v\n\n", dataPath)
 	return data

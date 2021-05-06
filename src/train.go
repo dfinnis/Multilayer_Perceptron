@@ -13,6 +13,9 @@ func isNaN(float float32) bool {
 // train trains the network & saves the model
 func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flags flags) {
 	fmt.Printf("\n%v%vTrain model%v\n\n", BOLD, UNDERLINE, RESET)
+	if len(train_set) == 0 {
+		errorExit("len(train_set) = 0")
+	}
 	fmt.Printf("\x1B[?25l") // HIDE_CURSOR
 	start := time.Now()
 

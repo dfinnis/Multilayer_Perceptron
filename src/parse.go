@@ -201,8 +201,5 @@ func parseArg() flags {
 	if flags.flagT && flags.flagP && flags.modelPath != "model.json" {
 		errorExit("invalid option combination: -t saves model.json but -p loads different model")
 	}
-	if flags.flagT && !flags.flagP && flags.flagE && !flags.flagS {
-		flags.flagE = false
-	}
 	return flags
 }

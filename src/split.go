@@ -1,8 +1,6 @@
 package multilayer
 
-import (
-	"math/rand"
-)
+import "math/rand"
 
 // shuffle randomizes the order of the data samples
 func shuffle(data [][]float32) {
@@ -27,7 +25,7 @@ func split(data [][]float32) (train_set [][]float32, test_set [][]float32) {
 // splitData shuffles data and creates training and test sets
 func splitData(data [][]float32, flags flags) (train_set, test_set [][]float32) {
 	shuffle(data)
-	if flags.flagT && !flags.flagP && !flags.flagS {
+	if flags.flagT && !flags.flagP && !flags.flagS && !flags.flagE {
 		train_set = data
 	} else if flags.flagP && !flags.flagT && !flags.flagS {
 		test_set = data

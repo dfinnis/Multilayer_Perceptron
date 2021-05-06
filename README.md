@@ -32,21 +32,21 @@ To run. <br>
 Alternatively, build and run the binary. <br>
 ```go build; ./Multilayer_Perceptron```
 
-Default behaviour is to split the data into training & test sets, train a model on the training set, save it as *model.json*, then predict for the test set.
-If *model.json* already exists load *model.json* then predict.
+Default behaviour is to split the data into training & test sets, train a model on the training set, show metrics for training & test sets, then save model as *model.json*.
 
 
 ## Flags
 
 ### -t --train
 
-Only train, don't predict. Uses the entire dataset to train & overwrites *model.json* if it already exists.
+While training prints metrics & confusion matrix for training & test sets.
+After training shows a line graph of loss over training period.
 
-Train outputs a line graph of loss over training period.
-
-<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/t.png" width="600">
+![t](https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/t.gif)
 
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/loss.png" width="600">
+
+without *--predict* or *--early* or *--seed* uses the entire dataset to train.
 
 
 ### -p --predict
@@ -55,9 +55,7 @@ Only predict, don't train. Uses the entire dataset to predict unless seeded with
 
 The default model path is "model.json", but with additional argument *FILEPATH* model is loaded from given filepath.
 
-*-t -p* both train & predict, even if *model.json* already exists.
-
-Predict outputs metrics & confusion matrix for predictions on the test set.
+Predict prints metrics & confusion matrix for predictions on the test set.
 
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/p.png" width="800">
 
@@ -66,7 +64,7 @@ Predict outputs metrics & confusion matrix for predictions on the test set.
 
 ```go run main.go -t -p -e```
 
-Early stopping. Stop training when test set loss starts to increase. This avoids overfitting.
+Early stopping. Stop training when test set loss starts to increase. This avoids overfitting & minimizes test loss.
 
 
 ### -ep --epochs
@@ -75,7 +73,7 @@ Early stopping. Stop training when test set loss starts to increase. This avoids
 
 Provide addtional argument EPOCHS to determine length of training. Must be an integer between 0 & 100000.
 
-The default number of epochs is 15000, which is usually around when test loss reaches its minimum on default settings.
+The default number of epochs is 15000, which is usually around when test loss reaches minimum on default settings.
 
 
 ### -s --seed
@@ -111,7 +109,7 @@ The default architecture is "16 16 2". 2 hidden layers with 16 neurons, and an o
 
 ```go run main.go -q```
 
-Don't print architecture or seed.
+Don't print architecture or seed or additonal metrics while training.
 
 
 ### data.csv

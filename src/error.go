@@ -21,8 +21,8 @@ func printUsage() {
 }
 
 // usageError prints error message & usage, then quits
-func usageError(msg, err string) {
-	fmt.Printf("%vERROR %v %v%v\n", RED, msg, err, RESET)
+func usageError(message, err string) {
+	fmt.Printf("%vERROR %v %v%v\n", RED, message, err, RESET)
 	printUsage()
 }
 

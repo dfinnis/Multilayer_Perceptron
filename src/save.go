@@ -67,6 +67,12 @@ func checkModel(model [][]jsonNeuron, nn neuralNetwork) {
 			fmt.Printf("ERROR Neural network architecture don't match models: %v\n", architecture)
 			os.Exit(1)
 		}
+		for neuron := 0; neuron < nn.architecture[layer]; neuron++ {
+			if len(nn.layers[layer].neurons[neuron].weights) != len(model[layer-1][neuron].Weights) {
+				fmt.Printf("%vERROR Models architecture invalid, len(model[%v][%v].Weights): %v%v\n", RED, layer, neuron, len(model[layer-1][neuron].Weights), RESET)
+				os.Exit(1)
+			}
+		}
 	}
 }
 

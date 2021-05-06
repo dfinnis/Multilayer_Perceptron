@@ -10,6 +10,7 @@
 	(only math.Exp .Log & .Sqrt, stat.Mean & .Variance)
 8. README.md
 9. Can watch model.json learn
+10. Works with data.csv of different number of columns
 
 
 #### -- loss < 0.08 -- ####

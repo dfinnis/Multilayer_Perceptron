@@ -30,7 +30,6 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flags 
 		trainLoss := nn.lossFunc(predictionsTrain, yTrain)
 		predictionsTest, yTest := predict(nn, test_set)
 		testLoss := nn.lossFunc(predictionsTest, yTest)
-
 		if isNaN(trainLoss) || (len(test_set) > 0 && isNaN(testLoss)) {
 			break
 		}

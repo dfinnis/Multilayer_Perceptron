@@ -60,8 +60,9 @@ func checkData(data [][]float32, filePath string) {
 	if len(data) == 0 {
 		usageError("Data file empty: ", filePath)
 	}
+	length := len(data[0])
 	for i, sample := range data {
-		if len(sample) != 31 {
+		if len(sample) != length || len(sample) < 2 {
 			fmt.Printf("%vERROR Data file invalid, len(data[%v]): %v%v\n", RED, i, len(sample), RESET)
 			os.Exit(1)
 		}

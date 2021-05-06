@@ -44,7 +44,6 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flags 
 		saveModel(nn)
 	}
 	elapsed := time.Since(start)
-	fmt.Printf("\x1B[?12;25h") // RESET_CURSOR
 	fmt.Printf("\n\nTraining time: %v\n\n", elapsed)
 	fmt.Printf("Model saved as: model.json\n\n")
 	visualize(nn.trainLoss, nn.testLoss)

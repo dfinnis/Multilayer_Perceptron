@@ -123,12 +123,12 @@ func printMetrics(tp, fn, fp, tn, loss float32) {
 // confusionMatrix shows true & false, positives & negatives
 func confusionMatrix(tp, fn, fp, tn float32) {
 	fmt.Printf("%vConfusion Matrix%v  +---------------+\n", BOLD, RESET)
-	fmt.Printf("                  |%v Ground Truth %v |\n", BOLD, RESET)
-	fmt.Printf("Total: %-4v       +-------+-------+\n", (tp + fn + fp + tn))
-	fmt.Printf("                  |%v%v True %v |%v%v False %v|\n", BOLD, GREEN, RESET, BOLD, RED, RESET)
-	fmt.Printf("+-----------------+-------+-------+\n")
-	fmt.Printf("|         |%v%v True %v |%v %-5v %v|%v %-5v %v|\n", BOLD, GREEN, RESET, GREEN, tp, RESET, RED, fp, RESET)
-	fmt.Printf("|%v Predict %v+-------+-------+-------+\n", BOLD, RESET)
-	fmt.Printf("|         |%v%v False %v|%v %-5v %v|%v %-5v %v|\n", BOLD, RED, RESET, RED, fn, RESET, GREEN, tn, RESET)
+	fmt.Printf("                  ǁ%v Ground Truth %v ǁ\n", BOLD, RESET)
+	fmt.Printf("Total: %-4v       ǁ-------+-------ǁ\n", (tp + fn + fp + tn))
+	fmt.Printf("                  ǁ%v%v True %v |%v%v False %vǁ\n", BOLD, GREEN, RESET, BOLD, RED, RESET)
+	fmt.Printf("+-----------------ǁ-------+-------ǁ\n")
+	fmt.Printf("|         |%v%v True %v ǁ%v %-5v %v|%v %-5v %vǁ\n", BOLD, GREEN, RESET, GREEN, tp, RESET, RED, fp, RESET)
+	fmt.Printf("|%v Predict %v+-------ǁ-------+-------ǁ\n", BOLD, RESET)
+	fmt.Printf("|         |%v%v False %vǁ%v %-5v %v|%v %-5v %vǁ\n", BOLD, RED, RESET, RED, fn, RESET, GREEN, tn, RESET)
 	fmt.Printf("+-----------------+-------+-------+\n\n")
 }

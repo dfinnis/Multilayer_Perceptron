@@ -30,6 +30,7 @@ func MultilayerPerceptron() {
 	if flags.flagT || flags.err != nil { // if model.json exists skip training, unless -t
 		train(nn, train_set, test_set, flags)
 	}
+	fmt.Printf("\x1B[?12;25h") // RESET_CURSOR
 
 	// Predict
 	if flags.flagP || (!flags.flagT && !flags.flagP) {

@@ -40,13 +40,4 @@ go run main.go -t -p -e -a "16 2" -s 1620223358086255000   - test loss: 0.068140
 
 #### -- TO DO -- ####
 
-- fix problem with 3+ layer architecture? => exploding / vanishing gradients
-
-- limit architecture to 2 hidden layers
-
 - change default behaviour to train predict even if model exists
-
-- faulty model
-deleted 5 random lines of weights from model.json
-
-- negative numbers in your architecture argument

@@ -105,10 +105,16 @@ func parseArchitecture(i int, args []string) []int {
 		if integer > 100 {
 			usageError("Max 100 neurons in a layer, given:", strconv.Itoa(integer))
 		}
+		if integer < 2 {
+			usageError("Min 2 neurons in a layer, given:", strconv.Itoa(integer))
+		}
 		architecture = append(architecture, integer)
 	}
 	if len(architecture) < 2 {
-		usageError("Architecture minimum 2 layers", "")
+		usageError("Architecture minimum 1 hidden layer", "")
+	}
+	if len(architecture) > 3 {
+		usageError("Architecture maximum 2 hidden layers", "")
 	}
 	if architecture[len(architecture)-1] != 2 {
 		usageError("Architecture invalid, output layer must be 2 neurons", "")

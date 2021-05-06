@@ -39,7 +39,9 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flags 
 			break
 		}
 
+		// Print
 		printEpoch(epoch, nn.epochs, trainLoss, testLoss, flags.flagQ, predictionsTrain, yTrain, predictionsTest, yTest)
+
 		// Save
 		nn.trainLoss = append(nn.trainLoss, trainLoss)
 		nn.testLoss = append(nn.testLoss, testLoss)

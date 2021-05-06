@@ -14,7 +14,7 @@ type jsonNeuron struct {
 	Weights []float32
 }
 
-// Save bias & weights to model.json
+// saveModel saves bias & weights to model.json
 func saveModel(nn neuralNetwork) {
 	model := make([][]jsonNeuron, len(nn.architecture)-1)
 	for layer := 1; layer < len(nn.architecture); layer++ {
@@ -33,7 +33,7 @@ func saveModel(nn neuralNetwork) {
 	checkError("ioutil.WriteFile", err)
 }
 
-// isJSON exits if first part of data file is not printable
+// isJSON exits if first part of model file is not printable
 func isJSON(head []byte) {
 	for _, character := range head {
 		if !(character > 31 && character < 126 || character == 9 || character == 10) {
@@ -42,7 +42,7 @@ func isJSON(head []byte) {
 	}
 }
 
-// checkModelPath checks the first part of data file, protects against /dev/random
+// checkModelPath checks the first part of model file, protects against /dev/random
 func checkModelPath(filepath string) {
 	f, err := os.Open(filepath)
 	checkError("os.Open", err)
@@ -76,7 +76,7 @@ func checkModel(model [][]jsonNeuron, nn neuralNetwork) {
 	}
 }
 
-// Load bias & weights from model.json
+// loadModel loads bias & weights from model.json
 func loadModel(nn neuralNetwork, filepath string) {
 	fmt.Printf("Loading model from: %v...", filepath)
 

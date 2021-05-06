@@ -61,7 +61,7 @@ func printEpoch(epoch, epochs int, trainLoss, testLoss float32, flagQ bool, pred
 		accuracyTest, precisionTest, recallTest, specificityTest, F1_scoreTest := getMetrics(tpTest, fnTest, fpTest, tnTest)
 
 		if epoch > 1 {
-			fmt.Printf("\x1B[26F") // Cursor back to begining of print
+			fmt.Printf("\x1B[26F") // Cursor back 26 lines to begining of print
 		}
 		fmt.Printf("+-------------------------------------------------+\n")
 		fmt.Printf("|%v Epoch %5v%v / %-5v                             |\n", BOLD, epoch, RESET, epochs)
@@ -120,7 +120,7 @@ func printMetrics(tp, fn, fp, tn, loss float32) {
 
 }
 
-// confusionMatrix shows true & false, positives & negatives
+// confusionMatrix shows true & false, positives & negatives for the test set
 func confusionMatrix(tp, fn, fp, tn float32) {
 	fmt.Printf("%vConfusion Matrix%v  +---------------+\n", BOLD, RESET)
 	fmt.Printf("                  ǁ%v Ground Truth %v ǁ\n", BOLD, RESET)

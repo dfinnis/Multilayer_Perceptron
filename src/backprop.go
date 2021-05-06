@@ -80,19 +80,22 @@ func updateNN(nn neuralNetwork, layer int, d_weights [][]float32, d_bias []float
 	}
 }
 
-// backpropLayer updates the layers weights and bias
+// backpropLayer updates the layers weights & bias
 func backpropLayer(nn neuralNetwork, output, y [][]float32, layer int, d_A [][]float32) [][]float32 {
 	z := getLayerValue(nn, output, layer)
 	prime := getPrime(nn, layer, z)
 	d_z := getActivationSlope(prime, d_A)
 	layerOutputs := getLayerOutput(nn, prime, layer)
 
+	// Weights & bias derivative
 	d_weights := multiply(transpose(d_z), layerOutputs)
 	d_bias := getBiasSlope(nn, d_z, layer)
 
+	// Previous layer derivative
 	weights := getLayerWeights(nn, layer)
 	d_aLast := multiply(d_z, weights)
 
+	// Update weights & bias
 	updateNN(nn, layer, d_weights, d_bias, float32(len(output)))
 	return d_aLast
 }

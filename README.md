@@ -39,17 +39,21 @@ Default behaviour is to split the data into training & test sets, train a model 
 
 ### -t --train
 
+```go run main.go -t -s 4242```
+
 While training prints metrics & confusion matrix for training & test sets.
 After training shows a line graph of loss over training period.
 
-![t](https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/t.gif)
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/t.gif" width="420">
 
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/loss.png" width="600">
 
-without *--predict* or *--early* or *--seed* uses the entire dataset to train.
+without *--predict* or *--early* or *--seed*, --train uses the entire dataset to train.
 
 
 ### -p --predict
+
+```go run main.go -p -s 4242```
 
 Only predict, don't train. Uses the entire dataset to predict unless seeded with *-s*.
 
@@ -62,14 +66,14 @@ Predict prints metrics & confusion matrix for predictions on the test set.
 
 ### -e --early
 
-```go run main.go -t -p -e```
+```go run main.go -e```
 
 Early stopping. Stop training when test set loss starts to increase. This avoids overfitting & minimizes test loss.
 
 
 ### -ep --epochs
 
-```go run main.go -t -p -ep 14000```
+```go run main.go -ep 14000```
 
 Provide addtional argument EPOCHS to determine length of training. Must be an integer between 0 & 100000.
 
@@ -78,7 +82,7 @@ The default number of epochs is 15000, which is usually around when test loss re
 
 ### -s --seed
 
-```go run main.go -t -p -e -s 4242```
+```go run main.go -e -s 4242```
 
 Provide addtional argument SEED integer for randomization.
 
@@ -89,14 +93,14 @@ The default seed is the current time.
 
 ### -l --learning
 
-```go run main.go -t -p -e -l 0.1```
+```go run main.go -e -l 0.1```
 
 Provide addtional argument LEARNING rate. Must be a float between 0 & 1. The default learning rate is 0.01.
 
 
 ### -a --architecture
 
-```go run main.go -t -p -e -a "30 30 2"```
+```go run main.go -e -a "30 30 2"```
 
 Provide addtional argument ARCHITECTURE as string.
 

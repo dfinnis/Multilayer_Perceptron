@@ -30,7 +30,7 @@ func MultilayerPerceptron() {
 	if flags.flagT || (!flags.flagT && !flags.flagP) {
 		train(nn, train_set, test_set, flags)
 	}
-	fmt.Printf("\x1B[?12;25h") // RESET_CURSOR
+	fmt.Printf("\x1B[?12;25h") // Reset Cursor
 
 	// Predict
 	if flags.flagP {

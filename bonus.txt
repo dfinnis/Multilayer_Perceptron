@@ -40,6 +40,4 @@ go run main.go -t -p -e -a "16 2" -s 1620223358086255000   - test loss: 0.068140
 
 #### -- TO DO -- ####
 
-- change default behaviour to train predict even if model exists
-
 - update readme with changes

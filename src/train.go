@@ -16,7 +16,7 @@ func train(nn neuralNetwork, train_set [][]float32, test_set [][]float32, flags 
 	if len(train_set) == 0 {
 		errorExit("len(train_set) = 0")
 	}
-	fmt.Printf("\x1B[?25l") // HIDE_CURSOR
+	fmt.Printf("\x1B[?25l") // Hide Cursor
 	start := time.Now()
 
 	for epoch := 1; epoch <= nn.epochs; epoch++ {

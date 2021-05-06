@@ -39,15 +39,6 @@ func defaultConfig() flags {
 	return flags
 }
 
-// noFlags updates flags appropriately if no flags are given
-func noFlags(flags flags) flags {
-	if flags.err != nil {
-		flags.flagT = true
-		flags.flagP = true
-	}
-	return flags
-}
-
 // isFlag returns true if argument is flag (apart from -p)
 func isFlag(arg string) bool {
 	if arg == "-t" || arg == "--train" ||
@@ -172,7 +163,6 @@ func parseArg() flags {
 
 	args := os.Args[1:]
 	if len(args) == 0 {
-		flags = noFlags(flags)
 		return flags
 	} else if len(args) > 13 {
 		usageError("Too many arguments: ", strconv.Itoa(len(args)))

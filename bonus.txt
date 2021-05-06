@@ -10,7 +10,7 @@
 	(only math.Exp .Log & .Sqrt, stat.Mean & .Variance)
 8. README.md
 9. Can watch model.json learn
-10. Works with data.csv of different number of columns
+10. Works with data.csv of different number of columns - fully flexible architecture
 
 
 #### -- loss < 0.08 -- ####
@@ -41,3 +41,5 @@ go run main.go -t -p -e -a "16 2" -s 1620223358086255000   - test loss: 0.068140
 #### -- TO DO -- ####
 
 - change default behaviour to train predict even if model exists
+
+- update readme with changes

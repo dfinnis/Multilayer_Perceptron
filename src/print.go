@@ -95,7 +95,7 @@ func confusionMatrix2(tpTrain, fnTrain, fpTrain, tnTrain, tpTest, fnTest, fpTest
 	fmt.Printf("|         |%v%v True %v ǁ%v %-5v %v|%v %-5v %vǁ%v %-5v %v|%v %-5v %vǁ\n", BOLD, GREEN, RESET, GREEN, tpTrain, RESET, RED, fpTrain, RESET, GREEN, tpTest, RESET, RED, fpTest, RESET)
 	fmt.Printf("|%v Predict %v+-------ǁ-------+-------ǁ-------+-------ǁ\n", BOLD, RESET)
 	fmt.Printf("|         |%v%v False %vǁ%v %-5v %v|%v %-5v %vǁ%v %-5v %v|%v %-5v %vǁ\n", BOLD, RED, RESET, RED, fnTrain, RESET, GREEN, tnTrain, RESET, RED, fnTest, RESET, GREEN, tnTest, RESET)
-	fmt.Printf("+-----------------+-------+-------+-------+-------+")
+	fmt.Printf("+-----------------+---------------+---------------+")
 }
 
 // printMetrics shows the final metrics
@@ -130,5 +130,5 @@ func confusionMatrix(tp, fn, fp, tn float32) {
 	fmt.Printf("|         |%v%v True %v ǁ%v %-5v %v|%v %-5v %vǁ\n", BOLD, GREEN, RESET, GREEN, tp, RESET, RED, fp, RESET)
 	fmt.Printf("|%v Predict %v+-------ǁ-------+-------ǁ\n", BOLD, RESET)
 	fmt.Printf("|         |%v%v False %vǁ%v %-5v %v|%v %-5v %vǁ\n", BOLD, RED, RESET, RED, fn, RESET, GREEN, tn, RESET)
-	fmt.Printf("+-----------------+-------+-------+\n\n")
+	fmt.Printf("+-----------------+---------------+\n\n")
 }

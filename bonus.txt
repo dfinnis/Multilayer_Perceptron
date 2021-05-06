@@ -49,3 +49,6 @@ go run main.go -t -p -e -a "16 2" -s 1620223358086255000   - test loss: 0.068140
 deleted 5 random lines of weights from model.json
 
 - negative numbers in your architecture argument
+
+- /dev/null
+- /dev/random

@@ -1,6 +1,7 @@
 package multilayer
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -32,6 +33,25 @@ func saveModel(nn neuralNetwork) {
 	checkError("ioutil.WriteFile", err)
 }
 
+// isJSON exits if first part of data file is not printable
+func isJSON(head []byte) {
+	for _, character := range head {
+		if !(character > 31 && character < 126 || character == 9 || character == 10) {
+			usageError("Data file invalid, read character:", string(character))
+		}
+	}
+}
+
+// checkModelPath checks the first part of data file, protects against /dev/random
+func checkModelPath(filepath string) {
+	f, err := os.Open(filepath)
+	checkError("os.Open", err)
+	reader := bufio.NewReader(f)
+	head, err := reader.Peek(420)
+	checkError("reader.Peek", err)
+	isJSON(head)
+}
+
 // checkModel exits if model & neural network architecture don't match
 func checkModel(model [][]jsonNeuron, nn neuralNetwork) {
 	var architecture []int
@@ -53,6 +73,8 @@ func checkModel(model [][]jsonNeuron, nn neuralNetwork) {
 // Load bias & weights from model.json
 func loadModel(nn neuralNetwork, filepath string) {
 	fmt.Printf("Loading model from: %v...", filepath)
+
+	checkModelPath(filepath)
 	file, err := ioutil.ReadFile(filepath)
 	checkError("ioutil.ReadFile", err)
 

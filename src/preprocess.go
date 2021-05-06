@@ -52,6 +52,9 @@ func readCsv(filePath string) [][]float32 {
 			data = append(data, sample)
 		}
 	}
+	if len(data) == 0 {
+		usageError("Data file empty: ", filePath)
+	}
 	return data
 }
 

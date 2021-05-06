@@ -14,10 +14,12 @@
 
 #### -- loss < 0.08 -- ####
 
+go run main.go -t -p -e -s 1620298002301860000    - test loss: 0.072255
 go run main.go -t -p -e -s 1619696818483627000    - test loss: 0.070008
 go run main.go -t -p -e -s 1620229439757655000    - test loss: 0.066163
 go run main.go -t -p -e -s 1620295686170674000    - test loss: 0.063801
 go run main.go -t -p -e -s 1619707987089926000    - test loss: 0.059896
+go run main.go -t -p -e -s 1620296433232306000    - test loss: 0.059808
 go run main.go -t -p -e -s 1619687999274871000    - test loss: 0.059255
 go run main.go -t -p -e -s 4242                   - test loss: 0.042596
 go run main.go -t -p -e -s 1619699659782358000    - test loss: 0.031915

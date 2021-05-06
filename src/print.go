@@ -88,13 +88,13 @@ func printEpoch(epoch, epochs int, trainLoss, testLoss float32, flagQ bool, pred
 // confusionMatrix2 shows true & false, positives & negatives for training & test sets
 func confusionMatrix2(tpTrain, fnTrain, fpTrain, tnTrain, tpTest, fnTest, fpTest, tnTest float32) {
 	fmt.Printf("%vConfusion Matrix%v  +---------------+---------------+\n", BOLD, RESET)
-	fmt.Printf("                  |%v Ground Truth %v |%v Ground Truth %v |\n", BOLD, RESET, BOLD, RESET)
-	fmt.Printf("                  +-------+-------+-------+-------+\n")
-	fmt.Printf("                  |%v%v True %v |%v%v False %v|%v%v True %v |%v%v False %v|\n", BOLD, GREEN, RESET, BOLD, RED, RESET, BOLD, GREEN, RESET, BOLD, RED, RESET)
-	fmt.Printf("+-----------------+-------+-------+-------+-------+\n")
-	fmt.Printf("|         |%v%v True %v |%v %-5v %v|%v %-5v %v|%v %-5v %v|%v %-5v %v|\n", BOLD, GREEN, RESET, GREEN, tpTrain, RESET, RED, fpTrain, RESET, GREEN, tpTest, RESET, RED, fpTest, RESET)
-	fmt.Printf("|%v Predict %v+-------+-------+-------+-------+-------+\n", BOLD, RESET)
-	fmt.Printf("|         |%v%v False %v|%v %-5v %v|%v %-5v %v|%v %-5v %v|%v %-5v %v|\n", BOLD, RED, RESET, RED, fnTrain, RESET, GREEN, tnTrain, RESET, RED, fnTest, RESET, GREEN, tnTest, RESET)
+	fmt.Printf("                  ǁ%v Ground Truth %v ǁ%v Ground Truth %v ǁ\n", BOLD, RESET, BOLD, RESET)
+	fmt.Printf("                  ǁ-------+-------ǁ-------+-------ǁ\n")
+	fmt.Printf("                  ǁ%v%v True %v |%v%v False %vǁ%v%v True %v |%v%v False %vǁ\n", BOLD, GREEN, RESET, BOLD, RED, RESET, BOLD, GREEN, RESET, BOLD, RED, RESET)
+	fmt.Printf("+-----------------ǁ-------+-------ǁ-------+-------ǁ\n")
+	fmt.Printf("|         |%v%v True %v ǁ%v %-5v %v|%v %-5v %vǁ%v %-5v %v|%v %-5v %vǁ\n", BOLD, GREEN, RESET, GREEN, tpTrain, RESET, RED, fpTrain, RESET, GREEN, tpTest, RESET, RED, fpTest, RESET)
+	fmt.Printf("|%v Predict %v+-------ǁ-------+-------ǁ-------+-------ǁ\n", BOLD, RESET)
+	fmt.Printf("|         |%v%v False %vǁ%v %-5v %v|%v %-5v %vǁ%v %-5v %v|%v %-5v %vǁ\n", BOLD, RED, RESET, RED, fnTrain, RESET, GREEN, tnTrain, RESET, RED, fnTest, RESET, GREEN, tnTest, RESET)
 	fmt.Printf("+-----------------+-------+-------+-------+-------+")
 }
 
@@ -102,21 +102,21 @@ func confusionMatrix2(tpTrain, fnTrain, fpTrain, tnTrain, tpTest, fnTest, fpTest
 func printMetrics(tp, fn, fp, tn, loss float32) {
 	accuracy, precision, recall, specificity, F1_score := getMetrics(tp, fn, fp, tn)
 
-	fmt.Printf("+-------------+----------+-------------------------------------------------------------------------+\n")
-	fmt.Printf("|%v Metric      %v|%v Value    %v|%v Description                                                             %v|\n", BOLD, RESET, BOLD, RESET, BOLD, RESET)
-	fmt.Printf("+-------------+----------+-------------------------------------------------------------------------+\n")
-	fmt.Printf("|%v Loss        %v| %f | binary cross-entropy log loss                                           |\n", BOLD, RESET, loss)
-	fmt.Printf("|             |          |                                                                         |\n")
-	fmt.Printf("|%v Accuracy    %v| %f | proportion of predictions classified correctly                          |\n", BOLD, RESET, accuracy)
-	fmt.Printf("|             |          |                                                                         |\n")
-	fmt.Printf("|%v Precision   %v| %f | proportion of positive identifications correct                          |\n", BOLD, RESET, precision)
-	fmt.Printf("|             |          |                                                                         |\n")
-	fmt.Printf("|%v Recall      %v| %f | proportion of actual positives identified correctly. True Positive Rate |\n", BOLD, RESET, recall)
-	fmt.Printf("|             |          |                                                                         |\n")
-	fmt.Printf("|%v Specificity %v| %f | proportion of actual negatives identified correctly. True Negative Rate |\n", BOLD, RESET, specificity)
-	fmt.Printf("|             |          |                                                                         |\n")
-	fmt.Printf("|%v F1_score    %v| %f | harmonic mean of precision & recall. Max 1 (perfect), min 0             |\n", BOLD, RESET, F1_score)
-	fmt.Printf("+-------------+----------+-------------------------------------------------------------------------+\n\n\n")
+	fmt.Printf("+-------------+----------+--------------------------------------------------------------------+\n")
+	fmt.Printf("|%v Metric      %v|%v Value    %v|%v Description                                                        %v|\n", BOLD, RESET, BOLD, RESET, BOLD, RESET)
+	fmt.Printf("+-------------+----------+--------------------------------------------------------------------+\n")
+	fmt.Printf("|%v Loss        %v| %f | binary cross-entropy log loss                                      |\n", BOLD, RESET, loss)
+	fmt.Printf("|             |          |                                                                    |\n")
+	fmt.Printf("|%v Accuracy    %v| %f | proportion of predictions classified correctly                     |\n", BOLD, RESET, accuracy)
+	fmt.Printf("|             |          |                                                                    |\n")
+	fmt.Printf("|%v Precision   %v| %f | proportion of positive identifications correct                     |\n", BOLD, RESET, precision)
+	fmt.Printf("|             |          |                                                                    |\n")
+	fmt.Printf("|%v Recall      %v| %f | proportion of actual positives predicted true. True Positive Rate  |\n", BOLD, RESET, recall)
+	fmt.Printf("|             |          |                                                                    |\n")
+	fmt.Printf("|%v Specificity %v| %f | proportion of actual negatives predicted false. True Negative Rate |\n", BOLD, RESET, specificity)
+	fmt.Printf("|             |          |                                                                    |\n")
+	fmt.Printf("|%v F1_score    %v| %f | harmonic mean of precision & recall. Max 1 (perfect), min 0        |\n", BOLD, RESET, F1_score)
+	fmt.Printf("+-------------+----------+--------------------------------------------------------------------+\n\n\n")
 
 }
 

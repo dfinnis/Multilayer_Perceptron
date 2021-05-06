@@ -1,7 +1,7 @@
 #### -- Bonus -- ####
 1. -e --early, early stopping
-2. -a --architecture
-3. Additional metrics & confusion matrix
+2. Evaluate training phase with multiple metrics + confusion matrix
+3. -a --architecture
 4. -mse (mean squared error), & -rmse (root mean squared error) loss functions
 5. -l --learning, -ep --epochs & -s --seed
 
@@ -27,6 +27,7 @@ go run main.go -t -p -e -s 1619947830718951000    - test loss: 0.021450
 go run main.go -t -p -e -s 1620059181132839000    - test loss: 0.018200
 
 go run main.go -t -p -e -a "16 2" -s 1620223358086255000   - test loss: 0.068140   - 15 seconds
+
 
 #### -- TO DO -- ####
 

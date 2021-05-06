@@ -70,35 +70,35 @@ func printMetrics(tp, fn, fp, tn, loss float32) {
 	fmt.Printf("|             |          |                                                                         |\n")
 	fmt.Printf("|%v Specificity %v| %f | proportion of actual negatives identified correctly. True Negative Rate |\n", BOLD, RESET, specificity)
 	fmt.Printf("|             |          |                                                                         |\n")
-	fmt.Printf("|%v F1_score    %v| %f | harmonic mean of precision and recall. Max 1 (perfect), min 0           |\n", BOLD, RESET, F1_score)
+	fmt.Printf("|%v F1_score    %v| %f | harmonic mean of precision & recall. Max 1 (perfect), min 0             |\n", BOLD, RESET, F1_score)
 	fmt.Printf("+-------------+----------+-------------------------------------------------------------------------+\n\n\n")
 
 }
 
 // confusionMatrix shows true & false, positives & negatives
 func confusionMatrix(tp, fn, fp, tn float32) {
-	fmt.Printf("%vConfusion Matrix%v    +---------------+\n", BOLD, RESET)
-	fmt.Printf("                    |%v Ground Truth %v |\n", BOLD, RESET)
-	fmt.Printf("Total samples: %-4v +-------+-------+\n", (tp + fn + fp + tn))
-	fmt.Printf("                    |%v%v True %v |%v%v False %v|\n", BOLD, GREEN, RESET, BOLD, RED, RESET)
-	fmt.Printf("+-------------------+-------+-------+\n")
-	fmt.Printf("|           |%v%v True %v |%v %-5v %v|%v %-5v %v|\n", BOLD, GREEN, RESET, GREEN, tp, RESET, RED, fp, RESET)
-	fmt.Printf("|%v Predicted %v+-------+-------+-------+\n", BOLD, RESET)
-	fmt.Printf("|           |%v%v False %v|%v %-5v %v|%v %-5v %v|\n", BOLD, RED, RESET, RED, fn, RESET, GREEN, tn, RESET)
-	fmt.Printf("+-------------------+-------+-------+\n\n")
+	fmt.Printf("%vConfusion Matrix%v  +---------------+\n", BOLD, RESET)
+	fmt.Printf("                  |%v Ground Truth %v |\n", BOLD, RESET)
+	fmt.Printf("Total: %-4v       +-------+-------+\n", (tp + fn + fp + tn))
+	fmt.Printf("                  |%v%v True %v |%v%v False %v|\n", BOLD, GREEN, RESET, BOLD, RED, RESET)
+	fmt.Printf("+-----------------+-------+-------+\n")
+	fmt.Printf("|         |%v%v True %v |%v %-5v %v|%v %-5v %v|\n", BOLD, GREEN, RESET, GREEN, tp, RESET, RED, fp, RESET)
+	fmt.Printf("|%v Predict %v+-------+-------+-------+\n", BOLD, RESET)
+	fmt.Printf("|         |%v%v False %v|%v %-5v %v|%v %-5v %v|\n", BOLD, RED, RESET, RED, fn, RESET, GREEN, tn, RESET)
+	fmt.Printf("+-----------------+-------+-------+\n\n")
 }
 
 // confusionMatrix2 shows true & false, positives & negatives for training & test sets
 func confusionMatrix2(tpTrain, fnTrain, fpTrain, tnTrain, tpTest, fnTest, fpTest, tnTest float32) {
-	fmt.Printf("%vConfusion Matrix%v    +-------+-------+-------+-------+\n", BOLD, RESET)
-	fmt.Printf("                    |%v Ground Truth %v |%v Ground Truth %v |\n", BOLD, RESET, BOLD, RESET)
-	fmt.Printf("                    +-------+-------+-------+-------+\n")
-	fmt.Printf("                    |%v%v True %v |%v%v False %v|%v%v True %v |%v%v False %v|\n", BOLD, GREEN, RESET, BOLD, RED, RESET, BOLD, GREEN, RESET, BOLD, RED, RESET)
-	fmt.Printf("+-------------------+-------+-------+-------+-------+\n")
-	fmt.Printf("|           |%v%v True %v |%v %-5v %v|%v %-5v %v|%v %-5v %v|%v %-5v %v|\n", BOLD, GREEN, RESET, GREEN, tpTrain, RESET, RED, fpTrain, RESET, GREEN, tpTest, RESET, RED, fpTest, RESET)
-	fmt.Printf("|%v Predicted %v+-------+-------+-------+-------+-------+\n", BOLD, RESET)
-	fmt.Printf("|           |%v%v False %v|%v %-5v %v|%v %-5v %v|%v %-5v %v|%v %-5v %v|\n", BOLD, RED, RESET, RED, fnTrain, RESET, GREEN, tnTrain, RESET, RED, fnTest, RESET, GREEN, tnTest, RESET)
-	fmt.Printf("+-------------------+-------+-------+-------+-------+")
+	fmt.Printf("%vConfusion Matrix%v  +---------------+---------------+\n", BOLD, RESET)
+	fmt.Printf("                  |%v Ground Truth %v |%v Ground Truth %v |\n", BOLD, RESET, BOLD, RESET)
+	fmt.Printf("                  +-------+-------+-------+-------+\n")
+	fmt.Printf("                  |%v%v True %v |%v%v False %v|%v%v True %v |%v%v False %v|\n", BOLD, GREEN, RESET, BOLD, RED, RESET, BOLD, GREEN, RESET, BOLD, RED, RESET)
+	fmt.Printf("+-----------------+-------+-------+-------+-------+\n")
+	fmt.Printf("|         |%v%v True %v |%v %-5v %v|%v %-5v %v|%v %-5v %v|%v %-5v %v|\n", BOLD, GREEN, RESET, GREEN, tpTrain, RESET, RED, fpTrain, RESET, GREEN, tpTest, RESET, RED, fpTest, RESET)
+	fmt.Printf("|%v Predict %v+-------+-------+-------+-------+-------+\n", BOLD, RESET)
+	fmt.Printf("|         |%v%v False %v|%v %-5v %v|%v %-5v %v|%v %-5v %v|%v %-5v %v|\n", BOLD, RED, RESET, RED, fnTrain, RESET, GREEN, tnTrain, RESET, RED, fnTest, RESET, GREEN, tnTest, RESET)
+	fmt.Printf("+-----------------+-------+-------+-------+-------+")
 }
 
 // printEpoch prints metrics each epoch
@@ -112,23 +112,25 @@ func printEpoch(epoch, epochs int, trainLoss, testLoss float32, flagQ bool, pred
 		accuracyTest, precisionTest, recallTest, specificityTest, F1_scoreTest := getMetrics(tpTest, fnTest, fpTest, tnTest)
 
 		if epoch > 1 {
-			fmt.Printf("\x1B[24F") // Cursor back to begining of print
+			fmt.Printf("\x1B[26F") // Cursor back to begining of print
 		}
-		fmt.Printf("+-------------------+---------------+---------------+\n")
-		fmt.Printf("|%v Epoch %5v%v/%-5v |%v Training Set  %v|%v Test Set      %v|\n", BOLD, epoch, RESET, epochs, BOLD, RESET, BOLD, RESET)
-		fmt.Printf("+-------------------+---------------+---------------+\n")
-		fmt.Printf("|%v              Loss %v| %f      | %-8f      |\n", BOLD, RESET, trainLoss, testLoss)
-		fmt.Printf("|                   |               |               |\n")
-		fmt.Printf("|%v          Accuracy %v| %f      | %-8f      |\n", BOLD, RESET, accuracyTrain, accuracyTest)
-		fmt.Printf("|                   |               |               |\n")
-		fmt.Printf("|%v         Precision %v| %f      | %-8f      |\n", BOLD, RESET, precisionTrain, precisionTest)
-		fmt.Printf("|                   |               |               |\n")
-		fmt.Printf("|%v            Recall %v| %f      | %-8f      |\n", BOLD, RESET, recallTrain, recallTest)
-		fmt.Printf("|                   |               |               |\n")
-		fmt.Printf("|%v       Specificity %v| %f      | %-8f      |\n", BOLD, RESET, specificityTrain, specificityTest)
-		fmt.Printf("|                   |               |               |\n")
-		fmt.Printf("|%v          F1_score %v| %f      | %-8f      |\n", BOLD, RESET, F1_scoreTrain, F1_scoreTest)
-		fmt.Printf("+-------------------+---------------+---------------+\n\n")
+		fmt.Printf("+-------------------------------------------------+\n")
+		fmt.Printf("|%v Epoch %5v%v/%-5v                               |\n", BOLD, epoch, RESET, epochs)
+		fmt.Printf("+-----------------+---------------+---------------+\n")
+		fmt.Printf("|%v Metric          %v|%v Training Set  %v|%v Test Set      %v|\n", BOLD, RESET, BOLD, RESET, BOLD, RESET)
+		fmt.Printf("+-----------------+---------------+---------------+\n")
+		fmt.Printf("|%v            Loss %v| %f      | %-8f      |\n", BOLD, RESET, trainLoss, testLoss)
+		fmt.Printf("|                 |               |               |\n")
+		fmt.Printf("|%v        Accuracy %v| %f      | %-8f      |\n", BOLD, RESET, accuracyTrain, accuracyTest)
+		fmt.Printf("|                 |               |               |\n")
+		fmt.Printf("|%v       Precision %v| %f      | %-8f      |\n", BOLD, RESET, precisionTrain, precisionTest)
+		fmt.Printf("|                 |               |               |\n")
+		fmt.Printf("|%v          Recall %v| %f      | %-8f      |\n", BOLD, RESET, recallTrain, recallTest)
+		fmt.Printf("|                 |               |               |\n")
+		fmt.Printf("|%v     Specificity %v| %f      | %-8f      |\n", BOLD, RESET, specificityTrain, specificityTest)
+		fmt.Printf("|                 |               |               |\n")
+		fmt.Printf("|%v        F1_score %v| %f      | %-8f      |\n", BOLD, RESET, F1_scoreTrain, F1_scoreTest)
+		fmt.Printf("+-----------------+---------------+---------------+\n\n")
 
 		confusionMatrix2(tpTrain, fnTrain, fpTrain, tnTrain, tpTest, fnTest, fpTest, tnTest)
 	}

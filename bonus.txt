@@ -22,6 +22,7 @@ go run main.go -t -p -e -s 1620295686170674000    - test loss: 0.063801
 go run main.go -t -p -e -s 1619707987089926000    - test loss: 0.059896
 go run main.go -t -p -e -s 1620296433232306000    - test loss: 0.059808
 go run main.go -t -p -e -s 1619687999274871000    - test loss: 0.059255
+go run main.go -t -p -e -s 1620307055176516000    - test loss: 0.056343
 go run main.go -t -p -e -s 4242                   - test loss: 0.042596
 go run main.go -t -p -e -s 1620301771799861000    - test loss: 0.039638
 go run main.go -t -p -e -s 1619699659782358000    - test loss: 0.031915
@@ -43,12 +44,7 @@ go run main.go -t -p -e -a "16 2" -s 1620223358086255000   - test loss: 0.068140
 
 - change default behaviour to train predict even if model exists
 
-- go run main.go empty.json
-
 - faulty model
 deleted 5 random lines of weights from model.json
 
 - negative numbers in your architecture argument
-
-- /dev/null
-- /dev/random

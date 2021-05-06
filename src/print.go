@@ -31,7 +31,7 @@ func printSplit(train_set, test_set int) {
 // printArchitecture shows the network shape
 func printArchitecture(architecture []int) {
 	fmt.Printf("+----------------------------------+\n")
-	fmt.Printf("|%v   Neural Network Architecture %v   |\n", BOLD, RESET)
+	fmt.Printf("|%v Neural Network Architecture %v     |\n", BOLD, RESET)
 	fmt.Printf("+-----------+---------+------------+\n")
 	fmt.Printf("|%v Layer     %v|%v Neurons %v|%v Activation %v|\n", BOLD, RESET, BOLD, RESET, BOLD, RESET)
 	fmt.Printf("+-----------+---------+------------+\n")
@@ -64,7 +64,7 @@ func printEpoch(epoch, epochs int, trainLoss, testLoss float32, flagQ bool, pred
 			fmt.Printf("\x1B[26F") // Cursor back to begining of print
 		}
 		fmt.Printf("+-------------------------------------------------+\n")
-		fmt.Printf("|%v Epoch %5v%v/%-5v                               |\n", BOLD, epoch, RESET, epochs)
+		fmt.Printf("|%v Epoch %5v%v / %-5v                             |\n", BOLD, epoch, RESET, epochs)
 		fmt.Printf("+-----------------+---------------+---------------+\n")
 		fmt.Printf("|%v Metric          %v|%v Training Set  %v|%v Test Set      %v|\n", BOLD, RESET, BOLD, RESET, BOLD, RESET)
 		fmt.Printf("+-----------------+---------------+---------------+\n")

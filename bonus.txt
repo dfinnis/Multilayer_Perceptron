@@ -14,6 +14,7 @@
 
 #### -- loss < 0.08 -- ####
 
+go run main.go -t -p -e -s 1620300921106496000    - test loss: 0.075898
 go run main.go -t -p -e -s 1620298002301860000    - test loss: 0.072255
 go run main.go -t -p -e -s 1619696818483627000    - test loss: 0.070008
 go run main.go -t -p -e -s 1620229439757655000    - test loss: 0.066163
@@ -36,3 +37,5 @@ go run main.go -t -p -e -a "16 2" -s 1620223358086255000   - test loss: 0.068140
 #### -- TO DO -- ####
 
 - fix problem with 3+ layer architecture? => exploding / vanishing gradients
+
+- limit architecture to 2 hidden layers

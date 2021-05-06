@@ -23,7 +23,6 @@ type flags struct {
 	flagMSE      bool
 	flagRMSE     bool
 	flagQ        bool
-	err          error
 }
 
 // defaultConfig initializes default values
@@ -35,7 +34,6 @@ func defaultConfig() flags {
 	flags.seed = time.Now().UnixNano()
 	flags.learningRate = 0.01
 	flags.epochs = 15000
-	_, flags.err = os.Stat(flags.modelPath)
 	return flags
 }
 
@@ -62,13 +60,6 @@ func parseFilepath(filepath string) string {
 		usageError("Invalid filepath: ", filepath)
 	}
 	return filepath
-}
-
-// parseModelPath sets path to model, default: model.json
-func parseModelPath(filepath string, flags flags) flags {
-	flags.modelPath = parseFilepath(filepath)
-	_, flags.err = os.Stat(flags.modelPath)
-	return flags
 }
 
 // parseDataPath sets path to data, default: data.csv. Catches all bad arguments
@@ -180,7 +171,7 @@ func parseArg() flags {
 					continue
 				}
 				i++
-				flags = parseModelPath(args[i], flags)
+				flags.modelPath = parseFilepath(args[i])
 			}
 		} else if args[i] == "-a" || args[i] == "--architecture" {
 			i++

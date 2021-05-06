@@ -34,6 +34,20 @@ func truthTally(y_pred, y_true [][]float32) (float32, float32, float32, float32)
 	return tp, fn, fp, tn
 }
 
+// getMetrics converts true & false, positives & negatives into metrics
+func getMetrics(tp, fn, fp, tn float32) (accuracy, precision, recall, specificity, F1_score float32) {
+	accuracy = (tp + tn) / (tp + tn + fp + fn)
+	precision = tp / (tp + fp)
+	recall = tp / (tp + fn)
+	specificity = tn / (tn + fp)
+	F1_score = (2 * (precision * recall)) / (precision + recall)
+	if tp == 0 {
+		precision = 0
+		F1_score = 0
+	}
+	return
+}
+
 // predictFinal prints metrics for predictions on test set
 func predictFinal(nn neuralNetwork, test_set [][]float32, modelPath string) {
 	fmt.Printf("\n%v%vPredict%v\n\n", BOLD, UNDERLINE, RESET)

@@ -1,8 +1,6 @@
 package multilayer
 
 import (
-	"fmt"
-	"math/rand"
 	"os"
 	"strconv"
 	"strings"
@@ -47,7 +45,6 @@ func noFlags(flags flags) flags {
 		flags.flagT = true
 		flags.flagP = true
 	}
-	seedRandom(flags)
 	return flags
 }
 
@@ -131,14 +128,6 @@ func parseSeed(i int, args []string, flags flags) flags {
 	flags.seed = int64(seed)
 	flags.flagS = true
 	return flags
-}
-
-// seedRandom initializes rand with time or -s SEED
-func seedRandom(flags flags) {
-	rand.Seed(flags.seed)
-	if !(flags.flagS || flags.flagQ) {
-		fmt.Printf("Random seed: %d\n\n", flags.seed)
-	}
 }
 
 // parseEpochs parses string to int, must be between 0 & 100000
@@ -228,6 +217,5 @@ func parseArg() flags {
 	if flags.flagT && !flags.flagP && flags.flagE && !flags.flagS {
 		flags.flagE = false
 	}
-	seedRandom(flags)
 	return flags
 }

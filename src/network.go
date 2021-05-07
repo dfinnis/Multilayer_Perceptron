@@ -104,8 +104,8 @@ func setEpochs(nn neuralNetwork, flags flags) neuralNetwork {
 	return nn
 }
 
-// buildNN initializes a neural network
-func buildNN(inputLen int, flags flags) neuralNetwork {
+// initNN initializes the neural network
+func initNN(inputLen int, flags flags) neuralNetwork {
 	nn := neuralNetwork{}
 	nn.architecture = getArchitecture(inputLen, flags)
 	// Build layer by layer

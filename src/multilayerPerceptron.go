@@ -24,7 +24,7 @@ func MultilayerPerceptron() {
 	train_set, test_set := splitData(data, flags)
 
 	// Initialize
-	nn := buildNN(len(data[0])-1, flags)
+	nn := initNN(len(data[0])-1, flags)
 
 	// Train
 	if flags.flagT || (!flags.flagT && !flags.flagP) {

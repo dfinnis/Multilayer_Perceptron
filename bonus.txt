@@ -37,8 +37,3 @@ go run main.go -e -s 1620298002301860000    - test loss: 0.072255
 go run main.go -e -s 1620300921106496000    - test loss: 0.075898
 
 go run main.go -e -a "16 2" -s 1620223358086255000   - test loss: 0.068140   - 15 seconds
-
-
-#### -- TO DO -- ####
-
-- update readme with changes

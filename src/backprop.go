@@ -100,7 +100,7 @@ func backpropLayer(nn neuralNetwork, output, y [][]float32, layer int, d_A [][]f
 	return d_aLast
 }
 
-// backprop updates network weights and bias from output layer down
+// backprop updates network weights & bias from output layer down
 func backprop(nn neuralNetwork, output, y [][]float32) {
 	d_A := computeLossPrime(output, y)
 	for layer := len(nn.architecture) - 1; layer > 0; layer-- {

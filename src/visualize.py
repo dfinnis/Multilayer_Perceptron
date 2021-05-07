@@ -25,7 +25,7 @@ def visualize(train_loss, test_loss):
 	plt.legend()
 	plt.show()
 
-# main reads loss.csv and plots loss
+# main reads loss.csv & plots loss
 def main():
 	try:
 		train_loss, test_loss = read_csv()

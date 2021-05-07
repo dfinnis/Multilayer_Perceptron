@@ -13,7 +13,7 @@ func seedRandom(flags flags) {
 	}
 }
 
-// MultilayerPerceptron is the main and only exposed function
+// MultilayerPerceptron is the main & only exposed function
 func MultilayerPerceptron() {
 	flags := parseArg()
 	printHeader(flags)

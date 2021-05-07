@@ -38,7 +38,7 @@ type neuralNetwork struct {
 	lossFunc     lossFunc
 }
 
-// newNeuron initializes a neuron with random weights and zero bias
+// newNeuron initializes a neuron with random weights & zero bias
 func newNeuron(nn neuralNetwork, layer int) neuron {
 	var weights []float32
 	if layer > 0 {

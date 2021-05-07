@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// flags contains all flags and arguments
+// flags contains all flags & arguments
 type flags struct {
 	dataPath     string
 	dataPathSet  bool
@@ -128,7 +128,7 @@ func parseEpochs(i int, args []string) int {
 		usageError("Bad epochs: ", args[i])
 	}
 	if epochs <= 0 || epochs >= 100000 {
-		usageError("Learning rate must be between 0 and 100000, given: ", args[i])
+		usageError("Learning rate must be between 0 & 100000, given: ", args[i])
 	}
 	return epochs
 }
@@ -143,12 +143,12 @@ func parseLearningRate(i int, args []string) float32 {
 		usageError("Bad learning rate: ", args[i])
 	}
 	if learningRate <= 0 || learningRate >= 1 {
-		usageError("Learning rate must be between 0 and 1, given: ", args[i])
+		usageError("Learning rate must be between 0 & 1, given: ", args[i])
 	}
 	return float32(learningRate)
 }
 
-// parseArg parses and returns arguments for flags
+// parseArg parses & returns arguments for flags
 func parseArg() flags {
 	flags := defaultConfig()
 

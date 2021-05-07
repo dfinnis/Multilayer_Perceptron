@@ -9,7 +9,7 @@ func shuffle(data [][]float32) {
 	})
 }
 
-// split splits data into training and test sets
+// split splits data into training & test sets
 func split(data [][]float32) (train_set [][]float32, test_set [][]float32) {
 	var split float32 = 0.8
 	var sample int
@@ -22,7 +22,7 @@ func split(data [][]float32) (train_set [][]float32, test_set [][]float32) {
 	return
 }
 
-// splitData shuffles data and creates training and test sets
+// splitData shuffles data & creates training & test sets
 func splitData(data [][]float32, flags flags) (train_set, test_set [][]float32) {
 	shuffle(data)
 	if flags.flagT && !flags.flagP && !flags.flagS && !flags.flagE {

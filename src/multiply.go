@@ -1,6 +1,6 @@
 package multilayer
 
-// transpose a matrix, switch row and column indices
+// transpose a matrix, switch row & column indices
 func transpose(x [][]float32) [][]float32 {
 	out := make([][]float32, len(x[0]))
 	for i := 0; i < len(x); i += 1 {

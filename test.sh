@@ -14,7 +14,7 @@ echo "Launching Multilayer Perceptron Test...$RESET\n"
 
 ## Create Datasets
 printf $ITALIC
-echo "Running evaluation.py to create data_training.csv and data_test.csv...$RESET\n"
+echo "Running evaluation.py to create data_training.csv & data_test.csv...$RESET\n"
 python3 evaluation.py
 
 ## Build

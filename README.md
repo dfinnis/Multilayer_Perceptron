@@ -147,9 +147,17 @@ Any non-flag argument will be read as data path. The default data path is *data.
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/test.png" width="840">
 
 
-## Reset Cursor
+## model.json
 
-```./reset_cursor.sh```
+The model is saved every epoch in json format as a 2d array of neurons with bias & weights. Below is the first 42 lines of a model starting to train. We see the first neuron in the first hidden layer, it has 30 weights corresponding to the 30 neurons in the input layer.
+
+<img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/model.gif">
+
+
+## reset_cursor.sh
 
 The cursor is hidden while training for clean output.
 If Multilayer_Perceptron is killed, you may need to reset your cursor.
+
+```./reset_cursor.sh```
+

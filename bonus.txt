@@ -23,6 +23,7 @@ go run main.go -e -s 1619787177180511000             - test loss: 0.031636
 go run main.go -e -s 1620241328596855000             - test loss: 0.031716
 go run main.go -e -s 1619699659782358000             - test loss: 0.031915
 go run main.go -e -s 1620301771799861000             - test loss: 0.039638
+go run main.go -e -s 1620477582698069000             - test loss: 0.042098
 go run main.go -e -s 4242                            - test loss: 0.042596
 go run main.go -e -s 1620307055176516000             - test loss: 0.056343
 go run main.go -e -s 1619687999274871000             - test loss: 0.059255

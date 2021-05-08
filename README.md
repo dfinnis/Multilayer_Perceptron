@@ -64,6 +64,17 @@ Predict prints metrics & confusion matrix for predictions on the test set.
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/p.png" width="800">
 
 
+### -s --seed
+
+```go run main.go -e -s 4242```
+
+Provide addtional argument SEED integer for randomization.
+
+This seeds the pseudo-randomization of weights and shuffling of data.
+Thus a data split, model & loss can be replicated exactly with a given seed.
+The default seed is the current time.
+
+
 ### -e --early
 
 ```go run main.go -e```
@@ -78,18 +89,6 @@ Early stopping. Stop training when test set loss starts to increase. This avoids
 Provide addtional argument EPOCHS to determine length of training. Must be an integer between 0 & 100000.
 
 The default number of epochs is 15000, which is usually around when test loss reaches minimum on default settings.
-
-
-### -s --seed
-
-```go run main.go -e -s 4242```
-
-Provide addtional argument SEED integer for randomization.
-
-This seeds the pseudo-randomization of weights and shuffling of data.
-Thus a data split, model & loss can be replicated exactly with a given seed.
-The default seed is the current time.
-
 
 ### -l --learning
 

@@ -149,7 +149,7 @@ Any non-flag argument will be read as data path. The default data path is *data.
 
 ## model.json
 
-The model is saved every epoch in json format as a 2d array of neurons with bias & weights. Below is the first 42 lines of a model starting to train. We see the first neuron in the first hidden layer, it has 30 weights corresponding to the 30 neurons in the input layer.
+The model is saved every training epoch in json format as a 2d array of neurons with bias & weights. Below is the first 42 lines of a model starting to train. We see the first neuron in the first hidden layer, it has 30 weights corresponding to the 30 neurons in the input layer.
 
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/model.gif">
 

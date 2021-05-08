@@ -126,7 +126,7 @@ While training print loss metric: Root mean squared error.
 
 ```go run main.go -q```
 
-Don't print architecture or seed or additonal metrics while training.
+Don't print architecture or seed or additional metrics while training.
 
 
 ### data.csv

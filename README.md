@@ -143,7 +143,7 @@ The model is saved every training epoch in json format as a 2d array of neurons 
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/model.gif">
 
 
-## Test
+## test.sh
 
 42 provides *evaluation.py* which splits *data.csv* randomly into *data_training.csv* & *data_test.csv*.
 

@@ -48,7 +48,7 @@ After training shows a line graph of loss over training period.
 
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/loss.png" width="600">
 
-without *--predict* or *--early* or *--seed*, --train uses the entire dataset to train.
+without *--predict* or *--early* or *--seed*, *--train* uses the entire dataset to train.
 
 
 ### -p --predict

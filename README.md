@@ -108,6 +108,20 @@ The default architecture is "16 16 2". 2 hidden layers with 16 neurons, and an o
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/a.png" width="320">
 
 
+### -mse --mean
+
+```go run main.go -mse```
+
+While training print loss metric: Mean squared error. Default loss metric: Binary cross entropy log loss.
+
+
+### -rmse --root
+
+```go run main.go -rmse```
+
+While training print loss metric: Root mean squared error.
+
+
 ### -q --quiet
 
 ```go run main.go -q```

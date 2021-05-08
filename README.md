@@ -1,4 +1,4 @@
-# Multilayer_Perceptron
+# Multilayer Perceptron
 
 A deep neural network that predicts whether a tumor is malignant or benign.
 

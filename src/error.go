@@ -17,7 +17,7 @@ func printUsage() {
 	fmt.Printf("    [-a]    (--architecture) Provide ARCHITECTURE as string e.g. -a \"16 16 2\"\n")
 	fmt.Printf("    [-mse]  (--mean)         Loss metric mean squared error\n")
 	fmt.Printf("    [-rmse] (--root)         Loss metric root mean squared error\n")
-	fmt.Printf("    [-q]    (--quiet)        Don't print architecture or seed or additonal metrics while training\n")
+	fmt.Printf("    [-q]    (--quiet)        Don't print architecture or seed or additional metrics while training\n")
 	fmt.Printf("    [-h]    (--help)         Show usage\n\n")
 	os.Exit(1)
 }

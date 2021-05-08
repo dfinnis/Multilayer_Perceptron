@@ -131,3 +131,11 @@ Any non-flag argument will be read as data path. The default data path is *data.
 ```./test.sh```
 
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/test.png" width="840">
+
+
+## Reset Cursor
+
+```./reset_cursor.sh```
+
+The cursor is hidden while training for clean output.
+If Multilayer_Perceptron is killed, you may need to reset your cursor.

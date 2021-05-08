@@ -3,17 +3,17 @@
 2. Evaluate training phase with multiple metrics + confusion matrix
 3. -a --architecture
 4. -mse (mean squared error), & -rmse (root mean squared error) loss functions
-5. -l --learning, -ep --epochs & -s --seed
+5. -s --seed, -l --learning & -ep --epochs
 
 6. test.sh
-7. No libraries for data frames or matrix multiplication
+7. README.md
+8. Works with data.csv of different number of columns - fully flexible architecture
+9. Can watch model.json learn, & stop training anytime
+10. No libraries for data frames or matrix multiplication - no NumPy
 	(only math.Exp .Log & .Sqrt, stat.Mean & .Variance)
-8. README.md
-9. Can watch model.json learn
-10. Works with data.csv of different number of columns - fully flexible architecture
 
 
-#### -- loss < 0.08 -- ####
+#### -- Loss < 0.08 -- ####
 
 go run main.go -e -s 1620059181132839000             - test loss: 0.018200
 go run main.go -e -s 1619947830718951000             - test loss: 0.021450

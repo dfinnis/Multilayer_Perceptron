@@ -29,7 +29,7 @@ Download dependencies. <br>
 To run. <br>
 ```go run main.go```
 
-Alternatively, build and run the binary. <br>
+Alternatively, build & run the binary. <br>
 ```go build; ./Multilayer_Perceptron```
 
 Default behaviour is to split the data into training & test sets, train a model on the training set, show metrics for training & test sets, then save model as *model.json*.
@@ -70,7 +70,7 @@ Predict prints metrics & confusion matrix for predictions on the test set.
 
 Provide addtional argument SEED integer for randomization.
 
-This seeds the pseudo-randomization of weights and shuffling of data.
+This seeds the pseudo-randomization of weights & shuffling of data.
 Thus a data split, model & loss can be replicated exactly with a given seed.
 The default seed is the current time.
 
@@ -103,7 +103,7 @@ Provide addtional argument LEARNING rate. Must be a float between 0 & 1. The def
 
 Provide addtional argument ARCHITECTURE as string.
 
-The default architecture is "16 16 2". 2 hidden layers with 16 neurons, and an output layer with 2 neurons.
+The default architecture is "16 16 2". 2 hidden layers with 16 neurons, & an output layer with 2 neurons.
 
 <img src="https://github.com/dfinnis/Multilayer_Perceptron/blob/master/img/a.png" width="320">
 

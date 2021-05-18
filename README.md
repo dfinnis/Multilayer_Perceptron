@@ -16,6 +16,8 @@ Based on the Wisconsin breast cancer diagnosis dataset.
 
 See the [subject](https://github.com/dfinnis/Multilayer_Perceptron/blob/master/subject.pdf) for more details.
 
+*Final Score 125/100*
+
 
 ## Getting Started
 
